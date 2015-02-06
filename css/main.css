@@ -1,0 +1,66 @@
+/* Import fonts from Google */
+/* TODO!!! Remove unused fonts!!! */
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700,800|Oswald:400,700,300);
+
+/* Main content holders */
+body {
+    background-color: #3d4860;
+}
+
+#center-content {
+    width: 500px;
+    height: 250px;
+    text-align: center;
+}
+
+#center-content #itcq-title {font-size: 64px;}
+#center-content #itcq-subtitle {font-size: 12px;}
+
+#center-content #itcq-start {
+    color: #FFF;
+    font-size: 18px;
+    display: block;
+    border: 2px solid #3f7f27;
+    width: 190px;
+    height: 70px;
+    line-height: 70px;
+    background-color: #52a633;
+    border-radius: 3px;
+    margin: 0px auto;
+    margin-top: 20px;
+}
+
+
+
+
+
+
+
+
+
+/* Text type definitions */
+h1 {
+    font-family: 'Oswald', sans-serif;
+    color: #FFF;
+    margin: 10px 0 10px 0;
+}
+
+h2 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    color: #FFF;
+    margin: 5px 0 5px 0;
+}
+
+a {
+    font-family: 'Oswald', sans-serif;
+    text-decoration: none;
+    text-align: center;
+}
+
+/* Useful classes */
+.absolute-center {
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+}

@@ -10,6 +10,11 @@
     </head>
 
     <body>
-        <p>TODO content</p>
+        <div id="center-content" class="absolute-center">
+            <h1 id="itcq-title">ITCQ</h1>
+            <h2 id="itcq-subtitle">The IT College Quiz</h2>
+
+            <a href="#" id="itcq-start">TRY IT</a>
+        </div>
     </body>
 </html>
