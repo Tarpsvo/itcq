@@ -4,27 +4,57 @@
 
 /* Main content holders */
 body {
-    background-color: #3d4860;
+    background-color: #37474F;
 }
 
-#center-content {
-    width: 500px;
-    height: 250px;
-    text-align: center;
+#dynamic-content {
+    width: 100%;
+    margin-top: 100px;
 }
 
-#center-content #itcq-title {font-size: 64px;}
-#center-content #itcq-subtitle {font-size: 12px;}
+/* Header */
+#header {
+    height: 60px;
+    position: relative;
 
-#center-content #itcq-start {
+    max-width: 1200px;
+    margin: 0px auto;
+    margin-top: 30px;
+}
+
+#header a {
+    position: absolute;
+    display: block;
+    height: 50px; line-height: 50px;
+    width: 190px;
+    font-size: 18px;
+    background-color: #455A64;
+    border: 1px solid #263238;
+    border-radius: 3px;
+}
+
+#header a:hover {
+    background-color: #546E7A;
+    border: 1px solid #263238;
+}
+
+#header #about-button {left: 10%;}
+#header #statistics-button {right: 10%;}
+
+/* Intro page */
+#intro-content {text-align: center;}
+#intro-content #itcq-title {font-size: 64px;}
+#intro-content #itcq-subtitle {font-size: 12px;}
+
+#intro-content #itcq-start {
     color: #FFF;
     font-size: 18px;
     display: block;
-    border: 2px solid #3f7f27;
+    border: 2px solid #388E3C;
     width: 190px;
     height: 70px;
     line-height: 70px;
-    background-color: #52a633;
+    background-color: #43A047;
     border-radius: 3px;
     margin: 0px auto;
     margin-top: 20px;
@@ -56,6 +86,7 @@ a {
     font-family: 'Oswald', sans-serif;
     text-decoration: none;
     text-align: center;
+    color: #FFF;
 }
 
 /* Useful classes */
@@ -63,4 +94,10 @@ a {
     margin: auto;
     position: absolute;
     top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.box-shadow {
+    -webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow:    0px 1px 1px 0px rgba(0, 0, 0, 0.75);
+    box-shadow:         0px 1px 1px 0px rgba(0, 0, 0, 0.75);
 }

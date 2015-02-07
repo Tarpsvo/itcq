@@ -10,11 +10,19 @@
     </head>
 
     <body>
-        <div id="center-content" class="absolute-center">
-            <h1 id="itcq-title">ITCQ</h1>
-            <h2 id="itcq-subtitle">The IT College Quiz</h2>
+        <div id="header">
+            <a href="#about" id="about-button" class="box-shadow">ABOUT</a>
+            <a href="#statistics" id="statistics-button" class="box-shadow">STATISTICS</a>
+        </div>
 
-            <a href="#" id="itcq-start">TRY IT</a>
+        <div id="dynamic-content">
+            <!-- The contents of this div should be changed dynamically through JavaScript. -->
+            <div id="intro-content">
+                <h1 id="itcq-title">ITCQ</h1>
+                <h2 id="itcq-subtitle">The IT College Quiz</h2>
+
+                <a href="#start-quiz" id="itcq-start" class="box-shadow">START</a>
+            </div>
         </div>
     </body>
 </html>
