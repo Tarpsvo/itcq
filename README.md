@@ -13,6 +13,7 @@ Live version is accessible at [tramvai.im/itcq/](http://tramvai.im/itcq/)
 
 ## Used resources ##
 * [Google Material Design Guidelines](http://www.google.com/design/spec/material-design/introduction.html)
+* [Background pattern from IT Kolledži Üliõpilasesindus](http://esindus.itcollege.ee/)
 
 
 ## Licensed under the GNU GPL v3.0 license ##

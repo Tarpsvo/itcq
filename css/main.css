@@ -4,7 +4,7 @@
 
 /* Main content holders */
 body {
-    background-color: #37474F;
+    background: #37474F url('/img/muster.jpg') center;
 }
 
 #dynamic-content {
@@ -60,6 +60,7 @@ body {
     margin-top: 20px;
 }
 
+#intro-content #itcq-start:hover {background-color: #4CAF50;}
 
 
 
