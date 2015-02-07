@@ -6,9 +6,7 @@
 
         <link rel="stylesheet" href="css/cssreset.css"> <!-- Eric Meyer's Reset CSS v2.0 - http://cssreset.com -->
         <link rel="stylesheet" href="css/main.css">
-
-        <script src="/js/jquery-2.1.3.min.js"></script>
-        <script src="/js/content_switch.js"></script>
+        <link rel="stylesheet" href="css/quiz.css">
     </head>
 
     <body>
@@ -24,8 +22,13 @@
                 <h1 id="itcq-title">ITCQ</h1>
                 <h2 id="itcq-subtitle">The IT College Quiz</h2>
 
-                <a href="#/start-quiz" id="itcq-start" class="box-shadow">START</a>
+                <a href="#/quiz" id="itcq-start" class="box-shadow">START</a>
             </div>
         </div>
+
+    <script src="/js/jquery-2.1.3.min.js"></script>
+    <script src="/js/menu.js"></script>
+    <script src="/js/quiz.js"></script>
+    <script src="/js/content.js"></script>
     </body>
 </html>

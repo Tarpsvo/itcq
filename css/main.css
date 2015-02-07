@@ -5,6 +5,7 @@
 /* Main content holders */
 body {
     background: #37474F url('/img/muster.jpg') center;
+    background-attachment: fixed; /* This was necessary to avoid messing up the background when using jQuery.html() */
 }
 
 #dynamic-content {
