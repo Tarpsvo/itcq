@@ -7,12 +7,15 @@
         <link rel="stylesheet" href="css/cssreset.css"> <!-- Eric Meyer's Reset CSS v2.0 - http://cssreset.com -->
         <link rel="stylesheet" href="css/main.css">
 
+        <script src="/js/jquery-2.1.3.min.js"></script>
+        <script src="/js/content_switch.js"></script>
     </head>
 
     <body>
         <div id="header">
-            <a href="#about" id="about-button" class="box-shadow">ABOUT</a>
-            <a href="#statistics" id="statistics-button" class="box-shadow">STATISTICS</a>
+            <a href="#/about" id="about-button" class="box-shadow change-content main">ABOUT</a>
+            <a href="#/statistics" id="statistics-button" class="box-shadow change-content main">STATISTICS</a>
+            <a href="#/main" id="back-button" class="box-shadow change-content">BACK TO MAIN</a>
         </div>
 
         <div id="dynamic-content">
@@ -21,7 +24,7 @@
                 <h1 id="itcq-title">ITCQ</h1>
                 <h2 id="itcq-subtitle">The IT College Quiz</h2>
 
-                <a href="#start-quiz" id="itcq-start" class="box-shadow">START</a>
+                <a href="#/start-quiz" id="itcq-start" class="box-shadow">START</a>
             </div>
         </div>
     </body>

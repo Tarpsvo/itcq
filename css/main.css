@@ -12,6 +12,34 @@ body {
     margin-top: 100px;
 }
 
+/* Text type definitions */
+h1 {
+    font-family: 'Oswald', sans-serif;
+    color: #FFF;
+    margin: 10px 0 10px 0;
+}
+
+h2 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    color: #FFF;
+    margin: 5px 0 5px 0;
+}
+
+h3 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    color: #FFF;
+    margin: 5px 0 5px 0;
+}
+
+a {
+    font-family: 'Oswald', sans-serif;
+    text-decoration: none;
+    text-align: center;
+    color: #FFF;
+}
+
 /* Header */
 #header {
     height: 60px;
@@ -41,6 +69,12 @@ body {
 #header #about-button {left: 10%;}
 #header #statistics-button {right: 10%;}
 
+#header #back-button {
+    top: -100px;
+    left: 10%;
+    display: none;
+}
+
 /* Intro page */
 #intro-content {text-align: center;}
 #intro-content #itcq-title {font-size: 64px;}
@@ -61,34 +95,6 @@ body {
 }
 
 #intro-content #itcq-start:hover {background-color: #4CAF50;}
-
-
-
-
-
-
-
-
-/* Text type definitions */
-h1 {
-    font-family: 'Oswald', sans-serif;
-    color: #FFF;
-    margin: 10px 0 10px 0;
-}
-
-h2 {
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
-    color: #FFF;
-    margin: 5px 0 5px 0;
-}
-
-a {
-    font-family: 'Oswald', sans-serif;
-    text-decoration: none;
-    text-align: center;
-    color: #FFF;
-}
 
 /* Useful classes */
 .absolute-center {
