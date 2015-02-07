@@ -8,7 +8,7 @@ body {
     background-attachment: fixed; /* This was necessary to avoid messing up the background when using jQuery.html() */
 }
 
-#dynamic-content {
+.content {
     width: 100%;
     margin-top: 100px;
 }
@@ -69,12 +69,7 @@ a {
 
 #header #about-button {left: 10%;}
 #header #statistics-button {right: 10%;}
-
-#header #back-button {
-    top: -100px;
-    left: 10%;
-    display: none;
-}
+#header #back-button {left: 10%;}
 
 /* Intro page */
 #intro-content {text-align: center;}
