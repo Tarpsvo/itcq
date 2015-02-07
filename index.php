@@ -26,9 +26,9 @@
             </div>
         </div>
 
-    <script src="/js/jquery-2.1.3.min.js"></script>
-    <script src="/js/menu.js"></script>
-    <script src="/js/quiz.js"></script>
-    <script src="/js/content.js"></script>
+    <script src="js/jquery-2.1.3.min.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/quiz.js"></script>
+    <script src="js/content.js"></script>
     </body>
 </html>

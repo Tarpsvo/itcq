@@ -2,6 +2,7 @@
 ## A simplistic quiz regarding the IT college ##
 
 Created as a project for the course Network Applications I.
+
 Live version is accessible at [tramvai.im/itcq/](http://tramvai.im/itcq/)
 
 
