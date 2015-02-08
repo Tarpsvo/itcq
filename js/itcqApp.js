@@ -32,6 +32,27 @@ itcqApp.controller('quizCtrl', function ($scope, quizFactory) {
     $scope.answer2 = question.answer2;
     $scope.answer3 = question.answer3;
     $scope.answer4 = question.answer4;
+    $scope.correctAnswer = question.correct;
+
+    $scope.checkAnswer = function(number) {
+        console.log("quizCtrl: answer pressed, ID: "+number+" | Buttons disabled.");
+        $scope.answerChosen = true;
+
+        if (number == $scope.correctAnswer) {
+            console.log("quizCtrl: correct answer clicked. Setting $scope.correct to: "+number);
+            $scope.correct = $scope.correctAnswer;
+        } else {
+            console.log("quizCtrl: wrong answer clicked. Setting $scope.wrong to: "+number);
+            $scope.wrong = number;
+            $scope.correct = $scope.correctAnswer;
+        }
+    };
+
+    $scope.reset = function() {
+        $scope.answerChosen = false;
+        $scope.correct = null;
+        $scope.wrong = null;
+    };
 });
 
 // Controller that redirects to main page if client opens /quiz
@@ -55,7 +76,8 @@ itcqApp.factory('quizFactory', function () {
         'answer1': 'Answer one',
         'answer2': 'Answer two',
         'answer3': 'Answer three',
-        'answer4': 'Answer four'
+        'answer4': 'Answer four',
+        'correct': 4
     };
 
     var factory = {};

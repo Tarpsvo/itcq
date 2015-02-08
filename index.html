@@ -12,16 +12,16 @@
     <body>
         <div id="content-wrapper" class="absolute-center">
             <div id="menu">
-                <h4>THE IT COLLEGE QUIZ</h4>
-                <a href="#/" class="menu-button" data-ng-class="{active: menuIsActive('/')}">The quiz
+                <a href="#/" id="title" class="text-shadow">THE IT COLLEGE QUIZ</a>
+                <a href="#/" class="menu-button text-shadow" data-ng-class="{active: menuIsActive('/')}">The quiz
                 <span>The reason you're here</span></a>
-                <a href="#/about/" class="menu-button" data-ng-class="{active: menuIsActive('/about')}">About
+                <a href="#/about/" class="menu-button text-shadow" data-ng-class="{active: menuIsActive('/about')}">About
                 <span>About the project</span></a>
-                <a href="#/statistics/" class="menu-button" data-ng-class="{active: menuIsActive('/statistics')}">Statistics
-                <span>Your stats too</span></a>
+                <a href="#/statistics/" class="menu-button text-shadow" data-ng-class="{active: menuIsActive('/statistics')}">Statistics
+                <span>Your stats, too</span></a>
             </div>
 
-            <div id="dynamic-content" data-ng-view>
+            <div id="dynamic-content" data-ng-view data-ng-cloak>
                 
             </div>
         </div>
