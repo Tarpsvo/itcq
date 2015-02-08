@@ -13,9 +13,11 @@ Live version is accessible at [tramvai.im/itcq/](http://tramvai.im/itcq/)
 * Two languages: Estonian and English
 
 ## Used resources ##
-* [Google Material Design Guidelines](http://www.google.com/design/spec/material-design/introduction.html)
-* [Background pattern from IT Kolledži Üliõpilasesindus](http://esindus.itcollege.ee/)
+* [Background pattern from esindus.itcollege.ee](http://esindus.itcollege.ee/)
 
+## Helpful sources ##
+* [Google Material Design Guidelines](http://www.google.com/design/spec/material-design/introduction.html)
+* [AngularJS Fundamentals In 60-ish Minutes](https://www.youtube.com/watch?v=i9MHigUZKEM)
 
 ## Licensed under the GNU GPL v3.0 license ##
 Copyright (C) 2015 Tarvo Reinpalu

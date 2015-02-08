@@ -10,7 +10,7 @@ body {
 
 .content {
     width: 100%;
-    margin-top: 100px;
+    margin-top: 100px !important;
 }
 
 /* Text type definitions */
