@@ -1,14 +1,10 @@
-<div id="header">
-    <a href="#/" id="back-button" class="box-shadow change-content">BACK TO MAIN</a>
-</div>
-
-<div id="quiz-content" class="content" ng-controller="quizCtrl">
+<div id="quiz-content" ng-controller="quizCtrl">
     <h3 id="quiz-question">{{question}}</h3>
 
     <div id="quiz-answers">
-        <a id="quiz-answer-1" class="answer box-shadow" ng-click="checkAnswer('1')">{{answer1}}</a>
-        <a id="quiz-answer-2" class="answer box-shadow" ng-click="checkAnswer('2')">{{answer2}}</a>
-        <a id="quiz-answer-3" class="answer box-shadow" ng-click="checkAnswer('3')">{{answer3}}</a>
-        <a id="quiz-answer-4" class="answer box-shadow" ng-click="checkAnswer('4')">{{answer4}}</a>
+        <a id="quiz-answer-1" class="answer text-shadow" ng-click="checkAnswer('1')">{{answer1}}</a>
+        <a id="quiz-answer-2" class="answer text-shadow" ng-click="checkAnswer('2')">{{answer2}}</a>
+        <a id="quiz-answer-3" class="answer text-shadow" ng-click="checkAnswer('3')">{{answer3}}</a>
+        <a id="quiz-answer-4" class="answer text-shadow" ng-click="checkAnswer('4')">{{answer4}}</a>
     </div>
 </div>

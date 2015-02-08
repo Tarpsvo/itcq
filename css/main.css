@@ -4,93 +4,133 @@
 
 /* Main content holders */
 body {
-    background: #37474F url('../img/muster.jpg') center;
-    background-attachment: fixed; /* This was necessary to avoid messing up the background when using jQuery.html() */
+    background: #161c24 url('../img/muster.jpg');
 }
 
-.content {
-    width: 100%;
-    margin-top: 100px !important;
+#content-wrapper {
+    height: 400px;
+    max-width: 1200px;
+    padding: 0 10% 0 10%;
+}
+
+#menu {
+    width: 25%;
+    height: 100%;
+    float: left;
+}
+
+#dynamic-content {
+    width: 65%;
+    height: 100%;
+    float: right;
+
+    /* Ugly fix to vertically center anchor text */
+    display: table;
 }
 
 /* Text type definitions */
+h1, h2, h3, a, p, li {color: #FFF;}
+
 h1 {
     font-family: 'Oswald', sans-serif;
-    color: #FFF;
-    margin: 10px 0 10px 0;
+    margin-bottom: 10px;
 }
 
-h2 {
+h2, h3 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 600;
-    color: #FFF;
-    margin: 5px 0 5px 0;
+    margin-bottom: 5px;
 }
 
-h3 {
+a, p, li {
     font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
-    color: #FFF;
-    margin: 5px 0 5px 0;
-}
-
-a {
-    font-family: 'Oswald', sans-serif;
     text-decoration: none;
+}
+
+a {color: #03A9F4;}
+a:hover {color: #29B6F6;}
+
+/* Menu */
+#menu h4 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    letter-spacing: 4px;
+    font-size: 20px;
+    color: #FFF;
     text-align: center;
-    color: #FFF;
+    margin-top: 40px;
 }
 
-/* Header */
-#header {
-    height: 60px;
-    position: relative;
-
-    max-width: 1200px;
-    margin: 0px auto;
-    margin-top: 30px;
-}
-
-#header a {
-    position: absolute;
+.menu-button {
     display: block;
-    height: 50px; line-height: 50px;
-    width: 190px;
-    font-size: 18px;
-    background-color: #455A64;
-    border: 1px solid #263238;
-    border-radius: 3px;
-}
-
-#header a:hover {
-    background-color: #546E7A;
-    border: 1px solid #263238;
-}
-
-#header #about-button {left: 10%;}
-#header #statistics-button {right: 10%;}
-#header #back-button {left: 10%;}
-
-/* Intro page */
-#intro-content {text-align: center;}
-#intro-content #itcq-title {font-size: 64px;}
-#intro-content #itcq-subtitle {font-size: 12px;}
-
-#intro-content #itcq-start {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
     color: #FFF;
-    font-size: 18px;
-    display: block;
-    border: 2px solid #388E3C;
-    width: 190px;
-    height: 70px;
-    line-height: 70px;
-    background-color: #43A047;
-    border-radius: 3px;
-    margin: 0px auto;
-    margin-top: 20px;
+    margin: 15px 0 15px 0;
+    padding: 7px 0 7px 15px;
+    margin-left: 21px; /* This is to stop the menu from moving left-right due to the border */
 }
 
-#intro-content #itcq-start:hover {background-color: #4CAF50;}
+.menu-button span {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #9E9E9E;
+}
+
+.active {
+    margin-left: 15px; /* This is to stop the menu from moving left-right due to the border */
+    border-left: 6px solid #03A9F4;
+}
+
+.menu-button:hover {
+    margin-left: 15px; /* This is to stop the menu from moving left-right due to the border */
+    border-left: 6px solid #03A9F4;
+}
+
+/* Main page */
+#itcq-start {
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+
+    /* Ugly fix to vertically center anchor text */
+    display: table-cell;
+    vertical-align: middle;
+
+    font-family: 'Oswald', sans-serif;
+    font-size: 48px;
+    color: #FFF;
+    background-color: #2E7D32;
+}
+
+#itcq-start:hover {background-color: #388E3C;}
+
+/* About page */
+#about-content h1 {
+    font-size: 24px;
+}
+
+#about-content h2 {
+    font-size: 18px;
+    margin: 20px 0 10px 0;
+}
+
+#about-content li {
+    list-style: circle;
+    margin-left: 20px;
+    line-height: 20px;
+    font-size: 14px;
+}
+
+#about-content p {
+    font-size: 14px;
+    line-height: 20px;
+    margin: 5px 0 5px 0;
+}
 
 /* Useful classes */
 .absolute-center {
@@ -99,8 +139,6 @@ a {
     top: 0; left: 0; bottom: 0; right: 0;
 }
 
-.box-shadow {
-    -webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow:    0px 1px 1px 0px rgba(0, 0, 0, 0.75);
-    box-shadow:         0px 1px 1px 0px rgba(0, 0, 0, 0.75);
+.text-shadow {
+    text-shadow: 0 1px 1px #000000;
 }

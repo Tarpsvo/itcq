@@ -9,6 +9,12 @@ itcqApp.config(['$routeProvider',
             when('/quiz', {
             templateUrl: 'tmpl/quiz.html'
         }).
+            when('/about', {
+            templateUrl: 'tmpl/about.html'
+        }).
+        when('/statistics', {
+            templateUrl: 'tmpl/statistics.html'
+        }).
         when('/', {
             templateUrl: 'tmpl/main.html'
         }).
@@ -29,18 +35,23 @@ itcqApp.controller('quizCtrl', function ($scope, quizFactory) {
 });
 
 // Controller that redirects to main page if client opens /quiz
-itcqApp.controller('accessCtrl', function ($scope, $location) {
+itcqApp.controller('viewCtrl', function ($scope, $location) {
     if ($location.path() === '/quiz') {
-        console.log("accessCtrl: /quiz path detected, redirecting to main");
+        console.log("viewCtrl: /quiz path detected, redirecting to main");
         $location.path("/");
     }
+
+    // For the ng-class feature on the menu items. Returns true if the current path is the same as given on the parameter.
+    $scope.menuIsActive = function(path) {
+        if ($location.path() == path || (path == '/' && $location.path() == '/quiz')) return true; else return false;
+    };
 });
 
 // Factory that passes creates the JSON of a question
 itcqApp.factory('quizFactory', function () {
     var question = {
         'id': 0,
-        'question': 'This is the first question?',
+        'question': 'This is the first question that is multi-line and should display properly?',
         'answer1': 'Answer one',
         'answer2': 'Answer two',
         'answer3': 'Answer three',

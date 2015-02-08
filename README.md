@@ -7,13 +7,13 @@ Live version is accessible at [tramvai.im/itcq/](http://tramvai.im/itcq/)
 
 
 ## Current goals ##
-* Dynamic content
+* Quiz as an SPA
 * Easily editable questions (GUI to r/w from database)
 * Save statistics within a cookie
 * Two languages: Estonian and English
 
 ## Used resources ##
-* [Background pattern from esindus.itcollege.ee](http://esindus.itcollege.ee/)
+* [Background pattern base](http://esindus.itcollege.ee/)
 
 ## Helpful sources ##
 * [Google Material Design Guidelines](http://www.google.com/design/spec/material-design/introduction.html)
