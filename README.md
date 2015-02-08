@@ -14,6 +14,7 @@ Live version is accessible at [tramvai.im/itcq/](http://tramvai.im/itcq/)
 
 ## Used resources ##
 * [Background pattern base](http://esindus.itcollege.ee/)
+* [Square icon for 'next' button](https://www.iconfinder.com/icons/243661/arrow_forward_right_square_icon#size=64)
 
 ## Helpful sources ##
 * [Google Material Design Guidelines](http://www.google.com/design/spec/material-design/introduction.html)

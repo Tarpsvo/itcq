@@ -22,7 +22,7 @@
     height: 130px;
     line-height: 130px;
     width: 50%;
-    background-color: #43A047;
+    background-color: #0288D1;
 
     color: #FFF;
     font-size: 20px;
@@ -32,10 +32,43 @@
 
 #quiz-content .answer:hover {
     cursor: pointer;
-    background-color: #4CAF50;
+    background-color: #039BE5;
 }
 
 #quiz-content #quiz-answer-1 {top: 0; left: 0;}
 #quiz-content #quiz-answer-2 {top: 0; right: 0;}
 #quiz-content #quiz-answer-3 {bottom: 0; left: 0;}
 #quiz-content #quiz-answer-4 {bottom: 0; right: 0;}
+
+.disabled {
+    cursor: default !important;
+    background-color: #757575 !important;
+}
+
+.correct {background-color: #388E3C !important;}
+.wrong {background-color: #E53935 !important;}
+
+#next-arrow {
+    cursor: pointer;
+    height: 64px;
+    width: 190px;
+    text-align: center;
+    background-color: #0288D1;
+
+    font-family: 'Oswald', sans-serif;
+    font-size: 32px;
+    line-height: 64px;
+    color: #FFF;
+}
+
+#next-arrow span {
+    display: block;
+    float: right;
+    width: 64px;
+    height: 64px;
+    background: url('../img/next.png') no-repeat;
+}
+
+#next-arrow:hover {
+    background-color: #039BE5;
+}
