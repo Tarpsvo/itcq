@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="itcqApp" ng-controller="viewCtrl">
+<html data-ng-app="itcqApp" data-ng-controller="viewCtrl">
     <head>
         <meta charset="UTF-8">
         <title>The IT College Quiz</title>
@@ -13,23 +13,15 @@
         <div id="content-wrapper" class="absolute-center">
             <div id="menu">
                 <h4>THE IT COLLEGE QUIZ</h4>
-                <a href="#/" class="menu-button" ng-class="{active: menuIsActive('/')}">
-                The quiz
-                <span>The reason you're here</span>
-                </a>
-
-                <a href="#/about/" class="menu-button" ng-class="{active: menuIsActive('/about')}">
-                About
-                <span>About the project</span>
-                </a>
-
-                <a href="#/statistics/" class="menu-button" ng-class="{active: menuIsActive('/statistics')}">
-                Statistics
-                <span>Your stats too</span>
-                </a>
+                <a href="#/" class="menu-button" data-ng-class="{active: menuIsActive('/')}">The quiz
+                <span>The reason you're here</span></a>
+                <a href="#/about/" class="menu-button" data-ng-class="{active: menuIsActive('/about')}">About
+                <span>About the project</span></a>
+                <a href="#/statistics/" class="menu-button" data-ng-class="{active: menuIsActive('/statistics')}">Statistics
+                <span>Your stats too</span></a>
             </div>
 
-            <div id="dynamic-content" ng-view>
+            <div id="dynamic-content" data-ng-view>
                 
             </div>
         </div>
