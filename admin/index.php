@@ -10,15 +10,15 @@
     </head>
 
     <body>
-        <div id="content-wrapper">
+        <div id="admin-content-wrapper">
             <ul id="menubar-big">
-                <li><a href="#/questions" class="text-shadow admin-active">Questions</a></li>
-                <li><a href="#/statistics" class="text-shadow">Statistics</a></li>
+                <li><a href="#/questions" class="admin-menu-button text-shadow" data-ng-class="{'admin-active': menuIsActive('/questions')}">Questions</a></li>
+                <li><a href="#/statistics" class="admin-menu-button text-shadow" data-ng-class="{'admin-active': menuIsActive('/statistics')}">Statistics</a></li>
 
-                <li><a href="/" id="back" class="text-shadow">Back to ITCQ</a></li>
+                <li><a href="/" id="back" class="admin-menu-button text-shadow">Back to ITCQ</a></li>
             </ul>
 
-            <div id="main-content" class="box-shadow" data-ng-view data-ng-cloak></div>
+            <div id="main-content" data-ng-view data-ng-cloak></div>
         </div>
 
         <script src="../js/jquery-2.1.3.min.js"></script>
