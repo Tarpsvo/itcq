@@ -15,6 +15,9 @@ itcqApp.config(['$routeProvider',
         when('/statistics', {
             templateUrl: 'tmpl/statistics.html'
         }).
+        when('/admin', {
+            templateUrl: 'tmpl/admin.html'
+        }).
         when('/', {
             templateUrl: 'tmpl/main.html'
         }).

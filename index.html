@@ -7,22 +7,25 @@
         <link rel="stylesheet" href="css/cssreset.css"> <!-- Eric Meyer's Reset CSS v2.0 - http://cssreset.com -->
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/quiz.css">
+        <link rel="stylesheet" href="css/admin.css">
     </head>
 
     <body>
         <div id="content-wrapper" class="absolute-center">
             <div id="menu">
                 <a href="#/" id="title" class="text-shadow">THE IT COLLEGE QUIZ</a>
-                <a href="#/" class="menu-button text-shadow" data-ng-class="{active: menuIsActive('/')}">The quiz
-                <span>The reason you're here</span></a>
-                <a href="#/about/" class="menu-button text-shadow" data-ng-class="{active: menuIsActive('/about')}">About
-                <span>About the project</span></a>
-                <a href="#/statistics/" class="menu-button text-shadow" data-ng-class="{active: menuIsActive('/statistics')}">Statistics
-                <span>Your stats, too</span></a>
+                <ul>
+                    <li><a href="#/" class="menu-button text-shadow" data-ng-class="{active: menuIsActive('/')}">The quiz
+                    <span>The reason you're here</span></a></li>
+                    <li><a href="#/about/" class="menu-button text-shadow" data-ng-class="{active: menuIsActive('/about')}">About
+                    <span>About the project</span></a></li>
+                    <li><a href="#/statistics/" class="menu-button text-shadow" data-ng-class="{active: menuIsActive('/statistics')}">Statistics
+                    <span>Your stats, too</span></a></li>
+                </ul>
             </div>
 
             <div id="dynamic-content" data-ng-view data-ng-cloak>
-                
+
             </div>
         </div>
 
