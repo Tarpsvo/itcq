@@ -78,9 +78,9 @@ function validateData($data) {
     $q['category'] = $data->category;
     $q['answer'] = $data->answer;
     $q['wrong'] = $data->wrong;
-    if ($data->enabled == 'true') $q['enabled'] = 1; else $q['enabled'] = 0;
+    if ($data->enabled == 'true') $q['enabled'] = '1'; else $q['enabled'] = '0';
 
-    if (!$q['question'] || !$q['category'] || !$q['answer'] || !$q['wrong'] || !$q['enabled']) die("One was empty");
+    if (!$q['question'] || !$q['category'] || !$q['answer'] || !$q['wrong']) die("One was empty");
 
     return $q;
 }
