@@ -52,13 +52,10 @@ body {
     height: 40px; line-height: 40px;
 
     padding: 0 20px 0 20px;
-    margin: 10px;
 
     font-family: 'Open Sans', sans-serif;
     font-weight: 600;
     color: #FFF;
-
-    background-color: #4CAF50;
 }
 
 
@@ -69,8 +66,10 @@ body {
 /* Table content */
 #table-content {
     margin-top: 35px;
-    padding: 0 10px 0 10px;
+    padding: 0px;
     font-family: 'Open Sans', sans-serif;
+
+    background-color: #FFF;
 }
 
 #table-content table {
@@ -91,3 +90,66 @@ body {
     font-size: 13px;
     background-color: #FAFAFA;
 }
+
+
+
+/* Add question */
+#question-content-wrapper {
+    width: 500px;
+    margin: 0px auto;
+    padding: 20px;
+
+    background-color: #FFF;
+}
+
+.question-row {
+    width: 500px;
+    margin: 0px auto;
+}
+
+.question-row span {
+    display: inline-block;
+    width: 140px;
+    height: 40px;
+    padding-right: 30px;
+    text-align: right;
+
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.question-row select {width: 310px; height: 25px;}
+
+.question-row .text-input {
+    width: 300px;
+    padding: 5px;
+
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+}
+
+#question-button-wrapper {
+    width: 540px;
+    height: 60px;
+    margin: 0px auto;
+}
+
+#question-button-wrapper li a, #question-button-wrapper li input {
+    display: block;
+    float: left;
+    height: 40px;
+    width: 270px;
+
+    text-align: center;
+    line-height: 40px;
+
+    font-family: 'Open Sans', sans-serif;
+    color: #FFF;
+    font-size: 18px;
+    font-weight: 600;
+
+    border: none;
+}
+
+#question-button-wrapper li input:hover {cursor:pointer;}
