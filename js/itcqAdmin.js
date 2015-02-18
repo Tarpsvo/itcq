@@ -29,7 +29,7 @@ itcqAdmin.controller('itcqAdminCtrl', function ($scope, $location, $http) {
     $scope.getQuestionList = function() {
         console.log("itcqAdminCtrl: getQuestionList getting questions.");
 
-        $http.get('http://localhost/api/api.php?request=ql').
+        $http.get('http://localhost/api/getAPI.php?request=ql').
             success(function(data) {
                 console.log("itcqAdminCtrl: getQuestionList was successful. Assigning to scope.");
                 $scope.questionList = data;
@@ -39,7 +39,7 @@ itcqAdmin.controller('itcqAdminCtrl', function ($scope, $location, $http) {
     $scope.getCategories = function() {
         console.log("itcqAdminCtrl: getCategories quering categories.");
 
-        $http.get('http://localhost/api/api.php?request=cat')
+        $http.get('http://localhost/api/getAPI.php?request=cat')
             .success(function(data) {
                 console.log("itcqAdminCtrl: getCategories was successful. Assigning to scope.");
                 $scope.categoriesList = data;
@@ -60,7 +60,7 @@ itcqAdmin.controller('questionFormCtrl', function ($scope, $location, $http) {
     $scope.passDataToAPI = function($info) {
         console.log("Posting the following: ");
         console.log('request: add, question:'+ $info.question+ ',category:'+ $info.category+ ',answer:'+ $info.answer+ ',wrong:'+ $info.wrong+ ',enabled:' +$info.enabled);
-        $http.post('../api/api.php', {'request': 'add', 'question': $info.question, 'category': $info.category, 'answer': $info.answer, 'wrong': $info.wrong, 'enabled': $info.enabled})
+        $http.post('../api/postAPI.php', {'request': 'add', 'question': $info.question, 'category': $info.category, 'answer': $info.answer, 'wrong': $info.wrong, 'enabled': $info.enabled})
             .success(function() {
                 console.log("itcqAdmin: questionFieldCtrl: question data successfully passed to API.");
             })
