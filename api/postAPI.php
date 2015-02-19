@@ -1,29 +1,41 @@
 <?php
-// Add the database file
-require_once('db.php');
+class postAPI {
+    public function execute($connection, $request) {
+        // Get whole POST input: http://php.net/manual/en/wrappers.php.php#wrappers.php.input
+        $data = json_decode(file_get_contents("php://input"));
+        switch ($request) {
+            case 'add':
+                $this->addNewQuestion($connection, $this->validateData($data));
+                $this->returnSuccess("Query executed.");
+            break;
+        }
+    }
 
-$postedData = file_get_contents("php://input");
-$data = json_decode($postedData);
-if (isset($data->request)) $request = $data->request; else returnError("Request not defined.");
+    public function validateData($data) {
+        if (isset($data->enabled) && $data->enabled == 'true') $data->enabled = '1'; else $data->enabled = '0';
 
-$connection = connectToDatabase();
+        if (!$data->question || !$data->category || !$data->answer || !$data->wrong) $this->returnError("One mandatory field was empty.");
 
-switch ($request) {
-    case 'add':
-        addNewQuestion($connection, validateData($data));
-    break;
-}
+        return $data;
+    }
 
-function validateData($data) {
-    if ($data->enabled == 'true') $data->enabled = '1'; else $data->enabled = '0';
+    public function addNewQuestion($connection, $data) {
+        $category = mysql_real_escape_string($data->category->name);
+        $question = mysql_real_escape_string($data->question);
+        $answer = mysql_real_escape_string($data->answer);
+        $wrong = mysql_real_escape_string($data->wrong);
+        $enabled = intval($data->enabled);
 
-    if (!$data->question || !$data->category || !$data->answer || !$data->wrong) returnError("One mandatory field was empty.");
+        $sql = "INSERT INTO questions (category, question, answer, wrongs, enabled) VALUES ('$category', '$question', '$answer', '$wrong', '$enabled')";
 
-    return $data;
-}
+        $connection->exec($sql);
+    }
 
-function addNewQuestion($connection, $data) {
-    $sql = "INSERT INTO questions (category, question, answer, wrongs, enabled) VALUES ('".$data->category."', '".$data->question."', '".$data->answer."', '".$data->wrong."', '".$data->enabled."')";
+    public function returnError($error) {
+        die(json_encode(array('error' => $error)));
+    }
 
-    $connection->exec($sql);
+    public function returnSuccess($message) {
+        die(json_encode(array('success' => $message)));
+    }
 }
