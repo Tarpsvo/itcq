@@ -63,28 +63,24 @@ itcqAdmin.controller('itcqAdminCtrl', function ($scope, $location, $http, error)
         if ($location.path() == path) return true; else return false;
     };
 
-    // Get the list of questions
-    $scope.getQuestionList = function() {
-        console.log('itcqAdminCtrl: getQuestionList getting questions.');
+    $scope.getData = function (type) {
+        console.log('itcqAdminCtrl: getData started with request: '+type);
 
-        $http.get('../api/api.php?request=ql')
+        $http.get('../api/api.php?request='+type)
             .success(function(data) {
                 if (error.validateData(data)) {
-                    console.log("itcqAdminCtrl: getQuestionList was successful. Assigning to scope.");
-                    $scope.questionList = data;
-                }
-            });
-    };
-
-    // Get the list of categories
-    $scope.getCategories = function() {
-        console.log("itcqAdminCtrl: getCategories quering categories.");
-
-        $http.get('../api/api.php?request=cat')
-            .success(function(data) {
-                if (error.validateData(data)) {
-                    console.log("itcqAdminCtrl: getCategories was successful. Assigning to scope.");
-                    $scope.categoriesList = data;
+                    console.log("itcqAdminCtrl: getData was successful. Assigning to scope.");
+                    switch (type) {
+                        case 'ql':
+                            $scope.questionList = data;
+                        break;
+                        case 'cat':
+                            $scope.categoriesList = data;
+                        break;
+                        case 'stats':
+                            $scope.stats = data;
+                        break;
+                    }
                 }
             });
     };

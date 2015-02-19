@@ -6,6 +6,7 @@
 body {
     background: #161c24 url('../img/muster.jpg');
     -webkit-font-smoothing: antialiased;
+    padding-bottom: 100px;
 }
 
 #admin-content-wrapper {

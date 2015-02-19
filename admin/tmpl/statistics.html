@@ -1,4 +1,4 @@
-<div id="table-content">
+<div id="table-content" data-ng-init="getData('stats')">
     <table>
         <tr>
             <th>Statistic</th>
@@ -6,11 +6,7 @@
         </tr>
         <tr>
             <td>Number of questions</td>
-            <td>2</td>
-        </tr>
-        <tr>
-            <td>Number of questions answered</td>
-            <td>43</td>
+            <td>{{stats.numQuestions}}</td>
         </tr>
     </table>
 </div>
