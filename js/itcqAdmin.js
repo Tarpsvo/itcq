@@ -37,9 +37,11 @@ itcqAdmin.factory('error', function() {
                 return false;
             } else if (typeof data === 'string') {
                 this.throwError("Query error: returned data was not JSON.");
+                console.log("ERROR: "+data);
                 return false;
             } else if ('error' in data) {
                 this.throwError("Query error: "+data.error);
+                console.log("ERROR: "+data);
                 return false;
             } else {
                 return true;
@@ -66,7 +68,7 @@ itcqAdmin.controller('itcqAdminCtrl', function ($scope, $location, $http, error)
     $scope.getData = function (type) {
         console.log('itcqAdminCtrl: getData started with request: '+type);
 
-        $http.get('../api/api.php?request='+type)
+        $http.get('../../api/api.php?request='+type)
             .success(function(data) {
                 if (error.validateData(data)) {
                     console.log("itcqAdminCtrl: getData was successful. Assigning to scope.");
@@ -97,21 +99,21 @@ itcqAdmin.controller('questionFormCtrl', function ($scope, $location, $http, err
             console.log("itcqAdmin: questionFieldCtrl: Question data received. Passing onto API.");
             $scope.passDataToAPI($scope.q);
         } else {
-            returnError("Question data was empty.");
+            error.throwError("Question data was empty.");
         }
     };
 
     $scope.passDataToAPI = function($info) {
-        $http.post('../api/api.php?request=add', {'request': 'add', 'question': $info.question, 'category': $info.category, 'answer': $info.answer, 'wrong': $info.wrong, 'enabled': $info.enabled})
+        $http.post('../../api/api.php?request=add', {'request': 'add', 'question': $info.question, 'category': $info.category, 'answer': $info.answer, 'wrongs': $info.wrongs, 'enabled': $info.enabled})
             .success(function(data) {
                 console.log("itcqAdmin: questionFieldCtrl: question data successfully passed to API.");
-                if ('success' in data) {
+                if (error.validateData(data)) {
                     error.throwSuccess("Successfully posted data.");
                     $location.path("#/questions");
                 }
             })
             .error(function(data, status) {
-                returnError("Failed to post: "+status);
+                error.throwError("Failed to post: "+status);
             });
     }
 });
