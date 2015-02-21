@@ -1,6 +1,4 @@
-var itcqApp = angular.module('itcqApp', [
-    'ngRoute'
-    ]);
+var itcqApp = angular.module('itcqApp', ['ngRoute']);
 
 // Routing: https://docs.angularjs.org/tutorial/step_07
 itcqApp.config(['$routeProvider',
@@ -27,6 +25,47 @@ itcqApp.config(['$routeProvider',
     }
 ]);
 
+// Service named 'dataReceiver': https://docs.angularjs.org/guide/services
+itcqApp.factory('dataReceiver', function($http) {
+    return {
+        throwError: function(error) {
+            alert(error);
+        },
+
+        // Return true if everything is correct
+        validateData: function(data) {
+            if (data == '') {
+                this.throwError("Query error: did not return anything.");
+                return false;
+            } else if (typeof data === 'string') {
+                this.throwError("Query error: returned data was not JSON.");
+                console.log("ERROR: "+data);
+                return false;
+            } else if ('error' in data) {
+                this.throwError("Query error: "+data.error);
+                console.log("ERROR: "+data);
+                return false;
+            } else {
+                return true;
+            }
+        },
+
+        getData: function (type) {
+            var thisService = this;
+            console.log('itcqApp: getData started with request: '+type);
+
+            return $http.get('../../api/api.php?request='+type)
+                .success(function(data) {
+                    if (thisService.validateData(data)) {
+                        console.log("itcqApp: getData was successful. Returning info.");
+                        return data;
+                    }
+                });
+        }
+    };
+});
+
+// Quiz controller
 itcqApp.controller('quizCtrl', function ($scope, quizFactory) {
     var question = quizFactory.getQuestion();
 
@@ -58,7 +97,7 @@ itcqApp.controller('quizCtrl', function ($scope, quizFactory) {
     };
 });
 
-// Controller that redirects to main page if client opens /quiz
+// Menu and view controller
 itcqApp.controller('viewCtrl', function ($scope, $location) {
     if ($location.path() === '/quiz') {
         console.log("viewCtrl: /quiz path detected, redirecting to main");
@@ -71,7 +110,15 @@ itcqApp.controller('viewCtrl', function ($scope, $location) {
     };
 });
 
-// Factory that passes creates the JSON of a question
+// Statistics creation controller
+itcqApp.controller('statsCtrl', function ($scope, dataReceiver) {
+    // $http returns a promise, so I have to use 'then' to iterate it
+    dataReceiver.getData('stats').then(function(response) {
+        $scope.stats = response.data;
+    });
+});
+
+// Factory that creates the JSON of a question
 itcqApp.factory('quizFactory', function () {
     var question = {
         'id': 0,

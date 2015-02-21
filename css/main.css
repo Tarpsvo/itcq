@@ -29,21 +29,28 @@ body {
     display: table;
 }
 
+
+
+
+
+
 /* Text type definitions */
-h1, h2, h3, a, p, li {color: #FFF;}
+h1, h2, h3, a, p, li, td {color: #FFF;}
 
 h1 {
     font-family: 'Oswald', sans-serif;
+    font-size: 24px;
     margin-bottom: 10px;
 }
 
 h2, h3 {
     font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
     font-weight: 600;
-    margin-bottom: 5px;
+    margin: 20px 0 10px 0;
 }
 
-a, p, li {
+a, p, li, td {
     font-family: 'Open Sans', sans-serif;
     text-decoration: none;
 }
@@ -51,28 +58,30 @@ a, p, li {
 a {color: #03A9F4;}
 a:hover {color: #29B6F6;}
 
-/* Menu */
+
+
+
+
+
+/* Left-hand menu */
 #menu #title {
     font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    letter-spacing: 4px;
-    font-size: 20px;
     color: #FFF;
-    margin-top: 40px;
-    margin-bottom: 40px;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 4px;
 
+    margin: 40px 0 40px 0;
     text-align: center;
 }
 
 .menu-button {
     display: block;
-    font-family: 'Open Sans', sans-serif;
     font-weight: 600;
     font-size: 20px;
     color: #FFF;
-    margin: 15px 0 15px 0;
+    margin: 15px 0 15px 21px; /* Left 21px is to stop the menu from moving left-right due to the border */
     padding: 13px 0 13px 15px;
-    margin-left: 21px; /* This is to stop the menu from moving left-right due to the border */
 }
 
 .menu-button span {
@@ -93,7 +102,11 @@ a:hover {color: #29B6F6;}
     border-left: 6px solid #03A9F4;
 }
 
-/* Main page */
+
+
+
+
+/* Main page quiz start */
 #itcq-start {
     display: block;
     height: 100%;
@@ -112,6 +125,11 @@ a:hover {color: #29B6F6;}
 
 #itcq-start:hover {background-color: #039BE5;}
 
+
+
+
+
+
 /* About page */
 #about-content {
     height: 400px;
@@ -119,17 +137,8 @@ a:hover {color: #29B6F6;}
     overflow-x: hidden;
 }
 
-#about-content h1 {
-    font-size: 24px;
-}
-
-#about-content h2 {
-    font-size: 18px;
-    margin: 20px 0 10px 0;
-}
-
 #about-content li {
-    list-style: circle;
+    list-style: square;
     margin-left: 20px;
     line-height: 20px;
     font-size: 14px;
@@ -140,6 +149,25 @@ a:hover {color: #29B6F6;}
     line-height: 20px;
     margin: 5px 0 5px 0;
 }
+
+
+
+
+
+/* Stats content */
+#stats-content table, #stats-content td {border: none;}
+
+#stats-content table td {
+    padding: 5px;
+    width: 200px;
+
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+}
+
+
+
+
 
 /* Useful classes */
 .absolute-center {

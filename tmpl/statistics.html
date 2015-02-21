@@ -1,8 +1,17 @@
-<div id="stats-content" class="content">
+<div id="stats-content" class="content" data-ng-controller="statsCtrl" data-ng-init="getStats()">
     <h1>Statistics</h1>
+    <h2>General</h2>
     <table>
         <tr>
-            <td>Number of questions</td>
+            <td>Total number of questions</td>
+            <td>{{stats.numQuestions}}</td>
+        </tr>
+    </table>
+
+    <h2>Personal</h2>
+    <table>
+        <tr>
+            <td>Total number of questions</td>
             <td>{{stats.numQuestions}}</td>
         </tr>
     </table>
