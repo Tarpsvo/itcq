@@ -25,6 +25,10 @@ itcqApp.config(['$routeProvider',
     }
 ]);
 
+
+
+
+
 // Service named 'dataReceiver': https://docs.angularjs.org/guide/services
 itcqApp.factory('dataReceiver', function($http) {
     return {
@@ -65,17 +69,12 @@ itcqApp.factory('dataReceiver', function($http) {
     };
 });
 
+
+
+
+
 // Quiz controller
 itcqApp.controller('quizCtrl', function ($scope, quizFactory) {
-    var question = quizFactory.getQuestion();
-
-    $scope.question = question.question;
-    $scope.answer1 = question.answer1;
-    $scope.answer2 = question.answer2;
-    $scope.answer3 = question.answer3;
-    $scope.answer4 = question.answer4;
-    $scope.correctAnswer = question.correct;
-
     $scope.checkAnswer = function(number) {
         console.log("quizCtrl: answer pressed, ID: "+number+" | Buttons disabled.");
         $scope.answerChosen = true;
@@ -90,12 +89,27 @@ itcqApp.controller('quizCtrl', function ($scope, quizFactory) {
         }
     };
 
-    $scope.reset = function() {
+    $scope.nextQuestion = function() {
         $scope.answerChosen = false;
         $scope.correct = null;
         $scope.wrong = null;
+
+        console.log("Trying to load question.");
+
+        quizFactory.getQuestion().then(function (response) {
+            $scope.question = response.question;
+            $scope.answer1 = response.answer1;
+            $scope.answer2 = response.answer2;
+            $scope.answer3 = response.answer3;
+            $scope.answer4 = response.answer4;
+            $scope.correctAnswer = response.correct;
+        });
     };
 });
+
+
+
+
 
 // Menu and view controller
 itcqApp.controller('viewCtrl', function ($scope, $location) {
@@ -110,6 +124,10 @@ itcqApp.controller('viewCtrl', function ($scope, $location) {
     };
 });
 
+
+
+
+
 // Statistics creation controller
 itcqApp.controller('statsCtrl', function ($scope, dataReceiver) {
     // $http returns a promise, so I have to use 'then' to iterate it
@@ -118,24 +136,32 @@ itcqApp.controller('statsCtrl', function ($scope, dataReceiver) {
     });
 });
 
+
+
+
+
 // Factory that creates the JSON of a question
-itcqApp.factory('quizFactory', function () {
-    var question = {
-        'id': 0,
-        'question': 'This is the first question that is multi-line and should display properly?',
-        'answer1': 'Answer one',
-        'answer2': 'Answer two',
-        'answer3': 'Answer three',
-        'answer4': 'Answer four',
-        'correct': 4
+itcqApp.factory('quizFactory', function (dataReceiver) {
+    return {
+        getQuestion: function() {
+            return dataReceiver.getData('qst').then(function(response) {
+                qst = response.data;
+
+                question = {
+                    'id': qst.id,
+                    'question': qst.question,
+                    'answer1': qst.answer,
+                    'answer2': qst.answer,
+                    'answer3': qst.answer,
+                    'answer4': qst.answer,
+                    'correct': 2
+                };
+
+                console.log("quizFactory: question queried, returned question with ID "+question.id);
+
+                console.log(question);
+                return question;
+            });
+        }
     };
-
-    var factory = {};
-    factory.getQuestion = function() {
-        console.log("quizFactory: question queried, returned question with ID "+question.id);
-        return question;
-    };
-
-
-    return factory;
 });

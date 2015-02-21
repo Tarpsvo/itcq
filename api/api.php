@@ -3,7 +3,7 @@
 // ql   = question list (get)
 // cat  = categories list (get)
 // add  = add a new question (post)
-$allowedGet = ['ql', 'cat', 'stats'];
+$allowedGet = ['ql', 'cat', 'stats', 'qst'];
 $allowedPost = ['add'];
 
 if (isset($_GET['request']) && in_array($_GET['request'], $allowedGet)) {
