@@ -98,11 +98,35 @@ itcqApp.controller('quizCtrl', function ($scope, quizFactory) {
 
         quizFactory.getQuestion().then(function (response) {
             $scope.question = response.question;
-            $scope.answer1 = response.answer1;
-            $scope.answer2 = response.answer2;
-            $scope.answer3 = response.answer3;
-            $scope.answer4 = response.answer4;
-            $scope.correctAnswer = response.correct;
+            correct = Math.floor((Math.random() * 4) + 1); // Random between 1-4
+
+            switch (correct) {
+                case 1:
+                    $scope.answer1 = response.answer;
+                    $scope.answer2 = response.wrong1;
+                    $scope.answer3 = response.wrong2;
+                    $scope.answer4 = response.wrong3;
+                break;
+                case 2:
+                    $scope.answer1 = response.wrong1;
+                    $scope.answer2 = response.answer;
+                    $scope.answer3 = response.wrong2;
+                    $scope.answer4 = response.wrong3;
+                break;
+                case 3:
+                    $scope.answer1 = response.wrong1;
+                    $scope.answer2 = response.wrong2;
+                    $scope.answer3 = response.answer;
+                    $scope.answer4 = response.wrong3;
+                break;
+                case 4:
+                    $scope.answer1 = response.wrong1;
+                    $scope.answer2 = response.wrong2;
+                    $scope.answer3 = response.wrong3;
+                    $scope.answer4 = response.answer;
+                break;
+            }
+            $scope.correctAnswer = correct;
         });
     };
 });
@@ -150,11 +174,10 @@ itcqApp.factory('quizFactory', function (dataReceiver) {
                 question = {
                     'id': qst.id,
                     'question': qst.question,
-                    'answer1': qst.answer,
-                    'answer2': qst.answer,
-                    'answer3': qst.answer,
-                    'answer4': qst.answer,
-                    'correct': 2
+                    'answer': qst.answer,
+                    'wrong1': qst.wrong1,
+                    'wrong2': qst.wrong2,
+                    'wrong3': qst.wrong3
                 };
 
                 console.log("quizFactory: question queried, returned question with ID "+question.id);

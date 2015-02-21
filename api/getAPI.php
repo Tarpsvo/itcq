@@ -3,7 +3,7 @@ class getAPI {
     public $sqlList = [
         'ql'    =>  "SELECT id, category, question, answer, enabled FROM questions",
         'cat'   =>  "SELECT name FROM categories",
-        'qst'   =>  "SELECT id, question, answer, wrongs FROM questions"
+        'qst'   =>  "SELECT id, question, answer, wrong1, wrong2, wrong3 FROM questions"
     ];
 
     public function execute($connection, $request) {

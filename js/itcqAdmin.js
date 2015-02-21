@@ -104,7 +104,7 @@ itcqAdmin.controller('questionFormCtrl', function ($scope, $location, $http, err
     };
 
     $scope.passDataToAPI = function($info) {
-        $http.post('../../api/api.php?request=add', {'request': 'add', 'question': $info.question, 'category': $info.category, 'answer': $info.answer, 'wrongs': $info.wrongs, 'enabled': $info.enabled})
+        $http.post('../../api/api.php?request=add', {'request': 'add', 'question': $info.question, 'category': $info.category, 'answer': $info.answer, 'wrong1': $info.wrong1,'wrong2': $info.wrong2,'wrong3': $info.wrong3, 'enabled': $info.enabled})
             .success(function(data) {
                 console.log("itcqAdmin: questionFieldCtrl: question data successfully passed to API.");
                 if (error.validateData(data)) {

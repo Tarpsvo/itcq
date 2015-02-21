@@ -35,7 +35,7 @@ body {
 
 
 /* Text type definitions */
-h1, h2, h3, a, p, li, td {color: #FFF;}
+h1, h2, h3, a, p, li {color: #FFF;}
 
 h1 {
     font-family: 'Oswald', sans-serif;
@@ -163,6 +163,7 @@ a:hover {color: #29B6F6;}
 
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
+    color: #FFF;
 }
 
 
