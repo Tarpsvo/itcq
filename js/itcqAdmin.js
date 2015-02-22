@@ -68,7 +68,7 @@ itcqAdmin.controller('itcqAdminCtrl', function ($scope, $location, $http, error)
     $scope.getData = function (type) {
         console.log('itcqAdminCtrl: getData started with request: '+type);
 
-        $http.get('../../api/api.php?request='+type)
+        $http.get('../api/api.php?request='+type)
             .success(function(data) {
                 if (error.validateData(data)) {
                     console.log("itcqAdminCtrl: getData was successful. Assigning to scope.");
@@ -84,6 +84,10 @@ itcqAdmin.controller('itcqAdminCtrl', function ($scope, $location, $http, error)
                         break;
                     }
                 }
+            })
+            .error(function(data, header) {
+                error.throwError("API returned error: "+header);
+                console.log(data);
             });
     };
 });
@@ -104,7 +108,7 @@ itcqAdmin.controller('questionFormCtrl', function ($scope, $location, $http, err
     };
 
     $scope.passDataToAPI = function($info) {
-        $http.post('../../api/api.php?request=add', {'request': 'add', 'question': $info.question, 'category': $info.category, 'answer': $info.answer, 'wrong1': $info.wrong1,'wrong2': $info.wrong2,'wrong3': $info.wrong3, 'enabled': $info.enabled})
+        $http.post('../api/api.php?request=add', {'request': 'add', 'question': $info.question, 'category': $info.category, 'answer': $info.answer, 'wrong1': $info.wrong1,'wrong2': $info.wrong2,'wrong3': $info.wrong3, 'enabled': $info.enabled})
             .success(function(data) {
                 console.log("itcqAdmin: questionFieldCtrl: question data successfully passed to API.");
                 if (error.validateData(data)) {
@@ -112,8 +116,9 @@ itcqAdmin.controller('questionFormCtrl', function ($scope, $location, $http, err
                     $location.path("#/questions");
                 }
             })
-            .error(function(data, status) {
-                error.throwError("Failed to post: "+status);
+            .error(function(data, header) {
+                error.throwError("API returned error: "+header);
+                console.log(data);
             });
     }
 });

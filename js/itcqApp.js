@@ -58,12 +58,16 @@ itcqApp.factory('dataReceiver', function($http) {
             var thisService = this;
             console.log('itcqApp: getData started with request: '+type);
 
-            return $http.get('../../api/api.php?request='+type)
+            return $http.get('../api/api.php?request='+type)
                 .success(function(data) {
                     if (thisService.validateData(data)) {
                         console.log("itcqApp: getData was successful. Returning info.");
                         return data;
                     }
+                })
+                .error(function(data, header) {
+                    error.throwError("API returned error: "+header);
+                    console.log(data);
                 });
         }
     };

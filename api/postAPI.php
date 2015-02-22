@@ -42,6 +42,7 @@ class postAPI {
     }
 
     public function returnSuccess($message) {
+        http_response_code(200);
         die(json_encode(array('success' => $message)));
     }
 }
