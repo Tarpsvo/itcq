@@ -10,6 +10,13 @@ class postAPI {
                 $this->addNewQuestion($connection, $data);
                 $this->returnSuccess("Query executed.");
             break;
+            case 'newcat':
+                $this->addNewCategory($connection, $data);
+                $this->returnSuccess("Category added.");
+            break;
+            default:
+                returnError("Request not recognized! How did you get here anyway?");
+            break;
         }
     }
 
@@ -36,12 +43,23 @@ class postAPI {
         $query->execute();
     }
 
+    public function addNewCategory($connection, $data) {
+        $categoryName = (isset($data->category)) ? mysql_real_escape_string($data->category) : returnError("Category name not defined.");
+
+        $unPreparedSQL = "INSERT INTO categories (name) VALUES (:category)";
+
+        $query = $connection->prepare($unPreparedSQL);
+        $query->bindParam(':category', $categoryName);
+        $query->execute();
+    }
+
     public function returnError($error) {
         http_response_code(400);
         die(json_encode(array('error' => $error)));
     }
 
     public function returnSuccess($message) {
+        http_response_code(200);
         die(json_encode(array('success' => $message)));
     }
 }

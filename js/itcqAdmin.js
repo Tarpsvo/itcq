@@ -3,17 +3,20 @@ var itcqAdmin = angular.module('itcqAdmin', ['ngRoute']);
 // Routing: https://docs.angularjs.org/tutorial/step_07
 itcqAdmin.config(['$routeProvider',
     function($routeProvider) {
-        $routeProvider.
-            when('/questions', {
+        $routeProvider
+        .when('/questions', {
             templateUrl: 'tmpl/questions.html'
-        }).
-            when('/statistics', {
+        })
+        .when('/statistics', {
             templateUrl: 'tmpl/statistics.html'
-        }).
-            when('/addquestion', {
+        })
+        .when('/addquestion', {
             templateUrl: 'tmpl/newquestion.html'
-        }).
-        otherwise({
+        })
+        .when('/addcategory', {
+            templateUrl: 'tmpl/newcategory.html'
+        })
+        .otherwise({
             redirectTo: '/questions'
         });
     }
@@ -68,7 +71,7 @@ itcqAdmin.controller('itcqAdminCtrl', function ($scope, $location, $http, error)
     $scope.getData = function (type) {
         console.log('itcqAdminCtrl: getData started with request: '+type);
 
-        $http.get('../../api/api.php?request='+type)
+        $http.get('../api/api.php?request='+type)
             .success(function(data) {
                 if (error.validateData(data)) {
                     console.log("itcqAdminCtrl: getData was successful. Assigning to scope.");
@@ -84,6 +87,10 @@ itcqAdmin.controller('itcqAdminCtrl', function ($scope, $location, $http, error)
                         break;
                     }
                 }
+            })
+            .error(function(data, header) {
+                error.throwError("API returned error: "+header);
+                console.log(data);
             });
     };
 });
@@ -96,15 +103,36 @@ itcqAdmin.controller('itcqAdminCtrl', function ($scope, $location, $http, error)
 itcqAdmin.controller('questionFormCtrl', function ($scope, $location, $http, error) {
     $scope.addNewQuestion = function() {
         if ($scope.q) {
-            console.log("itcqAdmin: questionFieldCtrl: Question data received. Passing onto API.");
-            $scope.passDataToAPI($scope.q);
+            console.log("itcqAdmin: questionFormCtrl: Question data received. Passing onto API.");
+            $scope.passDataToAPI($scope.q, 'add');
         } else {
             error.throwError("Question data was empty.");
         }
     };
 
-    $scope.passDataToAPI = function($info) {
-        $http.post('../../api/api.php?request=add', {'request': 'add', 'question': $info.question, 'category': $info.category, 'answer': $info.answer, 'wrong1': $info.wrong1,'wrong2': $info.wrong2,'wrong3': $info.wrong3, 'enabled': $info.enabled})
+    $scope.addNewCategory = function() {
+        if ($scope.q) {
+            console.log("itcqAdmin: questionFormCtrl: Category data received. Passing onto API.");
+            $scope.passDataToAPI($scope.q, 'newcat');
+        } else {
+            error.throwError("Question data was empty.");
+        }
+    };
+
+    $scope.passDataToAPI = function(info, type) {
+        var jsonData;
+        switch (type) {
+            case 'add':
+                jsonData = {'request': 'add', 'question': info.question, 'category': info.category, 'answer': info.answer, 'wrong1': info.wrong1,'wrong2': info.wrong2,'wrong3': info.wrong3, 'enabled': info.enabled};
+            break;
+            case 'newcat':
+                jsonData = {'category': info.category};
+            break;
+        }
+
+        console.log("Posting to API with type: "+type);
+        console.log(jsonData);
+        $http.post('../api/api.php?request='+type, jsonData)
             .success(function(data) {
                 console.log("itcqAdmin: questionFieldCtrl: question data successfully passed to API.");
                 if (error.validateData(data)) {
@@ -112,8 +140,9 @@ itcqAdmin.controller('questionFormCtrl', function ($scope, $location, $http, err
                     $location.path("#/questions");
                 }
             })
-            .error(function(data, status) {
-                error.throwError("Failed to post: "+status);
+            .error(function(data, header) {
+                error.throwError("API returned error: "+header);
+                console.log(data);
             });
     }
 });
