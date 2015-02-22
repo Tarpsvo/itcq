@@ -23,8 +23,10 @@ class getAPI {
     }
 
     public function getStatistics($connection) {
-        $numQuestions = "SELECT * FROM questions";
+        $numQuestions = "SELECT id FROM questions";
         $stats['numQuestions'] = $connection->query($numQuestions)->rowCount();
+        $numCategories = "SELECT id FROM categories";
+        $stats['numCategories'] = $connection->query($numCategories)->rowCount();
 
         if ($stats) {
             echo json_encode($stats);

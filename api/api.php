@@ -4,7 +4,7 @@
 // cat  = categories list (get)
 // add  = add a new question (post)
 $allowedGet = ['ql', 'cat', 'stats', 'qst'];
-$allowedPost = ['add'];
+$allowedPost = ['add', 'newcat'];
 
 if (isset($_GET['request']) && in_array($_GET['request'], $allowedGet)) {
     require_once('getAPI.php');
