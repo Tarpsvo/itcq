@@ -5,11 +5,14 @@ Created as a project for the course Network Applications I.
 
 Live version is accessible at [tramvai.im/itcq/](http://tramvai.im/itcq/)
 
+## Current features ##
+* Basic quiz functionality
+* Quiz and admin view as single page applications
+* Admin view allows adding questions and categories
 
 ## Current goals ##
-* Quiz as an SPA
-* Easily editable questions (GUI to r/w from database)
-* Save statistics within a cookie
+* Editing of questions in the admin view
+* Session and global statistics
 * Two languages: Estonian and English
 
 ## Used resources ##
