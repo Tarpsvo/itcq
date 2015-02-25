@@ -4,8 +4,6 @@
 
 /* Main content holders */
 body {
-    background: #161c24 url('../img/muster.jpg');
-    -webkit-font-smoothing: antialiased;
     padding-bottom: 100px;
 }
 
@@ -47,10 +45,12 @@ body {
 
 /* Menubar SMALL */
 #menubar-small {height: 40px;}
+#menubar-small li {display: inline;} /* Leaves a gap, so float on a element is necessary */
 
 #menubar-small li a {
     float: left;
-    height: 40px; line-height: 40px;
+    height: 40px;
+    line-height: 40px;
 
     padding: 0 20px 0 20px;
 

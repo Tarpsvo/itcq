@@ -5,16 +5,20 @@ Created as a project for the course Network Applications I.
 
 Live version is accessible at [tramvai.im/itcq/](http://tramvai.im/itcq/)
 
+## Current features ##
+* Basic quiz functionality
+* Quiz and admin view as single page applications
+* Admin view allows adding questions and categories
 
 ## Current goals ##
-* Quiz as an SPA
-* Easily editable questions (GUI to r/w from database)
-* Save statistics within a cookie
+* Editing of questions in the admin view
+* Session and global statistics
 * Two languages: Estonian and English
 
 ## Used resources ##
 * [Background pattern base](http://esindus.itcollege.ee/)
 * [Square icon for 'next' button](https://www.iconfinder.com/icons/243661/arrow_forward_right_square_icon#size=64)
+* [Notepad icon for TODO image](https://www.iconfinder.com/icons/59320/check_list_todo_list_icon#size=32)
 
 ## Helpful sources ##
 * [Google Material Design Guidelines](http://www.google.com/design/spec/material-design/introduction.html)

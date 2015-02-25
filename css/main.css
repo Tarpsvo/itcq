@@ -155,7 +155,7 @@ a:hover {color: #29B6F6;}
 
 
 /* Stats content */
-#stats-content table, #stats-content td {border: none;}
+#stats-content table, #stats-content td {border: none; vertical-align: middle;}
 
 #stats-content table td {
     padding: 5px;
