@@ -17,4 +17,10 @@ function connectToDatabase($host,$database,$username,$password) {
         returnError($e->getMessage());
     }
 }
+
+function returnError($error) {
+    // Create a JSON with the key 'ERROR' and echo it
+    http_response_code(400);
+    die(json_encode(array('error' => $error)));
+}
 ?>
