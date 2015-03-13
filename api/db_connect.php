@@ -1,10 +1,10 @@
 <?php
-$host = 'localhost';
-$database = 'itcq';
-$username = 'root';
-$password = 'root';
+function connectToDatabase() {
+    $host = 'localhost';
+    $database = 'itcq';
+    $username = 'root';
+    $password = 'root';
 
-function connectToDatabase($host,$database,$username,$password) {
     // Learned from http://www.w3schools.com/php/php_mysql_connect.asp
     try {
         $connection = new PDO("mysql: host=$host; dbname=$database; charset=utf8", $username, $password);
@@ -16,5 +16,11 @@ function connectToDatabase($host,$database,$username,$password) {
     } catch (PDOException $e) {
         returnError($e->getMessage());
     }
+}
+
+function returnError($error) {
+    // Create a JSON with the key 'ERROR' and echo it
+    http_response_code(400);
+    die(json_encode(array('error' => $error)));
 }
 ?>

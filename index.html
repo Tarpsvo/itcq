@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-ng-app="itcqApp" data-ng-controller="viewCtrl">
+<html data-ng-app="itcqApp" data-ng-controller="ViewController">
     <head>
         <meta charset="UTF-8">
         <title>The IT College Quiz</title>
@@ -21,17 +21,25 @@
                     <span>About the project</span></a></li>
                     <li><a href="#/statistics/" class="menu-button text-shadow" data-ng-class="{active: menuIsActive('/statistics')}">Statistics
                     <span>Your stats, too</span></a></li>
+                    <li><a href="#/login/" class="menu-button text-shadow" data-ng-class="{active: menuIsActive('/login')}">Backend
+                    <span>The admin lounge</span></a></li>
                 </ul>
             </div>
 
-            <div id="dynamic-content" data-ng-view data-ng-cloak>
-
-            </div>
+            <div id="dynamic-content" data-ng-view data-ng-cloak></div>
+            <div id="loading"></div>
         </div>
 
         <script src="js/jquery-2.1.3.min.js"></script>
         <script src="js/angular.js"></script>
         <script src="js/angular-route.js"></script>
+
+        <!--  itcqApp and its controllers  -->
         <script src="js/itcqApp.js"></script>
+        <script src="js/itcqApp/quizController.js"></script>
+        <script src="js/itcqApp/questionFactory.js"></script>
+        <script src="js/itcqApp/dataService.js"></script>
+        <script src="js/itcqApp/viewController.js"></script>
+        <script src="js/itcqApp/loginController.js"></script>
     </body>
 </html>

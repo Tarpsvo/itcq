@@ -1,6 +1,6 @@
 /* Import fonts from Google */
 /* TODO!!! Remove unused fonts!!! */
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700,800|Oswald:400,700,300);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600|Oswald:400,700,300);
 
 /* Main content holders */
 body {
@@ -11,6 +11,7 @@ body {
 #content-wrapper {
     height: 400px;
     max-width: 1200px;
+    min-width: 1000px;
     padding: 0 10% 0 10%;
 }
 
@@ -25,8 +26,24 @@ body {
     height: 100%;
     float: right;
 
+    z-index: 10;
+
     /* Ugly fix to vertically center anchor text */
+    position: relative;
     display: table;
+}
+
+#loading {
+    height: 100%;
+    width: 65%;
+
+    float: right;
+    margin-right: -65%; /* Overlapping divs */
+
+    position: relative;
+    z-index: 1000; /* Loading div has to be in front */
+
+    background: rgba(0,0,0,0.3) url('../img/loading.gif') center center no-repeat;
 }
 
 
@@ -53,6 +70,7 @@ h2, h3 {
 a, p, li, td {
     font-family: 'Open Sans', sans-serif;
     text-decoration: none;
+    outline: none; /* To remove dotted line in Firefox */
 }
 
 a {color: #03A9F4;}
@@ -169,6 +187,38 @@ a:hover {color: #29B6F6;}
 
 
 
+/* Login form */
+#login-form-wrapper {height: 100%; width: 100%;}
+
+#login-form-wrapper form {
+    width: 250px;
+    margin: 0px auto;
+    margin-top: 100px;
+}
+
+#login-form-wrapper input {
+    display: block;
+    width: 220px;
+    padding: 15px 15px 15px 15px;
+    border: none;
+}
+
+#login-form-wrapper #submit-button {
+    height: 40px;
+    width: 250px;
+    padding: 0;
+
+    text-align: center;
+    line-height: 40px;
+
+    border: none;
+}
+
+#submit-button:hover {cursor: pointer;}
+
+
+
+
 
 /* Useful classes */
 .absolute-center {
@@ -187,7 +237,20 @@ a:hover {color: #29B6F6;}
     box-shadow:         0px 1px 1px 0px rgba(0, 0, 0, 0.75);
 }
 
-.button-yes {background-color: #388E3C;}
-.button-yes:hover {background-color: #2E7D32;}
-.button-no {background-color: #E53935;}
-.button-no:hover {background-color: #D32F2F;}
+.button-yes {
+    background-color: #388E3C;
+    font-family: 'Open Sans', sans-serif;
+    color: #FFF;
+    font-size: 18px;
+    font-weight: 600;
+}
+.button-yes:hover {background-color: #2E7D32; color: #FFF;}
+
+.button-no {
+    background-color: #E53935;
+    ont-family: 'Open Sans', sans-serif;
+    color: #FFF;
+    font-size: 18px;
+    font-weight: 600;
+}
+.button-no:hover {background-color: #D32F2F; color: #FFF;}

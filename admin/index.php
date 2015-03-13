@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-ng-app="itcqAdmin" data-ng-controller="itcqAdminCtrl">
+<html data-ng-app="itcqAdmin" data-ng-controller="AdminController">
     <head>
         <meta charset="UTF-8">
         <title>ITCQ - Admin</title>
@@ -24,6 +24,11 @@
         <script src="../js/jquery-2.1.3.min.js"></script>
         <script src="../js/angular.js"></script>
         <script src="../js/angular-route.js"></script>
+
+        <!--  itcqAdmin and its controllers  -->
         <script src="../js/itcqAdmin.js"></script>
+        <script src="../js/itcqAdmin/adminController.js"></script>
+        <script src="../js/itcqAdmin/errorService.js"></script>
+        <script src="../js/itcqAdmin/questionFormController.js"></script>
     </body>
 </html>
