@@ -2,7 +2,7 @@ angular
     .module('itcqApp')
     .controller('QuizController', QuizController)
 
-function QuizController($scope, questionFactory) {
+function QuizController($scope, questionFactory, $rootScope) {
     $scope.checkAnswer = function(number) {
         console.log("quizController: answer pressed, ID: "+number+" | Buttons disabled.");
         $scope.answerChosen = true;

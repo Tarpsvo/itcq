@@ -12,11 +12,8 @@ angular
             .when('/statistics', {
                 templateUrl: 'tmpl/statistics.html'
             })
-            .when('/admin', {
-                templateUrl: 'tmpl/admin.html'
-            })
             .when('/login', {
-                templateUrl: 'tmpl/login.html'
+                templateUrl: 'tmpl/login.php'
             })
             .when('/', {
                 templateUrl: 'tmpl/main.html'
@@ -25,4 +22,7 @@ angular
                 redirectTo: '/'
             });
         }
-    ]);
+    ])
+    .run(function($rootScope) {
+        $rootScope.loading = false;
+    })

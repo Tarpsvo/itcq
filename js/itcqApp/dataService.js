@@ -7,7 +7,7 @@ angular
     .module('itcqApp')
     .factory('dataService', dataService)
 
-function dataService($http) {
+function dataService($http, $rootScope) {
     return {
         throwError: function(error) {
             alert(error);
@@ -32,19 +32,50 @@ function dataService($http) {
         },
 
         getData: function (type) {
-            var thisService = this;
-            console.log('itcqApp: getData started with request: '+type);
+            $rootScope.loading = true; // Loading started!
+
+            var ts = this;
+            console.log('dataService: getData started with request: '+type);
 
             return $http.get('../api/api.php?request='+type)
                 .success(function(data) {
-                    if (thisService.validateData(data)) {
-                        console.log("itcqApp: getData was successful. Returning info.");
-                        return data;
-                    }
+                    if (ts.validateData(data)) console.log("dataService: getData was successful. Returning info.");
+                    $rootScope.loading = false;
                 })
                 .error(function(data, header) {
-                    error.throwError("API returned error: "+header);
+                    ts.throwError("API returned error: "+header);
                     console.log(data);
+                    $rootScope.loading = false;
+                });
+
+
+        },
+
+        tryToLogin: function(credentials) {
+            $rootScope.loading = true;
+
+            var ts = this;
+            var valid;
+
+            jsonData = {'username': credentials.username, 'password': credentials.password};
+
+            return $http.post('../auth/login.php', jsonData)
+                .success(function(data) {
+                    if (ts.validateData(data)) {
+                        console.log("dataService: data validation passed, giving data back to LoginController.");
+                    }
+                    $rootScope.loading = false;
+                })
+                .error(function(data, header) {
+                    if (data != null && 'error' in data) {
+                        ts.throwError("Error: "+data.error);
+                    } else {
+                        ts.throwError("API returned error: "+header);
+                        console.log("---- API ERROR ----");
+                        console.log(data);
+                        console.log("---- API ERROR ----");
+                    }
+                    $rootScope.loading = false;
                 });
         }
     };

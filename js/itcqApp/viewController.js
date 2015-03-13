@@ -6,7 +6,7 @@ angular
     .module('itcqApp')
     .controller('ViewController', ViewController)
 
-function ViewController($scope, $location, dataService) {
+function ViewController($scope, $location, dataService, $rootScope) {
     if ($location.path() === '/quiz') {
         console.log("viewCtrl: /quiz path detected, redirecting to main");
         $location.path("/");
@@ -20,5 +20,10 @@ function ViewController($scope, $location, dataService) {
     // Run and get stats
     dataService.getData('stats').then(function(response) {
         $scope.stats = response.data;
+    });
+
+    $rootScope.$watch('loading', function(loading) {
+        if (loading) { $('#loading').show(); console.log("DISPLAYING LOADING SCREEN"); }
+        else $('#loading').hide();
     });
 };
