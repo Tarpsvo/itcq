@@ -1,13 +1,13 @@
 <?php
 session_start();
-if (isset($_SESSION['loggedin'])) {
+if (isset($_SESSION['username'])) {
 ?>
-<div id="login-form-wrapper">
-    <div id="login-data-box">
-        <h1>Welcome, tarvo</h1>
+<div id="login-form-wrapper" data-ng-controller="LoginController">
+    <div id="login-data-box" class="absolute-center">
+        <h1>You're logged in as: tarvo</h1>
+        <a href="/admin" class="button-yes text-shadow">Go to admin web</a>
+        <a class="button-no text-shadow" data-ng-click="logout()">Log out</a>
     </div>
-    <a href="#" class="button-yes">Go to admin web</a>
-    <a href="#" class="button-no">Log out</a>
 </div>
 
 

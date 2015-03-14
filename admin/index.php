@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header('Location: /');
+} else {
+?>
+
 <!DOCTYPE html>
 <html data-ng-app="itcqAdmin" data-ng-controller="AdminController">
     <head>
@@ -32,3 +39,4 @@
         <script src="../js/itcqAdmin/questionFormController.js"></script>
     </body>
 </html>
+<?php } ?>
