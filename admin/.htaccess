@@ -1,4 +1,0 @@
-AuthType Basic
-AuthName "ITCQ - Admin"
-AuthUserFile /opt/lampp/htdocs/admin/.htpasswd
-Require valid-user

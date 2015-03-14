@@ -188,7 +188,11 @@ a:hover {color: #29B6F6;}
 
 
 /* Login form */
-#login-form-wrapper {height: 100%; width: 100%;}
+#login-form-wrapper {
+    position: relative;
+    height: 400px;
+    width: 100%;
+}
 
 #login-form-wrapper form {
     width: 250px;
@@ -216,6 +220,24 @@ a:hover {color: #29B6F6;}
 
 #submit-button:hover {cursor: pointer;}
 
+#login-data-box {
+    height: 150px;
+    width: 300px;
+    text-align: center;
+}
+
+#login-data-box a {
+    display: inline-block;
+    float: left;
+    height: 50px;
+    line-height: 50px;
+    padding: 0px 21px 0px 21px;
+    cursor: pointer;
+}
+
+#login-data-box h1 {
+    margin-bottom: 20px;
+}
 
 
 

@@ -15,16 +15,20 @@ function dataService($http, $rootScope) {
 
         // Return true if everything is correct
         validateData: function(data) {
-            if (data == '') {
+            if (data == null) {
                 this.throwError("Query error: did not return anything.");
                 return false;
             } else if (typeof data === 'string') {
                 this.throwError("Query error: returned data was not JSON.");
-                console.log("ERROR: "+data);
+                console.log("--- ERROR HERE ---");
+                console.log(data);
+                console.log("--- ERROR HERE ---");
                 return false;
             } else if ('error' in data) {
                 this.throwError("Query error: "+data.error);
-                console.log("ERROR: "+data);
+                console.log("--- ERROR HERE ---");
+                console.log(data);
+                console.log("--- ERROR HERE ---");
                 return false;
             } else {
                 return true;
@@ -43,8 +47,7 @@ function dataService($http, $rootScope) {
                     $rootScope.loading = false;
                 })
                 .error(function(data, header) {
-                    ts.throwError("API returned error: "+header);
-                    console.log(data);
+                    ts.validateData(data);
                     $rootScope.loading = false;
                 });
 
@@ -55,7 +58,6 @@ function dataService($http, $rootScope) {
             $rootScope.loading = true;
 
             var ts = this;
-            var valid;
 
             jsonData = {'username': credentials.username, 'password': credentials.password};
 
@@ -67,14 +69,23 @@ function dataService($http, $rootScope) {
                     $rootScope.loading = false;
                 })
                 .error(function(data, header) {
-                    if (data != null && 'error' in data) {
-                        ts.throwError("Error: "+data.error);
-                    } else {
-                        ts.throwError("API returned error: "+header);
-                        console.log("---- API ERROR ----");
-                        console.log(data);
-                        console.log("---- API ERROR ----");
-                    }
+                    ts.validateData(data);
+                    $rootScope.loading = false;
+                });
+        },
+
+        tryToLogout: function() {
+            $rootScope.loading = true;
+
+            var ts = this;
+
+            return $http.get('../auth/logout.php')
+                .success(function(data) {
+                    if (ts.validateData(data)) console.log("Successfully logged out, returning success message.");
+                    $rootScope.loading = false;
+                })
+                .error(function(data, header) {
+                    ts.validateData(data);
                     $rootScope.loading = false;
                 });
         }
