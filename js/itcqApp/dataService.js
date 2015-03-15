@@ -50,8 +50,6 @@ function dataService($http, $rootScope) {
                     ts.validateData(data);
                     $rootScope.loading = false;
                 });
-
-
         },
 
         tryToLogin: function(credentials) {

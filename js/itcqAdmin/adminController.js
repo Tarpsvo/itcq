@@ -2,35 +2,34 @@ angular
     .module('itcqAdmin')
     .controller('AdminController', AdminController)
 
-function AdminController($scope, $location, $http, errorService) {
+function AdminController($scope, $location, $http, dataService, $window, $rootScope) {
     // Check if the queried menu link is the active page
     $scope.menuIsActive = function(path) {
         if ($location.path() == path) return true; else return false;
     };
 
-    $scope.getData = function (type) {
-        console.log('itcqAdminCtrl: getData started with request: '+type);
+    $scope.fillData = function (type) {
+        console.log('AdminController: fillData started with type: '+type);
 
-        $http.get('../api/api.php?request='+type)
-            .success(function(data) {
-                if (errorService.validateData(data)) {
-                    console.log("itcqAdminCtrl: getData was successful. Assigning to scope.");
-                    switch (type) {
-                        case 'ql':
-                            $scope.questionList = data;
-                        break;
-                        case 'cat':
-                            $scope.categoriesList = data;
-                        break;
-                        case 'stats':
-                            $scope.stats = data;
-                        break;
-                    }
+        dataService.getData(type).then(function(response) {
+            if (response.data != null) {
+                switch (type) {
+                    case 'ql':
+                        $scope.questionList = response.data;
+                    break;
+                    case 'cat':
+                        $scope.categoriesList = response.data;
+                    break;
+                    case 'stats':
+                        $scope.stats = response.data;
+                    break;
                 }
-            })
-            .error(function(data, header) {
-                errorService.throwError("API returned error: "+header);
-                console.log(data);
-            });
+            }
+            $rootScope.dataFilled = true;
+        });
     };
-};
+
+    $scope.openQuestionEditView = function(id) {
+        $window.location = '#/questions/'+id;
+    };
+}

@@ -35,8 +35,9 @@ if (!isset($_SESSION['username'])) {
         <!--  itcqAdmin and its controllers  -->
         <script src="../js/itcqAdmin.js"></script>
         <script src="../js/itcqAdmin/adminController.js"></script>
-        <script src="../js/itcqAdmin/errorService.js"></script>
+        <script src="../js/itcqAdmin/dataService.js"></script>
         <script src="../js/itcqAdmin/questionFormController.js"></script>
+        <script src="../js/itcqAdmin/questionEditController.js"></script>
     </body>
 </html>
 <?php } ?>

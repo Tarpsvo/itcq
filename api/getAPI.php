@@ -1,9 +1,9 @@
 <?php
 class getAPI {
-    public $sqlList = [
-        'ql'    =>  "SELECT id, category, question, answer, enabled FROM questions",
-        'cat'   =>  "SELECT name FROM categories",
-        'qst'   =>  "SELECT id, question, answer, wrong1, wrong2, wrong3 FROM questions"
+    private $sqlList = [
+        'ql'        =>  "SELECT id, category, question, answer, enabled FROM questions",
+        'cat'       =>  "SELECT name FROM categories",
+        'qst'       =>  "SELECT id, question, answer, wrong1, wrong2, wrong3 FROM questions WHERE enabled = 1"
     ];
 
     public function execute($connection, $request) {
@@ -22,7 +22,7 @@ class getAPI {
         }
     }
 
-    public function getStatistics($connection) {
+    private function getStatistics($connection) {
         $numQuestions = "SELECT id FROM questions";
         $stats['numQuestions'] = $connection->query($numQuestions)->rowCount();
         $numCategories = "SELECT id FROM categories";
@@ -35,7 +35,7 @@ class getAPI {
         }
     }
 
-    public function getQuestion($connection) {
+    private function getQuestion($connection) {
         $question = $connection->query($this->sqlList['qst']);
 
         if ($question) {
@@ -47,8 +47,8 @@ class getAPI {
         }
     }
 
-    public function returnAll($connection, $request) {
-        $sql = $this->sqlList[$request];
+    private function returnAll($connection, $request) {
+        if (!isset($id)) $sql = $this->sqlList[$request];
         $queryResult = $connection->query($sql);
 
         if ($queryResult) {
@@ -60,7 +60,7 @@ class getAPI {
         }
     }
 
-    public function returnError($error) {
+    private function returnError($error) {
         http_response_code(400);
         die(json_encode(array('error' => $error)));
     }

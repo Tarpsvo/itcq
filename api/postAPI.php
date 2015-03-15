@@ -3,62 +3,162 @@ class postAPI {
     public function execute($connection, $request) {
         // Get whole POST input: http://php.net/manual/en/wrappers.php.php#wrappers.php.input
         $data = json_decode(file_get_contents("php://input"));
-        if (!isset($data)) returnError("POST data not received.");
+        if (!isset($data)) $this->returnError("POST data not received.");
 
         switch ($request) {
             case 'add':
                 $this->addNewQuestion($connection, $data);
-                $this->returnSuccess("Query executed.");
             break;
+
             case 'newcat':
                 $this->addNewCategory($connection, $data);
-                $this->returnSuccess("Category added.");
             break;
+
+            case 'qstData':
+                $this->getQuestionData($connection, $data);
+            break;
+
+            case 'editQst':
+                $this->editQuestion($connection, $data);
+            break;
+
+            case 'delQst':
+                $this->deleteQuestion($connection, $data);
+            break;
+
             default:
-                returnError("Request not recognized! How did you get here anyway?");
+                $this->returnError("Request not recognized! How did you get here anyway?");
             break;
         }
     }
 
-    public function addNewQuestion($connection, $data) {
-        $category = (isset($data->category->name) ? $data->category->name : returnError("Category not defined."));
-        $question = (isset($data->question) ? $data->question : returnError("Category not defined."));
-        $answer = (isset($data->answer) ? $data->answer : returnError("Answer not defined."));
-        $wrong1 = (isset($data->wrong1) ? $data->wrong1 : returnError("Wrong answer 1 not defined."));
-        $wrong2 = (isset($data->wrong2) ? $data->wrong2 : returnError("Wrong answer 2 not defined."));
-        $wrong3 = (isset($data->wrong3) ? $data->wrong3 : returnError("Wrong answer 3 not defined."));
-        $enabled = (isset($data->enabled) ? intval($data->enabled) : returnError("Enable status not defined."));
+    private function deleteQuestion($connection, $data) {
+        if (!isset($data->questionId)) $this->returnError("Question ID not set.");
 
-        $unPreparedSQL = "INSERT INTO questions (category, question, answer, wrong1, wrong2, wrong3, enabled) VALUES (:category, :question, :answer, :wrong1, :wrong2, :wrong3, :enabled)";
-
-        $query = $connection->prepare($unPreparedSQL);
-        $query->bindParam(':category', $category);
-        $query->bindParam(':question', $question);
-        $query->bindParam(':answer', $answer);
-        $query->bindParam(':wrong1', $wrong1);
-        $query->bindParam(':wrong2', $wrong2);
-        $query->bindParam(':wrong3', $wrong3);
-        $query->bindParam(':enabled', $enabled);
-
+        $unpreparedSQL = "DELETE FROM questions WHERE id = :id LIMIT 1";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':id', $data->questionId);
         $query->execute();
+
+        $this->returnSuccess("Question successfully deleted.");
     }
 
-    public function addNewCategory($connection, $data) {
+    private function addNewQuestion($connection, $data) {
+        $requiredValues = ['category', 'question', 'answer', 'wrong1', 'wrong2', 'wrong3', 'enabled'];
+        $q = $this->checkData($data, $requiredValues);
+
+        $unpreparedSQL = "INSERT INTO questions (category, question, answer, wrong1, wrong2, wrong3, enabled) VALUES (:category, :question, :answer, :wrong1, :wrong2, :wrong3, :enabled)";
+
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':category', $q['category']);
+        $query->bindParam(':question', $q['question']);
+        $query->bindParam(':answer', $q['answer']);
+        $query->bindParam(':wrong1', $q['wrong1']);
+        $query->bindParam(':wrong2', $q['wrong2']);
+        $query->bindParam(':wrong3', $q['wrong3']);
+        $query->bindParam(':enabled', $q['enabled']);
+        $query->execute();
+
+        $this->returnSuccess("Question added.");
+    }
+
+    private function addNewCategory($connection, $data) {
         $categoryName = (isset($data->category)) ? $data->category : returnError("Category name not defined.");
 
-        $unPreparedSQL = "INSERT INTO categories (name) VALUES (:category)";
+        $unpreparedSQL = "INSERT INTO categories (name) VALUES (:category)";
 
-        $query = $connection->prepare($unPreparedSQL);
+        $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':category', $categoryName);
         $query->execute();
+
+        $this->returnSuccess("Category successfully added.");
     }
 
-    public function returnError($error) {
+
+    private function getQuestionData($connection, $data) {
+        $id = (isset($data->id)) ? $data->id : returnError("ID not defined.");
+        $unpreparedSQL = "SELECT category, question, answer, wrong1, wrong2, wrong3, enabled FROM questions WHERE id = :id";
+
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':id', $id);
+        $query->execute();
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($data[0]);
+    }
+
+    private function editQuestion($connection, $data) {
+        $requiredValues = ['category', 'question', 'answer', 'wrong1', 'wrong2', 'wrong3', 'enabled', 'id'];
+
+        $q = $this->checkData($data, $requiredValues);
+
+        $unpreparedSQL = "UPDATE questions SET category = :category, question = :question, answer = :answer, wrong1 = :wrong1, wrong2 = :wrong2, wrong3 = :wrong3, enabled = :enabled WHERE id = :id LIMIT 1";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':category', $q['category']);
+        $query->bindParam(':question', $q['question']);
+        $query->bindParam(':answer', $q['answer']);
+        $query->bindParam(':wrong1', $q['wrong1']);
+        $query->bindParam(':wrong2', $q['wrong2']);
+        $query->bindParam(':wrong3', $q['wrong3']);
+        $query->bindParam(':enabled', $q['enabled']);
+        $query->bindParam(':id', $q['id']);
+        $query->execute();
+
+        $this->returnSuccess("Question successfully edited.");
+    }
+
+    private function checkData($data, $required) {
+        $integerKeys = ['id', 'enabled'];
+        $maxLengths = [
+                'id' => 10000000, // max value
+                'enabled' => 1, // max value, in this case
+                'category' => 255,
+                'question' => 90,
+                'answer' => 30,
+                'wrong1' => 30,
+                'wrong2' => 30,
+                'wrong3' => 30
+            ];
+        $checkedValues = [];
+
+        foreach ($data as $key => $value) {
+            if (in_array($key, $required)) { // If is in required value list
+                if (!isset($value)) returnError($key." not defined!");
+
+                if (in_array($key, $integerKeys)) { // If integer, run integer checks
+                    if (!is_numeric($value)) returnError($key." is not an integer!");
+                    if ($value > $maxLengths[$key]) returnError($key." is too damn big!");
+                    if ($value < 0) returnError($key. "is less than zero. Unrealistic.");
+                } else {
+                    if (strlen($value) > $maxLengths[$key]) returnError($key." is too damn long! Max length in characters: ".$maxLengths[$key]);
+                }
+
+                $checkedValues[$key] = $value;
+                $required[array_search($key, $required)] = null;
+            }
+        }
+
+        $requiredLeft = sizeof(array_filter($required));
+
+        if ($requiredLeft > 0) {
+            $error = "Following values were not set: ";
+            foreach (array_filter($required) as $key => $value) {
+                $error .= $value;
+                if ($requiredLeft > 1) $error.= ", ";
+                $requiredLeft--;
+            }
+            returnError($error);
+        } else {
+            return $checkedValues;
+        }
+    }
+
+    private function returnError($error) {
         http_response_code(400);
         die(json_encode(array('error' => $error)));
     }
 
-    public function returnSuccess($message) {
+    private function returnSuccess($message) {
         http_response_code(200);
         die(json_encode(array('success' => $message)));
     }

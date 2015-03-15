@@ -10,7 +10,7 @@ function ViewController($scope, $location, dataService, $rootScope) {
     if ($location.path() === '/quiz') {
         console.log("viewCtrl: /quiz path detected, redirecting to main");
         $location.path("/");
-    };
+    }
 
     // For the ng-class feature on the menu items. Returns true if the current path is the same as given on the parameter.
     $scope.menuIsActive = function(path) {
@@ -26,4 +26,4 @@ function ViewController($scope, $location, dataService, $rootScope) {
         if (loading) { $('#loading').show(); console.log("DISPLAYING LOADING SCREEN"); }
         else $('#loading').hide();
     });
-};
+}

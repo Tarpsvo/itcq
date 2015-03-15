@@ -1,5 +1,5 @@
-<div id="question-content-wrapper" data-ng-init="getData('cat')">
-    <form name="question-form" id="question-form" data-ng-controller="QuestionFormController" data-ng-submit="addNewCategory()">
+<div id="question-content-wrapper" data-ng-init="fillData('cat')">
+    <form name="question-form" id="question-form" data-ng-controller="QuestionFormController" data-ng-submit="addNewCategory(q)">
         <div class="question-row">
             <span>Category name</span><input class="text-input" type="text" data-ng-model="q.category" required />
         </div>
@@ -9,7 +9,7 @@
 
 <div id="question-button-wrapper">
     <ul>
-        <li><input type="submit" class="button-yes text-shadow" form="question-form" value="Save" /></li>
+        <li><input type="submit" class="button-yes text-shadow" form="question-form" value="Save" id="save-button" /></li>
         <li><a href="#/questions" class="button-no text-shadow">Cancel</a></li>
     </ul>
 </div>

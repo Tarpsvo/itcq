@@ -23,5 +23,5 @@ function questionFactory(dataService) {
                 return question;
             });
         }
-    };
-};
+    }
+}

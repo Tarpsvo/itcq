@@ -55,4 +55,4 @@ function QuizController($scope, questionFactory, $rootScope) {
             $scope.correctAnswer = correct;
         });
     };
-};
+}

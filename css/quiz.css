@@ -5,9 +5,12 @@
 }
 
 #quiz-content #quiz-question {
-    height: 120px;
+    height: 140px;
+    max-width: 780px;
     line-height: 47px;
     font-size: 30px;
+    margin: 0 !important;
+    word-wrap: break-word;
 }
 
 #quiz-content #quiz-answers {
@@ -18,7 +21,6 @@
 
 #quiz-content .answer {
     position: absolute;
-    display: block;
     height: 130px;
     line-height: 130px;
     width: 50%;

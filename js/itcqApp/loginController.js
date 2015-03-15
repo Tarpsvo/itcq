@@ -11,7 +11,7 @@ function LoginController($scope, dataService, $location, $window) {
                 window.location = '/admin';
             } else {
                 dataService.throwError("Unknown error on login.");
-            }
+            };
         });
     };
 
@@ -19,10 +19,10 @@ function LoginController($scope, dataService, $location, $window) {
         dataService.tryToLogout().then(function (response) {
             if (response.data !== null && 'success' in response.data) {
                 console.log("Log out finished.");
-                $window.location.reload()
+                $window.location.reload();
             } else {
                 dataService.throwError("Unknown error on login.");
-            }
+            };
         });
     };
 };

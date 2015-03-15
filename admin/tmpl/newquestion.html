@@ -1,9 +1,9 @@
-<div id="question-content-wrapper" data-ng-init="getData('cat')">
-    <form name="question-form" id="question-form" data-ng-controller="QuestionFormController" data-ng-submit="addNewQuestion()">
+<div id="question-content-wrapper" data-ng-init="fillData('cat')">
+    <form name="question-form" id="question-form" data-ng-submit="submitForm(q)">
         <div class="question-row">
             <span>Category</span>
 
-            <select data-ng-model="q.category" ng-options="category.name for category in categoriesList track by category.name" required >
+            <select data-ng-model="q.category" data-ng-options="category.name as category.name for category in categoriesList" required>
                 <option></option>
             </select>
         </div>
@@ -29,7 +29,7 @@
         </div>
 
         <div class="question-row">
-            <span>Enabled</span><input type="checkbox" data-ng-model="q.enabled" />
+            <span>Enabled</span><input type="checkbox" data-ng-model="q.enabled" data-ng-change="q.enabled" data-ng-false-value="'0'" data-ng-true-value="'1'" />
         </div>
 
     </form>
@@ -37,7 +37,8 @@
 
 <div id="question-button-wrapper">
     <ul>
-        <li><input type="submit" class="button-yes text-shadow" form="question-form" value="Save" /></li>
-        <li><a href="#/questions" class="button-no text-shadow">Cancel</a></li>
+        <li><input type="submit" class="button-yes text-shadow" form="question-form" value="Save" id="save-button"/></li>
+        <li><a href="#/questions" class="button-no text-shadow" id="delete-button" data-ng-show="editMode" data-ng-click="deleteQuestion()">Delete</a></li>
+        <li><a href="#/questions" class="button-no text-shadow" id="cancel-button">Cancel</a></li>
     </ul>
 </div>
