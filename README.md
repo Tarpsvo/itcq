@@ -8,11 +8,14 @@ Live version is accessible at [tramvai.im/itcq/](http://tramvai.im/itcq/)
 ## Current features ##
 * Basic quiz functionality
 * Quiz and admin view as single page applications
-* Admin view allows adding questions and categories
+* Admin view allows adding and editing questions
+* MySQL database integration (PHP API)
+* Modal windows for error and success messages
 
-## Current goals ##
-* Editing of questions in the admin view
-* Session and global statistics
+## Current TODO list ##
+* Two different user types: admin and regular
+* Account management GUI in admin view
+* Account-specific and global statistics
 * Two languages: Estonian and English
 
 ## Used resources ##

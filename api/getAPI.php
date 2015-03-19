@@ -6,7 +6,7 @@ class getAPI {
         'qst'       =>  "SELECT id, question, answer, wrong1, wrong2, wrong3 FROM questions WHERE enabled = 1"
     ];
 
-    public function execute($connection, $request) {
+    public function execute($connection, $request, $id) {
         switch ($request) {
             case 'stats':
                 $this->getStatistics($connection);
@@ -14,6 +14,10 @@ class getAPI {
 
             case 'qst':
                 $this->getQuestion($connection);
+            break;
+
+            case 'qstData':
+                $this->getQuestionData($connection, $id);
             break;
 
             default:
@@ -58,6 +62,18 @@ class getAPI {
         } else {
             $this->returnError("Query didn't return any results.");
         }
+    }
+
+    private function getQuestionData($connection, $id) {
+        $id = (isset($id)) ? $id : returnError("ID not defined.");
+        $unpreparedSQL = "SELECT category, question, answer, wrong1, wrong2, wrong3, enabled FROM questions WHERE id = :id";
+
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':id', $id);
+        $query->execute();
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($data[0]);
     }
 
     private function returnError($error) {

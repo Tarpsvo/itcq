@@ -1,6 +1,6 @@
 angular
-    .module('itcqAdmin', ['ngRoute'])
-    .config(['$routeProvider',          // Routing: https://docs.angularjs.org/tutorial/step_07
+    .module('itcqAdmin', ['ngRoute', 'dataServiceModule'])
+    .config(['$routeProvider',
         function($routeProvider) {
             $routeProvider
             .when('/questions', {

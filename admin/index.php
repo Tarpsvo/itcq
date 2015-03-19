@@ -17,6 +17,9 @@ if (!isset($_SESSION['username'])) {
     </head>
 
     <body>
+        <div id="alert-messages" class="absolute-center" style="margin-top: 40px;">
+        </div>
+
         <div id="admin-content-wrapper">
             <ul id="menubar-big">
                 <li><a href="#/questions" class="admin-menu-button text-shadow" data-ng-class="{'admin-active': menuIsActive('/questions')}">Questions</a></li>
@@ -34,8 +37,8 @@ if (!isset($_SESSION['username'])) {
 
         <!--  itcqAdmin and its controllers  -->
         <script src="../js/itcqAdmin.js"></script>
+        <script src="../js/itcqCommon/dataService.js"></script>
         <script src="../js/itcqAdmin/adminController.js"></script>
-        <script src="../js/itcqAdmin/dataService.js"></script>
         <script src="../js/itcqAdmin/questionFormController.js"></script>
         <script src="../js/itcqAdmin/questionEditController.js"></script>
     </body>

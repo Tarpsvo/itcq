@@ -1,29 +1,33 @@
-/**
- * ViewController is used to redirect a user and manage some UI features
- */
-
 angular
     .module('itcqApp')
-    .controller('ViewController', ViewController)
+    .controller('ViewController', ViewController);
 
 function ViewController($scope, $location, dataService, $rootScope) {
+    /* Location path redirect: can't start in /quiz view */
     if ($location.path() === '/quiz') {
-        console.log("viewCtrl: /quiz path detected, redirecting to main");
+        console.log("ViewController: /quiz path detected, redirecting to main");
         $location.path("/");
     }
 
-    // For the ng-class feature on the menu items. Returns true if the current path is the same as given on the parameter.
-    $scope.menuIsActive = function(path) {
-        if ($location.path() == path || (path == '/' && $location.path() == '/quiz')) return true; else return false;
-    };
-
-    // Run and get stats
+    /* When page is loaded, populate statistics page */
     dataService.getData('stats').then(function(response) {
         $scope.stats = response.data;
     });
 
+    /* When 'loading' changes to true, display loading screen and when it changes to 'false', hide the loading screen */
     $rootScope.$watch('loading', function(loading) {
-        if (loading) { $('#loading').show(); console.log("DISPLAYING LOADING SCREEN"); }
+        if (loading) $('#loading').show();
         else $('#loading').hide();
     });
+
+    /* If menu is currently open (path), return true */
+    $scope.menuIsActive = function(path) {
+        if ($location.path() == path || (path == '/' && $location.path() == '/quiz')) return true; else return false;
+    };
+
+    /* Closes modal popupwith the specified id */
+    $scope.closeModal = function(id) {
+        console.log("Removed modal popup with ID: "+id);
+        $('.modal-nr-'+id).remove();
+    };
 }

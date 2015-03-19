@@ -74,19 +74,6 @@ class postAPI {
         $this->returnSuccess("Category successfully added.");
     }
 
-
-    private function getQuestionData($connection, $data) {
-        $id = (isset($data->id)) ? $data->id : returnError("ID not defined.");
-        $unpreparedSQL = "SELECT category, question, answer, wrong1, wrong2, wrong3, enabled FROM questions WHERE id = :id";
-
-        $query = $connection->prepare($unpreparedSQL);
-        $query->bindParam(':id', $id);
-        $query->execute();
-        $data = $query->fetchAll(PDO::FETCH_ASSOC);
-
-        echo json_encode($data[0]);
-    }
-
     private function editQuestion($connection, $data) {
         $requiredValues = ['category', 'question', 'answer', 'wrong1', 'wrong2', 'wrong3', 'enabled', 'id'];
 

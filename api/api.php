@@ -3,8 +3,8 @@
 // ql   = question list (get)
 // cat  = categories list (get)
 // add  = add a new question (post)
-$allowedGet = ['ql', 'cat', 'stats', 'qst'];
-$allowedPost = ['add', 'newcat', 'qstData', 'editQst', 'delQst'];
+$allowedGet = ['ql', 'cat', 'stats', 'qst', 'qstData'];
+$allowedPost = ['add', 'newcat', 'editQst', 'delQst'];
 $id = '';
 
 require_once('db_connect.php');

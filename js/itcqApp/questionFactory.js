@@ -1,9 +1,10 @@
 angular
     .module('itcqApp')
-    .factory('questionFactory', questionFactory)
+    .factory('questionFactory', questionFactory);
 
 function questionFactory(dataService) {
     return {
+        /* Loads new question from the API */
         getQuestion: function() {
             return dataService.getData('qst').then(function(response) {
                 qst = response.data;
@@ -18,10 +19,8 @@ function questionFactory(dataService) {
                 };
 
                 console.log("questionFactory: question queried, returned question with ID "+question.id);
-
-                console.log(question);
                 return question;
             });
         }
-    }
+    };
 }

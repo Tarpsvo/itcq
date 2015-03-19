@@ -1,6 +1,6 @@
 angular
-    .module('itcqApp', ['ngRoute'])
-    .config(['$routeProvider',          // Routing: https://docs.angularjs.org/tutorial/step_07
+    .module('itcqApp', ['ngRoute', 'dataServiceModule'])
+    .config(['$routeProvider',
         function($routeProvider) {
             $routeProvider
             .when('/quiz', {
@@ -25,4 +25,4 @@ angular
     ])
     .run(function($rootScope) {
         $rootScope.loading = false;
-    })
+    });

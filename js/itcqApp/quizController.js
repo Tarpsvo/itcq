@@ -1,10 +1,11 @@
 angular
     .module('itcqApp')
-    .controller('QuizController', QuizController)
+    .controller('QuizController', QuizController);
 
-function QuizController($scope, questionFactory, $rootScope) {
+function QuizController($scope, questionFactory) {
+    /* Checks if pressed button has the correct answer ID and adds correctAnswer and wrong to the scope */
     $scope.checkAnswer = function(number) {
-        console.log("quizController: answer pressed, ID: "+number+" | Buttons disabled.");
+        console.log("QuizController: answer pressed, ID: "+number+" | Buttons disabled.");
         $scope.answerChosen = true;
 
         if (number == $scope.correctAnswer) {
@@ -15,12 +16,11 @@ function QuizController($scope, questionFactory, $rootScope) {
         }
     };
 
+    /* Loads the next question and passes it to the scope */
     $scope.nextQuestion = function() {
         $scope.answerChosen = false;
         $scope.correct = null;
         $scope.wrong = null;
-
-        console.log("Trying to load question.");
 
         questionFactory.getQuestion().then(function (response) {
             $scope.question = response.question;

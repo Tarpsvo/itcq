@@ -1,9 +1,9 @@
 angular
     .module('itcqAdmin')
-    .controller('QuestionFormController', QuestionFormController)
+    .controller('QuestionFormController', QuestionFormController);
 
-// Post data: learned from https://docs.angularjs.org/api/ng/directive/input
 function QuestionFormController($scope, $location, $http, dataService) {
+    /* Prepares question data (json) and posts it to API */
     $scope.submitForm = function(q) {
         if (q) {
             console.log("QuestionFormController: Question data received. Passing onto API.");
@@ -14,6 +14,7 @@ function QuestionFormController($scope, $location, $http, dataService) {
         }
     };
 
+    /* Prepares category data (json) and posts it to API */
     $scope.addNewCategory = function(q) {
         if (q) {
             console.log("QuestionFormController: Category data received. Passing onto API.");
@@ -23,4 +24,4 @@ function QuestionFormController($scope, $location, $http, dataService) {
             dataService.throwError("Question data was empty.");
         }
     };
-};
+}
