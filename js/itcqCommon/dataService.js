@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    
+
     angular
         .module('dataServiceModule', [])
         .service('dataService', dataService);
@@ -98,7 +98,7 @@
                         validateData(data);
                     });
 
-            }
+        }
 
         /* Prepares data and posts it to auth API */
         function tryToLogin(credentials) {

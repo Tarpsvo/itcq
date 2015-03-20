@@ -27,7 +27,7 @@
 
             questionFactory.getQuestion().then(function (response) {
                 $scope.question = response.question;
-                correct = Math.floor((Math.random() * 4) + 1); // Random between 1-4
+                var correct = Math.floor((Math.random() * 4) + 1); // Random between 1-4
 
                 switch (correct) {
                     case 1:

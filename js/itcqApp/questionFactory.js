@@ -10,9 +10,9 @@
             /* Loads new question from the API */
             getQuestion: function() {
                 return dataService.getData('qst').then(function(response) {
-                    qst = response.data;
+                    var qst = response.data;
 
-                    question = {
+                    var question = {
                         'id': qst.id,
                         'question': qst.question,
                         'answer': qst.answer,

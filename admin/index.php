@@ -2,6 +2,7 @@
 session_start();
 if (!isset($_SESSION['username'])) {
     header('Location: /');
+    die("Not logged in: redirecting to main page."); 
 } else {
 ?>
 

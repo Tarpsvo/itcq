@@ -27,7 +27,7 @@ class postAPI {
             break;
 
             default:
-                $this->returnError("Request not recognized! How did you get here anyway?");
+                $this->returnError("Request not recognized.");
             break;
         }
     }
