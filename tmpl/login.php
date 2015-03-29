@@ -4,7 +4,7 @@ if (isset($_SESSION['username'])) {
 ?>
 <div id="login-form-wrapper" data-ng-controller="LoginController">
     <div id="login-data-box" class="absolute-center">
-        <h1>You're logged in as: tarvo</h1>
+        <h1>You're logged in as: <?php echo $_SESSION['username']; ?></h1>
         <a href="/admin" class="button-yes text-shadow">Go to admin web</a>
         <a class="button-no text-shadow" data-ng-click="logout()">Log out</a>
     </div>

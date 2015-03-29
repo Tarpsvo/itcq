@@ -12,21 +12,36 @@ if (isset($_SESSION['username'])) {
     else if (!isset($data->password)) returnError("Password was not set.");
 
     $connection = connectToDatabase();
-    $username = $data->username;
-    $password = $data->password;
 
-    $unpreparedSQL = "SELECT 1 FROM users WHERE username = :username AND password = :password";
-    $query = $connection->prepare($unpreparedSQL);
-    $query->bindParam(':username', $username);
-    $query->bindParam(':password', $password);
-
+    $saltSQL = "SELECT password, salt, account FROM users WHERE username = :username";
+    $query = $connection->prepare($saltSQL);
+    $query->bindParam(':username', $data->username);
     $query->execute();
+    $results = $query->fetchAll(PDO::FETCH_OBJ);
 
     if ($query->rowCount() === 1) {
-        $_SESSION['username'] = $username;
-        die(json_encode(['success' => 'Gratz on login']));
+        $salt = $results[0]->salt;
+        $password = $results[0]->password;
+        $account = $results[0]->account;
+
+        $inputPasswordHash = $data->password.$salt;
+        for ($i = 0; $i < 50; $i++) $inputPasswordHash = hash('sha256', $inputPasswordHash);
+
+        if ($inputPasswordHash == $password) {
+            $_SESSION['username'] = $data->username;
+            $_SESSION['account'] = $account;
+
+            $unpreparedIPSQL = "UPDATE users SET lastip=:lastip WHERE username = :username";
+            $query = $connection->prepare($unpreparedIPSQL);
+            $query->bindParam(':lastip', $_SERVER['REMOTE_ADDR']);
+            $query->bindParam(':username', $data->username);
+            $query->execute();
+
+            die(json_encode(['success' => 'Logged in successfully.']));
+        } else {
+            returnError("Wrong username or password.");
+        }
     } else {
         returnError("Wrong username or password.");
     }
 }
-?>

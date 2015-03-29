@@ -27,6 +27,9 @@
                         case 'stats':
                             $scope.stats = response.data;
                         break;
+                        case 'al':
+                            $scope.accounts = response.data;
+                        break;
                     }
                 }
                 $rootScope.dataFilled = true;

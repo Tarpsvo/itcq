@@ -23,6 +23,13 @@
                 .when('/addcategory', {
                     templateUrl: 'tmpl/newcategory.html'
                 })
+                .when('/newaccount', {
+                    templateUrl: 'tmpl/newaccount.html',
+                    controller: 'AccountFormController'
+                })
+                .when('/accounts', {
+                    templateUrl: 'tmpl/accounts.html'
+                })
                 .otherwise({
                     redirectTo: '/questions'
                 });

@@ -90,7 +90,7 @@
                     .success(function(data) {
                         console.log("dataService: question data successfully passed to API.");
                         if (validateData(data)) {
-                            $location.path("#/questions");
+                            window.history.back();
                             throwSuccess(data.success);
                         }
                     })

@@ -1,29 +1,38 @@
 <?php
 class postAPI {
     public function execute($connection, $request) {
-        // Get whole POST input: http://php.net/manual/en/wrappers.php.php#wrappers.php.input
         $data = json_decode(file_get_contents("php://input"));
         if (!isset($data)) $this->returnError("POST data not received.");
 
         switch ($request) {
             case 'add':
+                $this->restrictFunctionToAccount("admin");
                 $this->addNewQuestion($connection, $data);
             break;
 
             case 'newcat':
+                $this->restrictFunctionToAccount("admin");
                 $this->addNewCategory($connection, $data);
             break;
 
             case 'qstData':
+                $this->restrictFunctionToAccount("admin");
                 $this->getQuestionData($connection, $data);
             break;
 
             case 'editQst':
+                $this->restrictFunctionToAccount("admin");
                 $this->editQuestion($connection, $data);
             break;
 
             case 'delQst':
+                $this->restrictFunctionToAccount("admin");
                 $this->deleteQuestion($connection, $data);
+            break;
+
+            case 'newacc':
+                $this->restrictFunctionToAccount("admin");
+                $this->createNewAccount($connection, $data);
             break;
 
             default:
@@ -140,6 +149,33 @@ class postAPI {
         }
     }
 
+    private function createNewAccount($connection, $data) {
+        if (!isset($data->username)) returnError("Username was not set!");
+        if (!isset($data->password)) returnError("Password was not set!");
+        if (!isset($data->account)) returnError("Account type was not set!");
+
+        $usernameSQL = "SELECT * FROM users WHERE username = :username";
+        $query = $connection->prepare($usernameSQL);
+        $query->bindParam(':username', $data->username);
+        $query->execute();
+        if ($query->rowCount() > 0) returnError("Username already taken.");
+
+        $salt = uniqid(mt_rand());
+        $hashedPassword = $data->password.$salt;
+        for ($i = 0; $i < 50; $i++) $hashedPassword = hash('sha256', $hashedPassword);
+
+        $unpreparedSQL = "INSERT INTO users (username, password, account, salt) VALUES (:username, :password, :account, :salt)";
+
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':username', $data->username);
+        $query->bindParam(':password', $hashedPassword);
+        $query->bindParam(':account', strtolower($data->account));
+        $query->bindParam(':salt', $salt);
+        $query->execute();
+
+        $this->returnSuccess("Account successfully created.");
+    }
+
     private function returnError($error) {
         http_response_code(400);
         die(json_encode(array('error' => $error)));
@@ -148,5 +184,10 @@ class postAPI {
     private function returnSuccess($message) {
         http_response_code(200);
         die(json_encode(array('success' => $message)));
+    }
+
+    private function restrictFunctionToAccount($account) {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        if ($_SESSION['account'] !== $account) returnError("Not authorized to query this.");
     }
 }

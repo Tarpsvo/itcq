@@ -1,9 +1,10 @@
 <?php
 class getAPI {
     private $sqlList = [
-        'ql'        =>  "SELECT id, category, question, answer, enabled FROM questions",
-        'cat'       =>  "SELECT name FROM categories",
-        'qst'       =>  "SELECT id, question, answer, wrong1, wrong2, wrong3 FROM questions WHERE enabled = 1"
+        'ql'    =>  "SELECT id, category, question, answer, enabled FROM questions",
+        'cat'   =>  "SELECT name FROM categories",
+        'qst'   =>  "SELECT id, question, answer, wrong1, wrong2, wrong3 FROM questions WHERE enabled = 1",
+        'al'    =>  "SELECT id, username, account, lastip FROM users"
     ];
 
     public function execute($connection, $request, $id) {
@@ -52,11 +53,12 @@ class getAPI {
     }
 
     private function returnAll($connection, $request) {
-        if (!isset($id)) $sql = $this->sqlList[$request];
+        if ($request == 'al') $this->restrictFunctionToAccount("admin");
+
+        $sql = $this->sqlList[$request];
         $queryResult = $connection->query($sql);
 
         if ($queryResult) {
-            // Fetch assoc: returns data indexed by column names
             $queryResult = $queryResult->fetchAll(PDO::FETCH_ASSOC);
             echo json_encode($queryResult);
         } else {
@@ -65,9 +67,10 @@ class getAPI {
     }
 
     private function getQuestionData($connection, $id) {
-        $id = (isset($id)) ? $id : returnError("ID not defined.");
-        $unpreparedSQL = "SELECT category, question, answer, wrong1, wrong2, wrong3, enabled FROM questions WHERE id = :id";
+        $this->restrictFunctionToAccount("admin");
+        if (!isset($id)) returnError("ID not defined.");
 
+        $unpreparedSQL = "SELECT category, question, answer, wrong1, wrong2, wrong3, enabled FROM questions WHERE id = :id";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':id', $id);
         $query->execute();
@@ -80,5 +83,9 @@ class getAPI {
         http_response_code(400);
         die(json_encode(array('error' => $error)));
     }
+
+    private function restrictFunctionToAccount($account) {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        if ($_SESSION['account'] !== $account) returnError("Not authorized to query this.");
+    }
 }
-?>

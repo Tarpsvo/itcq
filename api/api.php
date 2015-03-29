@@ -1,8 +1,8 @@
 <?php
 require_once('db_connect.php');
 
-$allowedGet = ['ql', 'cat', 'stats', 'qst', 'qstData'];
-$allowedPost = ['add', 'newcat', 'editQst', 'delQst'];
+$allowedGet = ['ql', 'cat', 'stats', 'qst', 'qstData', 'al'];
+$allowedPost = ['add', 'newcat', 'editQst', 'delQst', 'newacc'];
 $id = $api = $request = '';
 
 switch ($_SERVER['REQUEST_METHOD']) {
