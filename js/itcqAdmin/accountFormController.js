@@ -11,7 +11,7 @@
             if (acc) {
                 console.log("AccountFormController: Question data received. Passing onto API.");
                 var jsonData = {'request': 'newacc', 'username': acc.username, 'password': acc.password, 'account': acc.account};
-                dataService.postData('newacc', jsonData);
+                dataService.postData('newAccount', jsonData, true, true);
             } else {
                 dataService.throwError("Question data was empty.");
             }

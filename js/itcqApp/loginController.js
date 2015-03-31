@@ -29,8 +29,6 @@
                     $templateCache.remove($route.current.templateUrl);
                     $route.reload();
                     $rootScope.loading = false;
-
-                    console.log("Log out finished.");
                 } else {
                     dataService.throwError("Unknown error on logout.");
                 }

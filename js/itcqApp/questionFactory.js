@@ -9,7 +9,7 @@
         return {
             /* Loads new question from the API */
             getQuestion: function() {
-                return dataService.getData('qst').then(function(response) {
+                return dataService.getData('question').then(function(response) {
                     var qst = response.data;
 
                     var question = {

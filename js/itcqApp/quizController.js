@@ -5,18 +5,23 @@
         .module('itcqApp')
         .controller('QuizController', QuizController);
 
-    function QuizController($scope, questionFactory) {
+    function QuizController($scope, questionFactory, dataService) {
         /* Checks if pressed button has the correct answer ID and adds correctAnswer and wrong to the scope */
-        $scope.checkAnswer = function(number) {
-            console.log("QuizController: answer pressed, ID: "+number+" | Buttons disabled.");
+        $scope.checkAnswer = function(number, answer) {
+            var answer_correct = Boolean(number == $scope.correctAnswer);
+            console.log(answer_correct);
             $scope.answerChosen = true;
 
-            if (number == $scope.correctAnswer) {
+            if (answer_correct) {
                 $scope.correct = $scope.correctAnswer;
             } else {
                 $scope.wrong = number;
                 $scope.correct = $scope.correctAnswer;
             }
+
+            /* Write the answer to the statistics table */
+            var jsonData = {'questionId': $scope.questionId, 'answer_correct': answer_correct, 'answer': answer};
+            dataService.postData('logQuestionAnswer', jsonData, false);
         };
 
         /* Loads the next question and passes it to the scope */
@@ -27,6 +32,7 @@
 
             questionFactory.getQuestion().then(function (response) {
                 $scope.question = response.question;
+                $scope.questionId = response.id;
                 var correct = Math.floor((Math.random() * 4) + 1); // Random between 1-4
 
                 switch (correct) {

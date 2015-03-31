@@ -10,9 +10,8 @@
         $scope.fillQuestionData = function (id) {
             console.log('QuestionEditController: fillQuestionData started for id: '+id);
 
-            dataService.getData('qstData', id).then(function(response) {
+            dataService.getData('questionData', id).then(function(response) {
                 if (response.data !== null) $scope.q = response.data;
-                console.log("QuestionEditController: Question data added to scope.");
             });
         };
 
@@ -20,9 +19,8 @@
         $scope.submitForm = function(q) {
             if (q) {
                 var jsonData = {'question': q.question, 'category': q.category, 'answer': q.answer, 'wrong1': q.wrong1,'wrong2': q.wrong2,'wrong3': q.wrong3, 'enabled': q.enabled, 'id': $routeParams.questionId};
-                console.log("Posting to API with type: editQst");
                 console.log(jsonData);
-                dataService.postData('editQst', jsonData);
+                dataService.postData('editQuestion', jsonData, true, true);
             } else {
                 dataService.throwError("Question data was empty.");
             }
@@ -32,7 +30,7 @@
         $scope.deleteQuestion = function() {
             if ($routeParams.questionId !== null) {
                 var jsonData = {'questionId': $routeParams.questionId};
-                dataService.postData('delQst', jsonData);
+                dataService.postData('deleteQuestion', jsonData, true, true);
             } else {
                 dataService.throwError("Question ID not set!");
             }

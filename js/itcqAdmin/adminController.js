@@ -18,16 +18,16 @@
             dataService.getData(type).then(function(response) {
                 if (response.data !== null) {
                     switch (type) {
-                        case 'ql':
+                        case 'questionList':
                             $scope.questionList = response.data;
                         break;
-                        case 'cat':
+                        case 'categoryList':
                             $scope.categoriesList = response.data;
                         break;
                         case 'stats':
                             $scope.stats = response.data;
                         break;
-                        case 'al':
+                        case 'accountList':
                             $scope.accounts = response.data;
                         break;
                     }

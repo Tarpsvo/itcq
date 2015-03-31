@@ -5,34 +5,33 @@ class postAPI {
         if (!isset($data)) $this->returnError("POST data not received.");
 
         switch ($request) {
-            case 'add':
+            case 'addNewQuestion':
                 $this->restrictFunctionToAccount("admin");
                 $this->addNewQuestion($connection, $data);
             break;
 
-            case 'newcat':
+            case 'newCategory':
                 $this->restrictFunctionToAccount("admin");
                 $this->addNewCategory($connection, $data);
             break;
 
-            case 'qstData':
-                $this->restrictFunctionToAccount("admin");
-                $this->getQuestionData($connection, $data);
-            break;
-
-            case 'editQst':
+            case 'editQuestion':
                 $this->restrictFunctionToAccount("admin");
                 $this->editQuestion($connection, $data);
             break;
 
-            case 'delQst':
+            case 'deleteQuestion':
                 $this->restrictFunctionToAccount("admin");
                 $this->deleteQuestion($connection, $data);
             break;
 
-            case 'newacc':
+            case 'newAccount':
                 $this->restrictFunctionToAccount("admin");
                 $this->createNewAccount($connection, $data);
+            break;
+
+            case 'logQuestionAnswer':
+                $this->logQuestionAnswer($connection, $data);
             break;
 
             default:
@@ -174,6 +173,27 @@ class postAPI {
         $query->execute();
 
         $this->returnSuccess("Account successfully created.");
+    }
+
+    private function logQuestionAnswer($connection, $data) {
+        if (!isset($data->questionId)) returnError("Logging error: question ID not set.");
+        else if (!is_numeric($data->questionId)) returnError("Logging error: question ID not a number.");
+        if (!isset($data->answer_correct)) returnError("Logging error: answer correct status not set.");
+        else if (!is_bool($data->answer_correct)) returnError("Logging error: answer status not a boolean.");
+        if (!isset($data->answer)) returnError("Logging error: answer not set.");
+
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        $user = (isset($_SESSION['username'])) ? $_SESSION['username'] : '';
+
+        $unpreparedSQL = "INSERT INTO statistics (question_id, answer_correct, answer, user) VALUES (:questionId, :answerCorrect, :answer, :user)";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':questionId', $data->questionId);
+        $query->bindParam(':answerCorrect', $data->answer_correct);
+        $query->bindParam(':answer', $data->answer);
+        $query->bindParam(':user', $user);
+        $query->execute();
+
+        $this->returnSuccess("Successfully logged.");
     }
 
     private function returnError($error) {

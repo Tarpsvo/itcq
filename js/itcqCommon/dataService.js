@@ -71,7 +71,7 @@
 
             return $http.get('../api/api.php'+request)
                 .success(function(data) {
-                    if (validateData(data)) console.log("dataService: getData was successful. Returning info.");
+                    validateData(data);
                     $rootScope.loading = false;
                 })
                 .error(function(data, header) {
@@ -80,22 +80,25 @@
                 });
         }
 
-        function postData(type, jsonData) {
-                $rootScope.loading = true;
+        function postData(type, jsonData, showLoading, returnBack) {
+                if (showLoading) $rootScope.loading = true;
 
                 console.log('dataService: postData started with type: '+type);
                 console.log(jsonData);
 
                 $http.post('../api/api.php?request='+type, jsonData)
                     .success(function(data) {
-                        console.log("dataService: question data successfully passed to API.");
                         if (validateData(data)) {
-                            window.history.back();
-                            throwSuccess(data.success);
+                            if (returnBack) {
+                                window.history.back();
+                                throwSuccess(data.success);
+                            }
+                            $rootScope.loading = false;
                         }
                     })
                     .error(function(data, header) {
                         validateData(data);
+                        $rootScope.loading = false;
                     });
 
         }
@@ -108,9 +111,7 @@
 
             return $http.post('../auth/login.php', jsonData)
                 .success(function(data) {
-                    if (validateData(data)) {
-                        console.log("dataService: data validation passed, giving data back to LoginController.");
-                    }
+                    validateData(data);
                     $rootScope.loading = false;
                 })
                 .error(function(data, header) {
@@ -125,7 +126,7 @@
 
             return $http.get('../auth/logout.php')
                 .success(function(data) {
-                    if (validateData(data)) console.log("Successfully logged out, returning success message.");
+                    validateData(data);
                     $rootScope.loading = false;
                 })
                 .error(function(data, header) {

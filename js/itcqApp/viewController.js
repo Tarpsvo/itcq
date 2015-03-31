@@ -8,7 +8,7 @@
     function ViewController($scope, $location, dataService, $rootScope) {
         /* Location path redirect: can't start in /quiz view */
         if ($location.path() === '/quiz') {
-            console.log("ViewController: /quiz path detected, redirecting to main");
+            console.log("ViewController: /quiz path detected, redirecting to main.");
             $location.path("/");
         }
 

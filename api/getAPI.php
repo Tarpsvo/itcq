@@ -1,10 +1,10 @@
 <?php
 class getAPI {
     private $sqlList = [
-        'ql'    =>  "SELECT id, category, question, answer, enabled FROM questions",
-        'cat'   =>  "SELECT name FROM categories",
-        'qst'   =>  "SELECT id, question, answer, wrong1, wrong2, wrong3 FROM questions WHERE enabled = 1",
-        'al'    =>  "SELECT id, username, account, lastip FROM users"
+        'questionList'      =>  "SELECT id, category, question, answer, enabled FROM questions",
+        'categoryList'      =>  "SELECT name FROM categories",
+        'question'          =>  "SELECT id, question, answer, wrong1, wrong2, wrong3 FROM questions WHERE enabled = 1",
+        'accountList'       =>  "SELECT id, username, account, lastip FROM users"
     ];
 
     public function execute($connection, $request, $id) {
@@ -13,11 +13,12 @@ class getAPI {
                 $this->getStatistics($connection);
             break;
 
-            case 'qst':
+            case 'question':
                 $this->getQuestion($connection);
             break;
 
-            case 'qstData':
+            case 'questionData':
+                $this->restrictFunctionToAccount("admin");
                 $this->getQuestionData($connection, $id);
             break;
 
@@ -41,7 +42,7 @@ class getAPI {
     }
 
     private function getQuestion($connection) {
-        $question = $connection->query($this->sqlList['qst']);
+        $question = $connection->query($this->sqlList['question']);
 
         if ($question) {
             $question = $question->fetchAll(PDO::FETCH_ASSOC);
@@ -67,7 +68,6 @@ class getAPI {
     }
 
     private function getQuestionData($connection, $id) {
-        $this->restrictFunctionToAccount("admin");
         if (!isset($id)) returnError("ID not defined.");
 
         $unpreparedSQL = "SELECT category, question, answer, wrong1, wrong2, wrong3, enabled FROM questions WHERE id = :id";
