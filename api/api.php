@@ -17,8 +17,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
         if (!isset($_GET['request'])) returnError("Request type not defined."); else $request = $_GET['request'];
         if (!in_array($_GET['request'], $allowedPost)) returnError("Unrecognized request type.");
-        session_start();
-        if (!isset($_SESSION['username'])) returnError("Not authorized for this query.");
         require_once('postAPI.php');
         $api = new postAPI();
     break;

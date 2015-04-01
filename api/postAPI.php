@@ -267,6 +267,6 @@ class postAPI {
 
     private function restrictFunctionToAccount($account) {
         if (session_status() === PHP_SESSION_NONE) session_start();
-        if ($_SESSION['account'] !== $account) returnError("Not authorized to query this.");
+        if (!isset($_SESSION['account']) || $_SESSION['account'] != $account) returnError("Not authorized to query this.");
     }
 }
