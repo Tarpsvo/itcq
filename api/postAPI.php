@@ -34,6 +34,16 @@ class postAPI {
                 $this->logQuestionAnswer($connection, $data);
             break;
 
+            case 'deleteAccount':
+                $this->restrictFunctionToAccount("admin");
+                $this->deleteAccount($connection, $data);
+            break;
+
+            case 'editAccount':
+                $this->restrictFunctionToAccount("admin");
+                $this->editAccount($connection, $data);
+            break;
+
             default:
                 $this->returnError("Request not recognized.");
             break;
@@ -112,7 +122,8 @@ class postAPI {
                 'answer' => 30,
                 'wrong1' => 30,
                 'wrong2' => 30,
-                'wrong3' => 30
+                'wrong3' => 30,
+                'username' => 20
             ];
         $checkedValues = [];
 
@@ -153,7 +164,7 @@ class postAPI {
         if (!isset($data->password)) returnError("Password was not set!");
         if (!isset($data->account)) returnError("Account type was not set!");
 
-        $usernameSQL = "SELECT * FROM users WHERE username = :username";
+        $usernameSQL = "SELECT 1 FROM users WHERE username = :username";
         $query = $connection->prepare($usernameSQL);
         $query->bindParam(':username', $data->username);
         $query->execute();
@@ -164,11 +175,12 @@ class postAPI {
         for ($i = 0; $i < 50; $i++) $hashedPassword = hash('sha256', $hashedPassword);
 
         $unpreparedSQL = "INSERT INTO users (username, password, account, salt) VALUES (:username, :password, :account, :salt)";
+        $account = strtolower($data->account);
 
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':username', $data->username);
         $query->bindParam(':password', $hashedPassword);
-        $query->bindParam(':account', strtolower($data->account));
+        $query->bindParam(':account', $account);
         $query->bindParam(':salt', $salt);
         $query->execute();
 
@@ -194,6 +206,53 @@ class postAPI {
         $query->execute();
 
         $this->returnSuccess("Successfully logged.");
+    }
+
+    private function deleteAccount($connection, $data) {
+        if (!isset($data->accountId)) $this->returnError("Account ID not set.");
+
+        $unpreparedSQL = "DELETE FROM users WHERE id = :id LIMIT 1";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':id', $data->accountId);
+        $query->execute();
+
+        $this->returnSuccess("Account successfully deleted.");
+    }
+
+    private function editAccount($connection, $data) {
+        $idUsername = '';
+        $accountTypes = ['admin', 'user'];
+        if (!isset($data->accountId)) returnError("Account ID was not set!");
+        if (!isset($data->username)) returnError("Username not set!");
+        if (!isset($data->account)) returnError("Account type not set!");
+        else if (!in_array($data->account, $accountTypes)) returnError("This account type does not exist!");
+
+        $requiredValues = ['username'];
+        $q = $this->checkData($data, $requiredValues);
+
+        $sameUsernameSQL = "SELECT username FROM users WHERE id = :id";
+        $query = $connection->prepare($sameUsernameSQL);
+        $query->bindParam(':id', $data->accountId);
+        $query->execute();
+        if ($query->rowCount() > 0) $idUsername = $query->fetchAll(PDO::FETCH_ASSOC)[0]['username'];
+
+        /* If the id-s username is not the same as the new one, check if it already exists in other rows */
+        if ($idUsername != $data->username) {
+            $usernameSQL = "SELECT 1 FROM users WHERE username = :username";
+            $query = $connection->prepare($usernameSQL);
+            $query->bindParam(':username', $q['username']);
+            $query->execute();
+            if ($query->rowCount() > 0) returnError("Username already taken.");
+        }
+
+        $unpreparedSQL = "UPDATE users SET username = :username, account = :account WHERE id = :id LIMIT 1";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':id', $data->accountId);
+        $query->bindParam(':username', $q['username']);
+        $query->bindParam(':account', $data->account);
+        $query->execute();
+
+        $this->returnSuccess("Account successfully edited.");
     }
 
     private function returnError($error) {

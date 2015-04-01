@@ -6,7 +6,7 @@
             <th>Account type</th>
             <th>Last connected IP</th>
         </tr>
-        <tr data-ng-repeat="account in accounts">
+        <tr data-ng-repeat="account in accounts" data-ng-click="openEditView(account.id)">
             <td>{{account.id}}</td>
             <td>{{account.username}}</td>
             <td>{{account.account}}</td>

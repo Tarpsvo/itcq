@@ -22,6 +22,11 @@ class getAPI {
                 $this->getQuestionData($connection, $id);
             break;
 
+            case 'accountData':
+                $this->restrictFunctionToAccount("admin");
+                $this->getAccountData($connection, $id);
+            break;
+
             default:
                 $this->returnAll($connection, $request);
             break;
@@ -76,7 +81,27 @@ class getAPI {
         $query->execute();
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        echo json_encode($data[0]);
+        if ($query->rowCount() == 0) {
+            $this->returnError("Question not found!");
+        } else {
+            echo json_encode($data[0]);
+        }
+    }
+
+    private function getAccountData($connection, $id) {
+        if (!isset($id)) returnError("ID not defined.");
+
+        $unpreparedSQL = "SELECT username, account, created, modified, lastip FROM users WHERE id = :id";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':id', $id);
+        $query->execute();
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($query->rowCount() == 0) {
+            $this->returnError("Account not found!");
+        } else {
+            echo json_encode($data[0]);
+        }
     }
 
     private function returnError($error) {

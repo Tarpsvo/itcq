@@ -120,6 +120,8 @@ body {
     font-weight: 600;
 }
 
+.question-row p {color: #212121;}
+
 .question-row select {width: 310px; height: 25px;}
 
 .question-row .text-input {
@@ -151,7 +153,7 @@ body {
     border: none;
 }
 
-#question-button-wrapper li input:hover {cursor:pointer;}
+#question-button-wrapper li input:hover, #question-button-wrapper a:hover {cursor:pointer;}
 
 #save-button {
     float: left;

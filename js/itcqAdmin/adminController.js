@@ -37,13 +37,14 @@
         };
 
         /* Opens question edit mode */
-        $scope.openQuestionEditView = function(id) {
-            $window.location = '#/questions/'+id;
+        $scope.openEditView = function(id) {
+            console.log($location.path());
+            if ($location.path() == '/questions') $window.location = '#/questions/'+id;
+            if ($location.path() == '/accounts') $window.location = '#/accounts/'+id;
         };
 
         /* Closes modal popup */
         $scope.closeModal = function(id) {
-            console.log("Tried to remove modal with ID: "+id);
             $('.modal-nr-'+id).remove();
         };
     }

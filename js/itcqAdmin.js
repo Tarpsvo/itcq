@@ -30,6 +30,10 @@
                 .when('/accounts', {
                     templateUrl: 'tmpl/accounts.html'
                 })
+                .when('/accounts/:accountId', {
+                    templateUrl: 'tmpl/showaccount.html',
+                    controller: 'AccountEditController'
+                })
                 .otherwise({
                     redirectTo: '/questions'
                 });

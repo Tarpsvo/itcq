@@ -30,7 +30,6 @@
 
         /* Closes modal popupwith the specified id */
         $scope.closeModal = function(id) {
-            console.log("Removed modal popup with ID: "+id);
             $('.modal-nr-'+id).remove();
         };
     }

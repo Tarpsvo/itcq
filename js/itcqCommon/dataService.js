@@ -100,7 +100,6 @@
                         validateData(data);
                         $rootScope.loading = false;
                     });
-
         }
 
         /* Prepares data and posts it to auth API */

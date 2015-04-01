@@ -28,11 +28,15 @@
 
         /* Sends delete request to API */
         $scope.deleteQuestion = function() {
-            if ($routeParams.questionId !== null) {
-                var jsonData = {'questionId': $routeParams.questionId};
-                dataService.postData('deleteQuestion', jsonData, true, true);
-            } else {
-                dataService.throwError("Question ID not set!");
+            var confirm = window.confirm("Are you sure you want to delete this question?");
+
+            if (confirm) {
+                if ($routeParams.questionId !== null) {
+                    var jsonData = {'questionId': $routeParams.questionId};
+                    dataService.postData('deleteQuestion', jsonData, true, true);
+                } else {
+                    dataService.throwError("Question ID not set!");
+                }
             }
         };
 

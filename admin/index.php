@@ -45,6 +45,7 @@ if (!isset($_SESSION['username'])) {
         <script src="../js/itcqAdmin/questionFormController.js"></script>
         <script src="../js/itcqAdmin/questionEditController.js"></script>
         <script src="../js/itcqAdmin/accountFormController.js"></script>
+        <script src="../js/itcqAdmin/accountEditController.js"></script>
     </body>
 </html>
 <?php } ?>
