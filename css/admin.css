@@ -168,3 +168,14 @@ body {
 #cancel-button {
     overflow: hidden;
 }
+
+#question-image {
+    height: 140px;
+    width: 540px;
+
+    background-size: cover;
+    background-position: center center;
+
+    margin: 0px auto;
+    border-radius: 15px 15px 0 0;
+}

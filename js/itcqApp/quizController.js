@@ -9,6 +9,7 @@
         var correctAnswers = 0;
         var requiredAnswers = 0;
         $scope.quizLevel = (!$cookieStore.get('quizLevel')) ? 1 : $cookieStore.get('quizLevel');
+        $scope.imageId = 'default';
 
         /* Checks if pressed button has the correct answer ID and adds correctAnswer and wrong to the scope */
         $scope.checkAnswer = function(number, answer) {
@@ -57,6 +58,9 @@
                 $scope.question = response.question;
                 $scope.questionId = response.id;
                 var correct = Math.floor((Math.random() * 4) + 1); // Random between 1-4
+
+                console.log(response);
+                if (response.has_image == 1) $('#quiz-image').css('background-image', "url('../img/questions/"+response.id+".jpg')");
 
                 switch (correct) {
                     case 1:

@@ -18,7 +18,8 @@
                         'answer': qst.answer,
                         'wrong1': qst.wrong1,
                         'wrong2': qst.wrong2,
-                        'wrong3': qst.wrong3
+                        'wrong3': qst.wrong3,
+                        'has_image': qst.has_image
                     };
 
                     console.log("questionFactory: question queried, returned question with ID "+question.id);

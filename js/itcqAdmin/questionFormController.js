@@ -6,6 +6,8 @@
         .controller('QuestionFormController', QuestionFormController);
 
     function QuestionFormController($scope, $location, $http, dataService) {
+        $scope.imageId = 'default';
+
         /* Prepares question data (json) and posts it to API */
         $scope.submitForm = function(q) {
             if (q) {

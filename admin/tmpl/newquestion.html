@@ -1,3 +1,5 @@
+<div id="question-image" style="background-image: url('../img/questions/{{imageId}}.jpg?{{random}}')"></div>
+
 <div id="question-content-wrapper" data-ng-init="fillData('categoryList')">
     <form name="question-form" id="question-form" data-ng-submit="submitForm(q)">
         <div class="question-row">
@@ -43,10 +45,14 @@
             </select>
         </div>
 
+        <div class="question-row" data-ng-show="editMode">
+            <span>Upload file</span>
+            <input type="file" onchange="angular.element(this).scope().uploadFile(this.files)">
+        </div>
+
         <div class="question-row">
             <span>Enabled</span><input type="checkbox" data-ng-model="q.enabled" data-ng-change="q.enabled" data-ng-false-value="'0'" data-ng-true-value="'1'" />
         </div>
-
     </form>
 </div>
 

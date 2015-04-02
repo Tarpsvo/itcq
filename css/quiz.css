@@ -84,7 +84,7 @@
 
 #quiz-image {
     height: 180px;
-    background: url('../img/quiz_default.jpg') no-repeat center center;
+    background-position: center center;
     background-size: cover;
     border-radius: 15px 15px 0px 0px;
 
