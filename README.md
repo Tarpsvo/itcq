@@ -11,12 +11,14 @@ Live version is accessible at [tramvai.im/itcq/](http://tramvai.im/itcq/)
 * Admin view allows adding and editing questions
 * MySQL database integration (PHP API)
 * Modal windows for error and success messages
+* Account management GUI in admin view
+* Two different user types: admin and regular
+* Statistic logging
 
 ## Current TODO list ##
-* Two different user types: admin and regular
-* Account management GUI in admin view
-* Account-specific and global statistics
-* Two languages: Estonian and English
+* Rework user permissions
+* Rework the statistics to display more informative info
+* Question suggestion interface
 
 ## Used resources ##
 * [Background pattern base](http://esindus.itcollege.ee/)

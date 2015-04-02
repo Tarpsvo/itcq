@@ -1,7 +1,7 @@
 <?php
 class getAPI {
     private $sqlList = [
-        'questionList'      =>  "SELECT id, category, question, answer, enabled FROM questions",
+        'questionList'      =>  "SELECT id, category, question, answer, enabled, level FROM questions",
         'categoryList'      =>  "SELECT name FROM categories",
         'question'          =>  "SELECT id, question, answer, wrong1, wrong2, wrong3 FROM questions WHERE enabled = 1",
         'accountList'       =>  "SELECT id, username, account, lastip FROM users"
@@ -75,7 +75,7 @@ class getAPI {
     private function getQuestionData($connection, $id) {
         if (!isset($id)) returnError("ID not defined.");
 
-        $unpreparedSQL = "SELECT category, question, answer, wrong1, wrong2, wrong3, enabled FROM questions WHERE id = :id";
+        $unpreparedSQL = "SELECT category, question, answer, wrong1, wrong2, wrong3, enabled, level FROM questions WHERE id = :id";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':id', $id);
         $query->execute();

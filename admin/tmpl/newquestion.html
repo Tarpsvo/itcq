@@ -2,7 +2,6 @@
     <form name="question-form" id="question-form" data-ng-submit="submitForm(q)">
         <div class="question-row">
             <span>Category</span>
-
             <select data-ng-model="q.category" data-ng-options="category.name as category.name for category in categoriesList" required>
                 <option></option>
             </select>
@@ -26,6 +25,22 @@
 
         <div class="question-row">
             <span>Wrong answer 3</span><input class="text-input" type="text" data-ng-model="q.wrong3" required />
+        </div>
+
+        <div class="question-row">
+            <span>Level</span>
+            <select data-ng-model="q.level" required>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+            </select>
         </div>
 
         <div class="question-row">

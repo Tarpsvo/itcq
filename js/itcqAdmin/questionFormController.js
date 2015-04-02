@@ -9,7 +9,7 @@
         /* Prepares question data (json) and posts it to API */
         $scope.submitForm = function(q) {
             if (q) {
-                var jsonData = {'question': q.question, 'category': q.category, 'answer': q.answer, 'wrong1': q.wrong1,'wrong2': q.wrong2,'wrong3': q.wrong3, 'enabled': q.enabled};
+                var jsonData = {'question': q.question, 'category': q.category, 'answer': q.answer, 'wrong1': q.wrong1,'wrong2': q.wrong2,'wrong3': q.wrong3, 'enabled': q.enabled, 'level': q.level};
                 dataService.postData('addNewQuestion', jsonData, true, true);
             } else {
                 dataService.throwError("Question data was empty.");

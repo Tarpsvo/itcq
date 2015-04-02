@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('itcqApp', ['ngRoute', 'dataServiceModule'])
+        .module('itcqApp', ['ngRoute', 'dataServiceModule', 'ngCookies'])
         .config(['$routeProvider',
             function($routeProvider) {
                 $routeProvider

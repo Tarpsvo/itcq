@@ -62,10 +62,10 @@ class postAPI {
     }
 
     private function addNewQuestion($connection, $data) {
-        $requiredValues = ['category', 'question', 'answer', 'wrong1', 'wrong2', 'wrong3', 'enabled'];
+        $requiredValues = ['category', 'question', 'answer', 'wrong1', 'wrong2', 'wrong3', 'enabled', 'level'];
         $q = $this->checkData($data, $requiredValues);
 
-        $unpreparedSQL = "INSERT INTO questions (category, question, answer, wrong1, wrong2, wrong3, enabled) VALUES (:category, :question, :answer, :wrong1, :wrong2, :wrong3, :enabled)";
+        $unpreparedSQL = "INSERT INTO questions (category, question, answer, wrong1, wrong2, wrong3, enabled, level) VALUES (:category, :question, :answer, :wrong1, :wrong2, :wrong3, :enabled, :level)";
 
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':category', $q['category']);
@@ -75,6 +75,7 @@ class postAPI {
         $query->bindParam(':wrong2', $q['wrong2']);
         $query->bindParam(':wrong3', $q['wrong3']);
         $query->bindParam(':enabled', $q['enabled']);
+        $query->bindParam(':level', $q['level']);
         $query->execute();
 
         $this->returnSuccess("Question added.");
@@ -93,11 +94,11 @@ class postAPI {
     }
 
     private function editQuestion($connection, $data) {
-        $requiredValues = ['category', 'question', 'answer', 'wrong1', 'wrong2', 'wrong3', 'enabled', 'id'];
+        $requiredValues = ['category', 'question', 'answer', 'wrong1', 'wrong2', 'wrong3', 'enabled', 'id', 'level'];
 
         $q = $this->checkData($data, $requiredValues);
 
-        $unpreparedSQL = "UPDATE questions SET category = :category, question = :question, answer = :answer, wrong1 = :wrong1, wrong2 = :wrong2, wrong3 = :wrong3, enabled = :enabled WHERE id = :id LIMIT 1";
+        $unpreparedSQL = "UPDATE questions SET category = :category, question = :question, answer = :answer, wrong1 = :wrong1, wrong2 = :wrong2, wrong3 = :wrong3, enabled = :enabled, level = :level WHERE id = :id LIMIT 1";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':category', $q['category']);
         $query->bindParam(':question', $q['question']);
@@ -107,16 +108,18 @@ class postAPI {
         $query->bindParam(':wrong3', $q['wrong3']);
         $query->bindParam(':enabled', $q['enabled']);
         $query->bindParam(':id', $q['id']);
+        $query->bindParam(':level', $q['level']);
         $query->execute();
 
         $this->returnSuccess("Question successfully edited.");
     }
 
     private function checkData($data, $required) {
-        $integerKeys = ['id', 'enabled'];
+        $integerKeys = ['id', 'enabled', 'level'];
         $maxLengths = [
-                'id' => 10000000, // max value
+                'id' => 10000, // max value
                 'enabled' => 1, // max value, in this case
+                'level' => 10,
                 'category' => 255,
                 'question' => 90,
                 'answer' => 30,
