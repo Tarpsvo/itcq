@@ -24,7 +24,7 @@
             var errorDiv =  "<div class='modal-popup box-shadow modal-nr-"+openModals+"'>"+
                                 "<div class='close-modal button-no' data-ng-click='closeModal("+openModals+")'><h1>&#10007;</h1></div>"+
                                 "<h3>"+error+"</h3>"+
-                            "</div>";
+                            "</div><br />";
             $compile($('#alert-messages').append(errorDiv))(scope);
             openModals++;
         }
@@ -35,7 +35,7 @@
             var successDiv =    "<div class='modal-popup box-shadow modal-nr-"+openModals+"'>"+
                                     "<div class='close-modal button-yes' data-ng-click='closeModal("+openModals+")'><h1>&#10003;</h1></div>"+
                                     "<h3>"+message+"</h3>"+
-                                "</div>";
+                                "</div><br />";
             $compile($('#alert-messages').append(successDiv))(scope);
             openModals++;
         }
