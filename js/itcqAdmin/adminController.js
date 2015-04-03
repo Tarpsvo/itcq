@@ -36,7 +36,7 @@
             });
         };
 
-        /* Opens question edit mode */
+        /* Opens question or account edit mode */
         $scope.openEditView = function(id) {
             console.log($location.path());
             if ($location.path() == '/questions') $window.location = '#/questions/'+id;

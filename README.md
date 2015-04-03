@@ -3,7 +3,7 @@
 
 Created as a project for the course Network Applications I.
 
-Live version is accessible at [tramvai.im/itcq/](http://tramvai.im/itcq/)
+Live version is accessible at [itcq.tramvai.im](http://itcq.tramvai.im/)
 
 ## Current features ##
 * Basic quiz functionality
@@ -13,11 +13,11 @@ Live version is accessible at [tramvai.im/itcq/](http://tramvai.im/itcq/)
 * Modal windows for error and success messages
 * Account management GUI in admin view
 * Two different user types: admin and regular
-* Statistic logging
+* Statistic logging and displaying
 
 ## Current TODO list ##
+* Admin: image delete button
 * Rework user permissions
-* Rework the statistics to display more informative info
 * Question suggestion interface
 
 ## Used resources ##
@@ -25,6 +25,7 @@ Live version is accessible at [tramvai.im/itcq/](http://tramvai.im/itcq/)
 * [Square icon for 'next' button](https://www.iconfinder.com/icons/243661/arrow_forward_right_square_icon#size=64)
 * [Notepad icon for TODO image](https://www.iconfinder.com/icons/59320/check_list_todo_list_icon#size=32)
 * [Loading GIF](http://loadingapng.com/)
+* [Default question image](http://en.wikipedia.org/wiki/Estonian_Information_Technology_College)
 
 ## Helpful sources ##
 * [Google Material Design Guidelines](http://www.google.com/design/spec/material-design/introduction.html)

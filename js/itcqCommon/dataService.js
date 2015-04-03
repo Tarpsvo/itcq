@@ -80,6 +80,7 @@
                 });
         }
 
+        /* Posts data to the API using POST method, returnBack: if window.back() should be run after completion */
         function postData(type, jsonData, showLoading, returnBack) {
                 if (showLoading) $rootScope.loading = true;
 

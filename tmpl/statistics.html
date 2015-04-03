@@ -1,4 +1,4 @@
-<div id="stats-content" class="content">
+<div id="stats-content" class="content" data-ng-init="updatePersonalStats()">
     <h1>Statistics</h1>
     <h2>General</h2>
     <table>
@@ -10,13 +10,37 @@
             <td>Number of categories</td>
             <td>{{stats.numCategories}}</td>
         </tr>
+        <tr>
+            <td>Number of questions answered</td>
+            <td>{{stats.numAnswers}}</td>
+        </tr>
+        <tr>
+            <td>Number of answers by non-registered users</td>
+            <td>{{stats.numAnswersByAnon}}</td>
+        </tr>
+        <tr>
+            <td>Correct answer percentage</td>
+            <td>{{stats.correctPercentage}}%</td>
+        </tr>
     </table>
 
     <h2>Personal</h2>
     <table>
         <tr>
+            <td>Your quiz level</td>
+            <td>{{personalStats.level}}</td>
+        </tr>
+        <tr>
             <td>Number of questions answered</td>
-            <td><img src="img/todo.png" alt="TODO" /></td>
+            <td>{{personalStats.numAnswers}}</td>
+        </tr>
+        <tr>
+            <td>Number of correct answers</td>
+            <td>{{personalStats.numCorrectAnswers}}</td>
+        </tr>
+        <tr>
+            <td>Correct answer percentage</td>
+            <td>{{personalStats.correctPercentage}}%</td>
         </tr>
     </table>
 </div>

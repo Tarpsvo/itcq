@@ -34,10 +34,22 @@ class getAPI {
     }
 
     private function getStatistics($connection) {
-        $numQuestions = "SELECT id FROM questions";
+        $numQuestions = "SELECT 1 FROM questions";
         $stats['numQuestions'] = $connection->query($numQuestions)->rowCount();
-        $numCategories = "SELECT id FROM categories";
+
+        $numCategories = "SELECT 1 FROM categories";
         $stats['numCategories'] = $connection->query($numCategories)->rowCount();
+
+        $numAnswers = "SELECT 1 FROM statistics";
+        $stats['numAnswers'] = $connection->query($numAnswers)->rowCount();
+
+        $numCorrectAnswers = "SELECT 1 FROM statistics WHERE answer_correct = 1";
+        $stats['numCorrectAnswers'] = $connection->query($numCorrectAnswers)->rowCount();
+
+        $numAnswersByAnon = "SELECT 1 FROM statistics WHERE user = ''";
+        $stats['numAnswersByAnon'] = $connection->query($numAnswersByAnon)->rowCount();
+
+        $stats['correctPercentage'] = round($stats['numCorrectAnswers'] / $stats['numAnswers'] * 100, 1);
 
         if ($stats) {
             echo json_encode($stats);
