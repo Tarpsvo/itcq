@@ -243,14 +243,19 @@ a:hover {color: #29B6F6;}
 
 
 /* Modal popups */
-#alert-messages {height: 600px; pointer-events: none;}
+#alert-messages {
+    height: 600px;
+    pointer-events: none;
+    text-align: center;
+    }
 
 .modal-popup {
     height: 50px;
-    width: 400px;
+    min-width: 350px;
+    display: inline-block;
 
-    z-index: 2000;
     position: relative;
+    z-index: 2000;
     margin: 20px auto;
 
     background-color: #FFFFFF;
@@ -263,9 +268,9 @@ a:hover {color: #29B6F6;}
     font-size: 13px;
     color: #424242;
 
-    padding-left: 10px;
+    padding: 0 20px 0 20px;
     display: inline-block;
-    margin: 0;
+    margin: 0px auto;
 }
 
 .modal-popup .close-modal {
