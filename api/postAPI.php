@@ -1,65 +1,275 @@
 <?php
 class postAPI {
     public function execute($connection, $request) {
-        // Get whole POST input: http://php.net/manual/en/wrappers.php.php#wrappers.php.input
         $data = json_decode(file_get_contents("php://input"));
-        if (!isset($data)) returnError("POST data not received.");
+        if (!isset($data)) $this->returnError("POST data not received.");
 
         switch ($request) {
-            case 'add':
+            case 'addNewQuestion':
+                $this->restrictFunctionToAccount("admin");
                 $this->addNewQuestion($connection, $data);
-                $this->returnSuccess("Query executed.");
             break;
-            case 'newcat':
+
+            case 'newCategory':
+                $this->restrictFunctionToAccount("admin");
                 $this->addNewCategory($connection, $data);
-                $this->returnSuccess("Category added.");
             break;
+
+            case 'editQuestion':
+                $this->restrictFunctionToAccount("admin");
+                $this->editQuestion($connection, $data);
+            break;
+
+            case 'deleteQuestion':
+                $this->restrictFunctionToAccount("admin");
+                $this->deleteQuestion($connection, $data);
+            break;
+
+            case 'newAccount':
+                $this->restrictFunctionToAccount("admin");
+                $this->createNewAccount($connection, $data);
+            break;
+
+            case 'logQuestionAnswer':
+                $this->logQuestionAnswer($connection, $data);
+            break;
+
+            case 'deleteAccount':
+                $this->restrictFunctionToAccount("admin");
+                $this->deleteAccount($connection, $data);
+            break;
+
+            case 'editAccount':
+                $this->restrictFunctionToAccount("admin");
+                $this->editAccount($connection, $data);
+            break;
+
             default:
-                returnError("Request not recognized! How did you get here anyway?");
+                $this->returnError("Request not recognized.");
             break;
         }
     }
 
-    public function addNewQuestion($connection, $data) {
-        $category = (isset($data->category->name) ? $data->category->name : returnError("Category not defined."));
-        $question = (isset($data->question) ? $data->question : returnError("Category not defined."));
-        $answer = (isset($data->answer) ? $data->answer : returnError("Answer not defined."));
-        $wrong1 = (isset($data->wrong1) ? $data->wrong1 : returnError("Wrong answer 1 not defined."));
-        $wrong2 = (isset($data->wrong2) ? $data->wrong2 : returnError("Wrong answer 2 not defined."));
-        $wrong3 = (isset($data->wrong3) ? $data->wrong3 : returnError("Wrong answer 3 not defined."));
-        $enabled = (isset($data->enabled) ? intval($data->enabled) : returnError("Enable status not defined."));
+    private function deleteQuestion($connection, $data) {
+        if (!isset($data->questionId)) $this->returnError("Question ID not set.");
 
-        $unPreparedSQL = "INSERT INTO questions (category, question, answer, wrong1, wrong2, wrong3, enabled) VALUES (:category, :question, :answer, :wrong1, :wrong2, :wrong3, :enabled)";
-
-        $query = $connection->prepare($unPreparedSQL);
-        $query->bindParam(':category', $category);
-        $query->bindParam(':question', $question);
-        $query->bindParam(':answer', $answer);
-        $query->bindParam(':wrong1', $wrong1);
-        $query->bindParam(':wrong2', $wrong2);
-        $query->bindParam(':wrong3', $wrong3);
-        $query->bindParam(':enabled', $enabled);
-
+        $unpreparedSQL = "DELETE FROM questions WHERE id = :id LIMIT 1";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':id', $data->questionId);
         $query->execute();
+
+        $this->returnSuccess("Question successfully deleted.");
     }
 
-    public function addNewCategory($connection, $data) {
+    private function addNewQuestion($connection, $data) {
+        $requiredValues = ['category', 'question', 'answer', 'wrong1', 'wrong2', 'wrong3', 'enabled', 'level'];
+        $q = $this->checkData($data, $requiredValues);
+
+        $unpreparedSQL = "INSERT INTO questions (category, question, answer, wrong1, wrong2, wrong3, enabled, level) VALUES (:category, :question, :answer, :wrong1, :wrong2, :wrong3, :enabled, :level)";
+
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':category', $q['category']);
+        $query->bindParam(':question', $q['question']);
+        $query->bindParam(':answer', $q['answer']);
+        $query->bindParam(':wrong1', $q['wrong1']);
+        $query->bindParam(':wrong2', $q['wrong2']);
+        $query->bindParam(':wrong3', $q['wrong3']);
+        $query->bindParam(':enabled', $q['enabled']);
+        $query->bindParam(':level', $q['level']);
+        $query->execute();
+
+        $this->returnSuccess("Question added.");
+    }
+
+    private function addNewCategory($connection, $data) {
         $categoryName = (isset($data->category)) ? $data->category : returnError("Category name not defined.");
 
-        $unPreparedSQL = "INSERT INTO categories (name) VALUES (:category)";
+        $unpreparedSQL = "INSERT INTO categories (name) VALUES (:category)";
 
-        $query = $connection->prepare($unPreparedSQL);
+        $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':category', $categoryName);
         $query->execute();
+
+        $this->returnSuccess("Category successfully added.");
     }
 
-    public function returnError($error) {
+    private function editQuestion($connection, $data) {
+        $requiredValues = ['category', 'question', 'answer', 'wrong1', 'wrong2', 'wrong3', 'enabled', 'id', 'level'];
+
+        $q = $this->checkData($data, $requiredValues);
+
+        $unpreparedSQL = "UPDATE questions SET category = :category, question = :question, answer = :answer, wrong1 = :wrong1, wrong2 = :wrong2, wrong3 = :wrong3, enabled = :enabled, level = :level WHERE id = :id LIMIT 1";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':category', $q['category']);
+        $query->bindParam(':question', $q['question']);
+        $query->bindParam(':answer', $q['answer']);
+        $query->bindParam(':wrong1', $q['wrong1']);
+        $query->bindParam(':wrong2', $q['wrong2']);
+        $query->bindParam(':wrong3', $q['wrong3']);
+        $query->bindParam(':enabled', $q['enabled']);
+        $query->bindParam(':id', $q['id']);
+        $query->bindParam(':level', $q['level']);
+        $query->execute();
+
+        $this->returnSuccess("Question successfully edited.");
+    }
+
+    private function checkData($data, $required) {
+        $integerKeys = ['id', 'enabled', 'level'];
+        $maxLengths = [
+                'id' => 10000, // max value
+                'enabled' => 1, // max value, in this case
+                'level' => 10,
+                'category' => 255,
+                'question' => 90,
+                'answer' => 30,
+                'wrong1' => 30,
+                'wrong2' => 30,
+                'wrong3' => 30,
+                'username' => 20
+            ];
+        $checkedValues = [];
+
+        foreach ($data as $key => $value) {
+            if (in_array($key, $required)) { // If is in required value list
+                if (!isset($value)) returnError($key." not defined!");
+
+                if (in_array($key, $integerKeys)) { // If integer, run integer checks
+                    if (!is_numeric($value)) returnError($key." is not an integer!");
+                    if ($value > $maxLengths[$key]) returnError($key." is too damn big!");
+                    if ($value < 0) returnError($key. "is less than zero. Unrealistic.");
+                } else {
+                    if (strlen($value) > $maxLengths[$key]) returnError($key." is too damn long! Max length in characters: ".$maxLengths[$key]);
+                }
+
+                $checkedValues[$key] = $value;
+                $required[array_search($key, $required)] = null;
+            }
+        }
+
+        $requiredLeft = sizeof(array_filter($required));
+
+        if ($requiredLeft > 0) {
+            $error = "Following values were not set: ";
+            foreach (array_filter($required) as $key => $value) {
+                $error .= $value;
+                if ($requiredLeft > 1) $error.= ", ";
+                $requiredLeft--;
+            }
+            returnError($error);
+        } else {
+            return $checkedValues;
+        }
+    }
+
+    private function createNewAccount($connection, $data) {
+        if (!isset($data->username)) returnError("Username was not set!");
+        if (!isset($data->password)) returnError("Password was not set!");
+        if (!isset($data->account)) returnError("Account type was not set!");
+
+        $usernameSQL = "SELECT 1 FROM users WHERE username = :username";
+        $query = $connection->prepare($usernameSQL);
+        $query->bindParam(':username', $data->username);
+        $query->execute();
+        if ($query->rowCount() > 0) returnError("Username already taken.");
+
+        $salt = uniqid(mt_rand());
+        $hashedPassword = $data->password.$salt;
+        for ($i = 0; $i < 50; $i++) $hashedPassword = hash('sha256', $hashedPassword);
+
+        $unpreparedSQL = "INSERT INTO users (username, password, account, salt) VALUES (:username, :password, :account, :salt)";
+        $account = strtolower($data->account);
+
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':username', $data->username);
+        $query->bindParam(':password', $hashedPassword);
+        $query->bindParam(':account', $account);
+        $query->bindParam(':salt', $salt);
+        $query->execute();
+
+        $this->returnSuccess("Account successfully created.");
+    }
+
+    private function logQuestionAnswer($connection, $data) {
+        if (!isset($data->questionId)) returnError("Logging error: question ID not set.");
+        else if (!is_numeric($data->questionId)) returnError("Logging error: question ID not a number.");
+        if (!isset($data->answer_correct)) returnError("Logging error: answer correct status not set.");
+        else if (!is_bool($data->answer_correct)) returnError("Logging error: answer status not a boolean.");
+        if (!isset($data->answer)) returnError("Logging error: answer not set.");
+
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        $user = (isset($_SESSION['username'])) ? $_SESSION['username'] : '';
+
+        $unpreparedSQL = "INSERT INTO statistics (question_id, answer_correct, answer, user) VALUES (:questionId, :answerCorrect, :answer, :user)";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':questionId', $data->questionId);
+        $query->bindParam(':answerCorrect', $data->answer_correct);
+        $query->bindParam(':answer', $data->answer);
+        $query->bindParam(':user', $user);
+        $query->execute();
+
+        $this->returnSuccess("Successfully logged.");
+    }
+
+    private function deleteAccount($connection, $data) {
+        if (!isset($data->accountId)) $this->returnError("Account ID not set.");
+
+        $unpreparedSQL = "DELETE FROM users WHERE id = :id LIMIT 1";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':id', $data->accountId);
+        $query->execute();
+
+        $this->returnSuccess("Account successfully deleted.");
+    }
+
+    private function editAccount($connection, $data) {
+        $idUsername = '';
+        $accountTypes = ['admin', 'user'];
+        if (!isset($data->accountId)) returnError("Account ID was not set!");
+        if (!isset($data->username)) returnError("Username not set!");
+        if (!isset($data->account)) returnError("Account type not set!");
+        else if (!in_array($data->account, $accountTypes)) returnError("This account type does not exist!");
+
+        $requiredValues = ['username'];
+        $q = $this->checkData($data, $requiredValues);
+
+        $sameUsernameSQL = "SELECT username FROM users WHERE id = :id";
+        $query = $connection->prepare($sameUsernameSQL);
+        $query->bindParam(':id', $data->accountId);
+        $query->execute();
+        if ($query->rowCount() > 0) $idUsername = $query->fetchAll(PDO::FETCH_ASSOC)[0]['username'];
+
+        /* If the id-s username is not the same as the new one, check if it already exists in other rows */
+        if ($idUsername != $data->username) {
+            $usernameSQL = "SELECT 1 FROM users WHERE username = :username";
+            $query = $connection->prepare($usernameSQL);
+            $query->bindParam(':username', $q['username']);
+            $query->execute();
+            if ($query->rowCount() > 0) returnError("Username already taken.");
+        }
+
+        $unpreparedSQL = "UPDATE users SET username = :username, account = :account WHERE id = :id LIMIT 1";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':id', $data->accountId);
+        $query->bindParam(':username', $q['username']);
+        $query->bindParam(':account', $data->account);
+        $query->execute();
+
+        $this->returnSuccess("Account successfully edited.");
+    }
+
+    private function returnError($error) {
         http_response_code(400);
         die(json_encode(array('error' => $error)));
     }
 
-    public function returnSuccess($message) {
+    private function returnSuccess($message) {
         http_response_code(200);
         die(json_encode(array('success' => $message)));
+    }
+
+    private function restrictFunctionToAccount($account) {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        if (!isset($_SESSION['account']) || $_SESSION['account'] != $account) returnError("Not authorized to query this.");
     }
 }

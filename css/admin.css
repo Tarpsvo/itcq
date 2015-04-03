@@ -120,6 +120,8 @@ body {
     font-weight: 600;
 }
 
+.question-row p {color: #212121;}
+
 .question-row select {width: 310px; height: 25px;}
 
 .question-row .text-input {
@@ -138,9 +140,7 @@ body {
 
 #question-button-wrapper li a, #question-button-wrapper li input {
     display: block;
-    float: left;
     height: 40px;
-    width: 270px;
 
     text-align: center;
     line-height: 40px;
@@ -153,4 +153,29 @@ body {
     border: none;
 }
 
-#question-button-wrapper li input:hover {cursor:pointer;}
+#question-button-wrapper li input:hover, #question-button-wrapper a:hover {cursor:pointer;}
+
+#save-button {
+    float: left;
+    width: 270px;
+}
+
+#delete-button {
+    float: left;
+    width: 100px;
+}
+
+#cancel-button {
+    overflow: hidden;
+}
+
+#question-image {
+    height: 140px;
+    width: 540px;
+
+    background-size: cover;
+    background-position: center center;
+
+    margin: 0px auto;
+    border-radius: 15px 15px 0 0;
+}

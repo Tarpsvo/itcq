@@ -1,11 +1,16 @@
 <div id="quiz-content" data-ng-controller="QuizController" data-ng-init="nextQuestion()">
-    <h3 id="quiz-question">{{question}}</h3>
+    <div id="quiz-image" style="background-image: url('/img/questions/default.jpg');">
+        <h3 class="text-shadow">level {{quizLevel}}</h3>
+        <div id="progress-indicator" style="width: {{progressWidth}}%;"></div>
+    </div>
+
+    <h3 id="quiz-question"><span>{{question}}</span></h3>
 
     <div id="quiz-answers">
-        <a id="quiz-answer-1" class="answer text-shadow" data-ng-click="answerChosen || checkAnswer('1')" data-ng-class="{disabled: answerChosen, correct: correct == 1, wrong: wrong == 1}">{{answer1}}</a>
-        <a id="quiz-answer-2" class="answer text-shadow" data-ng-click="answerChosen || checkAnswer('2')" data-ng-class="{disabled: answerChosen, correct: correct == 2, wrong: wrong == 2}">{{answer2}}</a>
-        <a id="quiz-answer-3" class="answer text-shadow" data-ng-click="answerChosen || checkAnswer('3')" data-ng-class="{disabled: answerChosen, correct: correct == 3, wrong: wrong == 3}">{{answer3}}</a>
-        <a id="quiz-answer-4" class="answer text-shadow" data-ng-click="answerChosen || checkAnswer('4')" data-ng-class="{disabled: answerChosen, correct: correct == 4, wrong: wrong == 4}">{{answer4}}</a>
+        <a id="quiz-answer-1" class="answer box-shadow" data-ng-click="answerChosen || checkAnswer('1', answer1)" data-ng-class="{disabled: answerChosen, correct: correct == 1, wrong: wrong == 1}">{{answer1}}</a>
+        <a id="quiz-answer-2" class="answer box-shadow" data-ng-click="answerChosen || checkAnswer('2', answer2)" data-ng-class="{disabled: answerChosen, correct: correct == 2, wrong: wrong == 2}">{{answer2}}</a>
+        <a id="quiz-answer-3" class="answer box-shadow" data-ng-click="answerChosen || checkAnswer('3', answer3)" data-ng-class="{disabled: answerChosen, correct: correct == 3, wrong: wrong == 3}">{{answer3}}</a>
+        <a id="quiz-answer-4" class="answer box-shadow" data-ng-click="answerChosen || checkAnswer('4', answer4)" data-ng-class="{disabled: answerChosen, correct: correct == 4, wrong: wrong == 4}">{{answer4}}</a>
         <a id="next-arrow" class="absolute-center text-shadow box-shadow" data-ng-click="nextQuestion()" data-ng-hide="!answerChosen">NEXT<span></span></a>
     </div>
 </div>

@@ -1,19 +1,30 @@
 <?php
 class getAPI {
-    public $sqlList = [
-        'ql'    =>  "SELECT id, category, question, answer, enabled FROM questions",
-        'cat'   =>  "SELECT name FROM categories",
-        'qst'   =>  "SELECT id, question, answer, wrong1, wrong2, wrong3 FROM questions"
+    private $sqlList = [
+        'questionList'      =>  "SELECT id, category, question, answer, enabled, level FROM questions",
+        'categoryList'      =>  "SELECT name FROM categories",
+        'question'          =>  "SELECT id, question, answer, wrong1, wrong2, wrong3, has_image FROM questions WHERE enabled = 1",
+        'accountList'       =>  "SELECT id, username, account, lastip FROM users"
     ];
 
-    public function execute($connection, $request) {
+    public function execute($connection, $request, $id) {
         switch ($request) {
             case 'stats':
                 $this->getStatistics($connection);
             break;
 
-            case 'qst':
+            case 'question':
                 $this->getQuestion($connection);
+            break;
+
+            case 'questionData':
+                $this->restrictFunctionToAccount("admin");
+                $this->getQuestionData($connection, $id);
+            break;
+
+            case 'accountData':
+                $this->restrictFunctionToAccount("admin");
+                $this->getAccountData($connection, $id);
             break;
 
             default:
@@ -22,11 +33,23 @@ class getAPI {
         }
     }
 
-    public function getStatistics($connection) {
-        $numQuestions = "SELECT id FROM questions";
+    private function getStatistics($connection) {
+        $numQuestions = "SELECT 1 FROM questions";
         $stats['numQuestions'] = $connection->query($numQuestions)->rowCount();
-        $numCategories = "SELECT id FROM categories";
+
+        $numCategories = "SELECT 1 FROM categories";
         $stats['numCategories'] = $connection->query($numCategories)->rowCount();
+
+        $numAnswers = "SELECT 1 FROM statistics";
+        $stats['numAnswers'] = $connection->query($numAnswers)->rowCount();
+
+        $numCorrectAnswers = "SELECT 1 FROM statistics WHERE answer_correct = 1";
+        $stats['numCorrectAnswers'] = $connection->query($numCorrectAnswers)->rowCount();
+
+        $numAnswersByAnon = "SELECT 1 FROM statistics WHERE user = ''";
+        $stats['numAnswersByAnon'] = $connection->query($numAnswersByAnon)->rowCount();
+
+        $stats['correctPercentage'] = round($stats['numCorrectAnswers'] / $stats['numAnswers'] * 100, 1);
 
         if ($stats) {
             echo json_encode($stats);
@@ -35,8 +58,8 @@ class getAPI {
         }
     }
 
-    public function getQuestion($connection) {
-        $question = $connection->query($this->sqlList['qst']);
+    private function getQuestion($connection) {
+        $question = $connection->query($this->sqlList['question']);
 
         if ($question) {
             $question = $question->fetchAll(PDO::FETCH_ASSOC);
@@ -47,12 +70,13 @@ class getAPI {
         }
     }
 
-    public function returnAll($connection, $request) {
+    private function returnAll($connection, $request) {
+        if ($request == 'al') $this->restrictFunctionToAccount("admin");
+
         $sql = $this->sqlList[$request];
         $queryResult = $connection->query($sql);
 
         if ($queryResult) {
-            // Fetch assoc: returns data indexed by column names
             $queryResult = $queryResult->fetchAll(PDO::FETCH_ASSOC);
             echo json_encode($queryResult);
         } else {
@@ -60,9 +84,45 @@ class getAPI {
         }
     }
 
-    public function returnError($error) {
+    private function getQuestionData($connection, $id) {
+        if (!isset($id)) returnError("ID not defined.");
+
+        $unpreparedSQL = "SELECT category, question, answer, wrong1, wrong2, wrong3, enabled, level, has_image FROM questions WHERE id = :id";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':id', $id);
+        $query->execute();
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($query->rowCount() == 0) {
+            $this->returnError("Question not found!");
+        } else {
+            echo json_encode($data[0]);
+        }
+    }
+
+    private function getAccountData($connection, $id) {
+        if (!isset($id)) returnError("ID not defined.");
+
+        $unpreparedSQL = "SELECT username, account, created, modified, lastip FROM users WHERE id = :id";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':id', $id);
+        $query->execute();
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($query->rowCount() == 0) {
+            $this->returnError("Account not found!");
+        } else {
+            echo json_encode($data[0]);
+        }
+    }
+
+    private function returnError($error) {
         http_response_code(400);
         die(json_encode(array('error' => $error)));
     }
+
+    private function restrictFunctionToAccount($account) {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        if (!isset($_SESSION['account']) || $_SESSION['account'] != $account) returnError("Not authorized to query this.");
+    }
 }
-?>

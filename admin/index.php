@@ -2,7 +2,9 @@
 session_start();
 if (!isset($_SESSION['username'])) {
     header('Location: /');
+    die("Not logged in: redirecting to main page.");
 } else {
+    $admin = ($_SESSION['account'] == 'admin') ? true : false;
 ?>
 
 <!DOCTYPE html>
@@ -17,10 +19,14 @@ if (!isset($_SESSION['username'])) {
     </head>
 
     <body>
+        <div id="alert-messages" class="absolute-center" style="margin-top: 40px;">
+        </div>
+
         <div id="admin-content-wrapper">
             <ul id="menubar-big">
                 <li><a href="#/questions" class="admin-menu-button text-shadow" data-ng-class="{'admin-active': menuIsActive('/questions')}">Questions</a></li>
                 <li><a href="#/statistics" class="admin-menu-button text-shadow" data-ng-class="{'admin-active': menuIsActive('/statistics')}">Statistics</a></li>
+                <?php if ($admin) { ?><li><a href="#/accounts" class="admin-menu-button text-shadow" data-ng-class="{'admin-active': menuIsActive('/accounts')}">Accounts</a></li><?php } ?>
 
                 <li><a href="/" id="back" class="admin-menu-button text-shadow">Back to ITCQ</a></li>
             </ul>
@@ -34,9 +40,12 @@ if (!isset($_SESSION['username'])) {
 
         <!--  itcqAdmin and its controllers  -->
         <script src="../js/itcqAdmin.js"></script>
+        <script src="../js/itcqCommon/dataService.js"></script>
         <script src="../js/itcqAdmin/adminController.js"></script>
-        <script src="../js/itcqAdmin/errorService.js"></script>
         <script src="../js/itcqAdmin/questionFormController.js"></script>
+        <script src="../js/itcqAdmin/questionEditController.js"></script>
+        <script src="../js/itcqAdmin/accountFormController.js"></script>
+        <script src="../js/itcqAdmin/accountEditController.js"></script>
     </body>
 </html>
 <?php } ?>

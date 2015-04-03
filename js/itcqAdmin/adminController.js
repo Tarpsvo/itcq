@@ -1,36 +1,51 @@
-angular
-    .module('itcqAdmin')
-    .controller('AdminController', AdminController)
+(function() {
+    'use strict';
 
-function AdminController($scope, $location, $http, errorService) {
-    // Check if the queried menu link is the active page
-    $scope.menuIsActive = function(path) {
-        if ($location.path() == path) return true; else return false;
-    };
+    angular
+        .module('itcqAdmin')
+        .controller('AdminController', AdminController);
 
-    $scope.getData = function (type) {
-        console.log('itcqAdminCtrl: getData started with request: '+type);
+    function AdminController($scope, $location, $http, dataService, $window, $rootScope) {
+        /* If menu is currently open (path), return true */
+        $scope.menuIsActive = function(path) {
+            if ($location.path() == path) return true; else return false;
+        };
 
-        $http.get('../api/api.php?request='+type)
-            .success(function(data) {
-                if (errorService.validateData(data)) {
-                    console.log("itcqAdminCtrl: getData was successful. Assigning to scope.");
+        /* For question edit mode: queries data from API and sets question data to scope */
+        $scope.fillData = function (type) {
+            console.log('AdminController: fillData started with type: '+type);
+
+            dataService.getData(type).then(function(response) {
+                if (response.data !== null) {
                     switch (type) {
-                        case 'ql':
-                            $scope.questionList = data;
+                        case 'questionList':
+                            $scope.questionList = response.data;
                         break;
-                        case 'cat':
-                            $scope.categoriesList = data;
+                        case 'categoryList':
+                            $scope.categoriesList = response.data;
                         break;
                         case 'stats':
-                            $scope.stats = data;
+                            $scope.stats = response.data;
+                        break;
+                        case 'accountList':
+                            $scope.accounts = response.data;
                         break;
                     }
                 }
-            })
-            .error(function(data, header) {
-                errorService.throwError("API returned error: "+header);
-                console.log(data);
+                $rootScope.dataFilled = true;
             });
-    };
-};
+        };
+
+        /* Opens question or account edit mode */
+        $scope.openEditView = function(id) {
+            console.log($location.path());
+            if ($location.path() == '/questions') $window.location = '#/questions/'+id;
+            if ($location.path() == '/accounts') $window.location = '#/accounts/'+id;
+        };
+
+        /* Closes modal popup */
+        $scope.closeModal = function(id) {
+            $('.modal-nr-'+id).remove();
+        };
+    }
+})();

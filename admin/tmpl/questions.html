@@ -1,17 +1,19 @@
-<div id="table-content" data-ng-init="getData('ql')">
+<div id="table-content" data-ng-init="fillData('questionList')">
     <table>
         <tr>
             <th>ID</th>
             <th>Category</th>
             <th>Question</th>
             <th>Answer</th>
+            <th>Level</th>
             <th>Enabled</th>
         </tr>
-        <tr data-ng-repeat="question in questionList">
+        <tr data-ng-repeat="question in questionList" data-ng-click="openEditView(question.id)">
             <td>{{question.id}}</td>
             <td>{{question.category}}</td>
             <td>{{question.question}}</td>
             <td>{{question.answer}}</td>
+            <td>{{question.level}}</td>
             <td>{{question.enabled}}</td>
         </tr>
     </table>

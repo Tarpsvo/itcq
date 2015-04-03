@@ -1,51 +1,32 @@
-angular
-    .module('itcqAdmin')
-    .controller('QuestionFormController', QuestionFormController)
+(function() {
+    'use strict';
 
-// Post data: learned from https://docs.angularjs.org/api/ng/directive/input
-function QuestionFormController($scope, $location, $http, errorService) {
-    $scope.addNewQuestion = function() {
-        if ($scope.q) {
-            console.log("itcqAdmin: questionFormCtrl: Question data received. Passing onto API.");
-            $scope.passDataToAPI($scope.q, 'add');
-        } else {
-            errorService.throwError("Question data was empty.");
-        }
-    };
+    angular
+        .module('itcqAdmin')
+        .controller('QuestionFormController', QuestionFormController);
 
-    $scope.addNewCategory = function() {
-        if ($scope.q) {
-            console.log("itcqAdmin: questionFormCtrl: Category data received. Passing onto API.");
-            $scope.passDataToAPI($scope.q, 'newcat');
-        } else {
-            errorService.throwError("Question data was empty.");
-        }
-    };
+    function QuestionFormController($scope, $location, $http, dataService) {
+        $scope.imageId = 'default';
 
-    $scope.passDataToAPI = function(info, type) {
-        var jsonData;
-        switch (type) {
-            case 'add':
-                jsonData = {'request': 'add', 'question': info.question, 'category': info.category, 'answer': info.answer, 'wrong1': info.wrong1,'wrong2': info.wrong2,'wrong3': info.wrong3, 'enabled': info.enabled};
-            break;
-            case 'newcat':
-                jsonData = {'category': info.category};
-            break;
-        }
+        /* Prepares question data (json) and posts it to API */
+        $scope.submitForm = function(q) {
+            if (q) {
+                var jsonData = {'question': q.question, 'category': q.category, 'answer': q.answer, 'wrong1': q.wrong1,'wrong2': q.wrong2,'wrong3': q.wrong3, 'enabled': q.enabled, 'level': q.level};
+                dataService.postData('addNewQuestion', jsonData, true, true);
+            } else {
+                dataService.throwError("Question data was empty.");
+            }
+        };
 
-        console.log("Posting to API with type: "+type);
-        console.log(jsonData);
-        $http.post('../api/api.php?request='+type, jsonData)
-            .success(function(data) {
-                console.log("itcqAdmin: questionFieldCtrl: question data successfully passed to API.");
-                if (errorService.validateData(data)) {
-                    errorService.throwSuccess("Successfully posted data.");
-                    $location.path("#/questions");
-                }
-            })
-            .error(function(data, header) {
-                errorService.throwError("API returned error: "+header);
-                console.log(data);
-            });
+        /* Prepares category data (json) and posts it to API */
+        $scope.addNewCategory = function(q) {
+            if (q) {
+                console.log("QuestionFormController: Category data received. Passing onto API.");
+                var jsonData = {'category': q.category};
+                dataService.postData('newCategory', jsonData, true, true);
+            } else {
+                dataService.throwError("Question data was empty.");
+            }
+        };
     }
-};
+})();

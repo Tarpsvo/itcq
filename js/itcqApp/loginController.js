@@ -1,28 +1,38 @@
-angular
-    .module('itcqApp')
-    .controller('LoginController', LoginController)
+(function() {
+    'use strict';
 
-function LoginController($scope, dataService, $location, $window) {
-    $scope.login = function() {
-        console.log("LoginController: trying your login data.");
+    angular
+        .module('itcqApp')
+        .controller('LoginController', LoginController);
 
-        dataService.tryToLogin($scope.credentials).then(function (response) {
-            if (response.data !== null && 'success' in response.data) {
-                window.location = '/admin';
-            } else {
-                dataService.throwError("Unknown error on login.");
-            }
-        });
-    };
+    function LoginController($scope, dataService, $route, $templateCache, $rootScope, $window) {
+        /* Passes the credentials to the API and checks the reply */
+        $scope.login = function() {
+            console.log("LoginController: trying your login data.");
 
-    $scope.logout = function() {
-        dataService.tryToLogout().then(function (response) {
-            if (response.data !== null && 'success' in response.data) {
-                console.log("Log out finished.");
-                $window.location.reload()
-            } else {
-                dataService.throwError("Unknown error on login.");
-            }
-        });
-    };
-};
+            dataService.tryToLogin($scope.credentials).then(function (response) {
+                if (response.data !== null && 'success' in response.data) {
+                    $window.location = '/admin';
+                } else {
+                    dataService.throwError("Unknown error on login.");
+                }
+            });
+        };
+
+        /* Runs logout script */
+        $scope.logout = function() {
+            dataService.tryToLogout().then(function (response) {
+                if (response.data !== null && 'success' in response.data) {
+                    dataService.throwSuccess("Successfully logged out.");
+
+                    $rootScope.loading = true;
+                    $templateCache.remove($route.current.templateUrl);
+                    $route.reload();
+                    $rootScope.loading = false;
+                } else {
+                    dataService.throwError("Unknown error on logout.");
+                }
+            });
+        };
+    }
+})();

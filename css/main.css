@@ -1,6 +1,5 @@
 /* Import fonts from Google */
-/* TODO!!! Remove unused fonts!!! */
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600|Oswald:400,700,300);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600|Oswald:400,700);
 
 /* Main content holders */
 body {
@@ -177,7 +176,7 @@ a:hover {color: #29B6F6;}
 
 #stats-content table td {
     padding: 5px;
-    width: 200px;
+    width: 240px;
 
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
@@ -196,7 +195,7 @@ a:hover {color: #29B6F6;}
 
 #login-form-wrapper form {
     width: 250px;
-    margin: 0px auto;
+    margin: 0 auto;
     margin-top: 100px;
 }
 
@@ -237,6 +236,46 @@ a:hover {color: #29B6F6;}
 
 #login-data-box h1 {
     margin-bottom: 20px;
+}
+
+
+
+
+
+/* Modal popups */
+#alert-messages {height: 600px; pointer-events: none;}
+
+.modal-popup {
+    height: 50px;
+    width: 400px;
+
+    z-index: 2000;
+    position: relative;
+    margin: 20px auto;
+
+    background-color: #FFFFFF;
+    line-height: 50px;
+
+    pointer-events: auto;
+}
+
+.modal-popup h3 {
+    font-size: 13px;
+    color: #424242;
+
+    padding-left: 10px;
+    display: inline-block;
+    margin: 0;
+}
+
+.modal-popup .close-modal {
+    height: 50px;
+    width: 50px;
+    display: inline-block;
+    float: left;
+
+    text-align: center;
+    cursor: pointer;
 }
 
 

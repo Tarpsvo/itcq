@@ -1,22 +1,45 @@
-angular
-    .module('itcqAdmin', ['ngRoute'])
-    .config(['$routeProvider',          // Routing: https://docs.angularjs.org/tutorial/step_07
-        function($routeProvider) {
-            $routeProvider
-            .when('/questions', {
-                templateUrl: 'tmpl/questions.html'
-            })
-            .when('/statistics', {
-                templateUrl: 'tmpl/statistics.html'
-            })
-            .when('/addquestion', {
-                templateUrl: 'tmpl/newquestion.html'
-            })
-            .when('/addcategory', {
-                templateUrl: 'tmpl/newcategory.html'
-            })
-            .otherwise({
-                redirectTo: '/questions'
-            });
-        }
-    ]);
+(function() {
+    'use strict';
+
+    angular
+        .module('itcqAdmin', ['ngRoute', 'dataServiceModule'])
+        .config(['$routeProvider',
+            function($routeProvider) {
+                $routeProvider
+                .when('/questions', {
+                    templateUrl: 'tmpl/questions.html',
+                })
+                .when('/questions/:questionId', {
+                    templateUrl: 'tmpl/newquestion.html',
+                    controller: 'QuestionEditController'
+                })
+                .when('/statistics', {
+                    templateUrl: 'tmpl/statistics.html'
+                })
+                .when('/addquestion', {
+                    templateUrl: 'tmpl/newquestion.html',
+                    controller: 'QuestionFormController'
+                })
+                .when('/addcategory', {
+                    templateUrl: 'tmpl/newcategory.html'
+                })
+                .when('/newaccount', {
+                    templateUrl: 'tmpl/newaccount.html',
+                    controller: 'AccountFormController'
+                })
+                .when('/accounts', {
+                    templateUrl: 'tmpl/accounts.html'
+                })
+                .when('/accounts/:accountId', {
+                    templateUrl: 'tmpl/showaccount.html',
+                    controller: 'AccountEditController'
+                })
+                .otherwise({
+                    redirectTo: '/questions'
+                });
+            }
+        ])
+        .run(function ($rootScope) {
+            $rootScope.dataFilled = false;
+        });
+})();

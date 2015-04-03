@@ -1,0 +1,31 @@
+<div id="question-content-wrapper">
+    <form name="question-form" id="question-form" data-ng-submit="submitForm(acc)">
+        <div class="question-row">
+            <span>Username</span><input class="text-input" type="text" data-ng-model="acc.username" required />
+        </div>
+
+        <div class="question-row">
+            <span>Account type</span>
+            <select data-ng-model="acc.account" required>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
+
+        <div class="question-row">
+            <p><span>Created on</span> {{acc.created}}</p>
+        </div>
+
+        <div class="question-row">
+            <p><span>Modified on</span> {{acc.modified}}</p>
+        </div>
+    </form>
+</div>
+
+<div id="question-button-wrapper">
+    <ul>
+        <li><input type="submit" class="button-yes text-shadow" form="question-form" value="Save" id="save-button" /></li>
+        <li><a class="button-no text-shadow" id="delete-button" data-ng-click="deleteAccount()">Delete</a></li>
+        <li><a href="#/accounts" class="button-no text-shadow">Cancel</a></li>
+    </ul>
+</div>
