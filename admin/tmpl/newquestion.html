@@ -1,4 +1,4 @@
-<div id="question-image" style="background-image: url('../img/questions/{{imageId}}.jpg?{{random}}')"></div>
+<div id="question-image" style="background-image: url('../img/questions/{{imageId}}.jpg{{has_image ? '?'+random : ''}}')"></div>
 
 <div id="question-content-wrapper" data-ng-init="fillData('categoryList')">
     <form name="question-form" id="question-form" data-ng-submit="submitForm(q)">
@@ -48,6 +48,11 @@
         <div class="question-row" data-ng-show="editMode">
             <span>Upload file</span>
             <input type="file" onchange="angular.element(this).scope().uploadFile(this.files)">
+        </div>
+
+        <div class="question-row" data-ng-show="editMode && has_image">
+            <span>Delete image</span>
+            <button type="button" ng-click="deleteImage()">Delete custom image</button>
         </div>
 
         <div class="question-row">

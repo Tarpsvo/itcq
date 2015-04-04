@@ -14,9 +14,9 @@ Live version is accessible at [itcq.tramvai.im](http://itcq.tramvai.im/)
 * Account management GUI in admin view
 * Two different user types: admin and regular
 * Statistic logging and displaying
+* Questions can have custom images
 
 ## Current TODO list ##
-* Admin: image delete button
 * Rework user permissions
 * Question suggestion interface
 
