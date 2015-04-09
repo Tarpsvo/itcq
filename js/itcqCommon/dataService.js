@@ -87,15 +87,15 @@
                 console.log('dataService: postData started with type: '+type);
                 console.log(jsonData);
 
-                $http.post('../api/api.php?request='+type, jsonData)
+                return $http.post('../api/api.php?request='+type, jsonData)
                     .success(function(data) {
                         if (validateData(data)) {
                             if (returnBack) {
                                 window.history.back();
                                 throwSuccess(data.success);
                             }
-                            $rootScope.loading = false;
                         }
+                        $rootScope.loading = false;
                     })
                     .error(function(data, header) {
                         validateData(data);

@@ -2,7 +2,7 @@
 require_once('db_connect.php');
 
 $allowedGet = ['questionList', 'categoryList', 'stats', 'question', 'questionData', 'accountList', 'accountData'];
-$allowedPost = ['addNewQuestion', 'newCategory', 'editQuestion', 'deleteQuestion', 'newAccount', 'logQuestionAnswer', 'deleteAccount', 'editAccount'];
+$allowedPost = ['addNewQuestion', 'newCategory', 'editQuestion', 'deleteQuestion', 'newAccount', 'logQuestionAnswer', 'deleteAccount', 'editAccount', 'addQuestionSuggestion'];
 $id = $api = $request = '';
 
 switch ($_SERVER['REQUEST_METHOD']) {

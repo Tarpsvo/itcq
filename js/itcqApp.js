@@ -7,7 +7,8 @@
             function($routeProvider) {
                 $routeProvider
                 .when('/quiz', {
-                    templateUrl: 'tmpl/quiz.html'
+                    templateUrl: 'tmpl/quiz.html',
+                    controller: 'QuizController'
                 })
                 .when('/about', {
                     templateUrl: 'tmpl/about.html'
@@ -16,7 +17,12 @@
                     templateUrl: 'tmpl/statistics.html'
                 })
                 .when('/login', {
-                    templateUrl: 'tmpl/login.php'
+                    templateUrl: 'tmpl/login.php',
+                    controller: 'LoginController'
+                })
+                .when('/suggest', {
+                    templateUrl: 'tmpl/suggest.html',
+                    controller: 'SuggestionController'
                 })
                 .when('/', {
                     templateUrl: 'tmpl/main.html'

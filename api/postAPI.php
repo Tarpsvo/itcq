@@ -44,6 +44,9 @@ class postAPI {
                 $this->editAccount($connection, $data);
             break;
 
+            case 'addQuestionSuggestion':
+                $this->addQuestionSuggestion($connection, $data);
+
             default:
                 $this->returnError("Request not recognized.");
             break;
@@ -256,6 +259,26 @@ class postAPI {
         $query->execute();
 
         $this->returnSuccess("Account successfully edited.");
+    }
+
+    private function addQuestionSuggestion($connection, $data) {
+        $requiredValues = ['question', 'answer', 'wrong1', 'wrong2', 'wrong3'];
+
+        $q = $this->checkData($data, $requiredValues);
+
+        $imageUrl = (isset($data->imageUrl)) ? $data->imageUrl : '';
+
+        $unpreparedSQL = "INSERT INTO suggestions (question, correct_answer, wrong1, wrong2, wrong3, image_url) VALUES (:question, :answer, :wrong1, :wrong2, :wrong3, :image_url)";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':question', $q['question']);
+        $query->bindParam(':answer', $q['answer']);
+        $query->bindParam(':wrong1', $q['wrong1']);
+        $query->bindParam(':wrong2', $q['wrong2']);
+        $query->bindParam(':wrong3', $q['wrong3']);
+        $query->bindParam(':image_url', $imageUrl);
+        $query->execute();
+
+        $this->returnSuccess("Question suggestion successfully posted.");
     }
 
     private function returnError($error) {

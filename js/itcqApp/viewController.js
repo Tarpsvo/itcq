@@ -25,7 +25,7 @@
 
         /* If menu is currently open (path), return true */
         $scope.menuIsActive = function(path) {
-            if ($location.path() == path || (path == '/' && $location.path() == '/quiz')) return true; else return false;
+            if ($location.path() == path || (path == '/' && $location.path() == '/quiz') || (path == '/login' && $location.path() == '/suggest')) return true; else return false;
         };
 
         /* Closes modal popupwith the specified id */
