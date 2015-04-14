@@ -328,7 +328,7 @@ a:hover {color: #29B6F6;}
     cursor: pointer;
 }
 
-
+#alert-messages span {display: block;}
 
 
 /* Useful classes */

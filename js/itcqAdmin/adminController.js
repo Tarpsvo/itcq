@@ -49,6 +49,7 @@
         /* Closes modal popup */
         $scope.closeModal = function(id) {
             $('.modal-nr-'+id).remove();
+            $('.break-'+id).remove();
         };
 
         /* This takes the user data from PHP and sets it to scope (run on admin init) */

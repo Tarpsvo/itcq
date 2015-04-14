@@ -267,12 +267,19 @@ class postAPI {
     }
 
     private function addQuestionSuggestion($connection, $data) {
-        // TODO: CHECK IF IMAGE IS URL AND HEADER TYPE IS IMG
         $requiredValues = ['question', 'answer', 'wrong1', 'wrong2', 'wrong3'];
 
         $q = $this->checkData($data, $requiredValues);
 
-        $imageUrl = (isset($data->imageUrl)) ? $data->imageUrl : '';
+        if (isset($data->imageUrl)) {
+            if ($this->checkImageLink($data->imageUrl)) {
+                $imageUrl = $data->imageUrl;
+            } else {
+                returnError("Image link was not valid.");
+            }
+        } else {
+            $imageUrl = '';
+        }
 
         $unpreparedSQL = "INSERT INTO suggestions (question, correct_answer, wrong1, wrong2, wrong3, image_url, ip) VALUES (:question, :answer, :wrong1, :wrong2, :wrong3, :image_url, :ip)";
         $query = $connection->prepare($unpreparedSQL);
@@ -312,5 +319,33 @@ class postAPI {
     private function restrictFunctionToAccount($account) {
         if (session_status() === PHP_SESSION_NONE) session_start();
         if (!isset($_SESSION['account']) || $_SESSION['account'] != $account) returnError("Not authorized to query this.");
+    }
+
+    function checkImageLink($link) {
+        if (isset($link)) {
+            if (filter_var($link, FILTER_VALIDATE_URL)){
+                if (strpos(get_headers($link)[0], '200')) {
+                    $imageData = getimagesize($link);
+                    if (isset($imageData)) {
+                        if ($imageData['mime'] == 'image/jpeg') {
+                            return true;
+                        } else {
+                            returnError("Given image was not JPG. Please use only JPG format images.");
+                        }
+                    } else {
+                        returnError("Specified image URL did not contain an image.");
+                        return false;
+                    }
+                } else {
+                    returnError("Specified image link does not work properly, please check it.");
+                }
+            } else {
+                returnError("Specified image URL is not in correct format.");
+                return false;
+            }
+        } else {
+            returnError("Link check error: this should not happen.");
+            return false;
+        }
     }
 }

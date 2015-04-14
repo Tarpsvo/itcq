@@ -1,13 +1,13 @@
 <div id="table-content" data-ng-init="fillData('suggestionList')">
     <table>
         <tr>
-            <th ng-click="orderData = 'id'; reverse=!reverse">ID</th>
-            <th ng-click="orderData = 'question'; reverse=!reverse">Question</th>
-            <th ng-click="orderData = 'correct_answer'; reverse=!reverse">Answer</th>
-            <th ng-click="orderData = 'wrong1'; reverse=!reverse">Wrong 1</th>
-            <th ng-click="orderData = 'wrong2'; reverse=!reverse">Wrong 2</th>
-            <th ng-click="orderData = 'wrong3'; reverse=!reverse">Wrong 3</th>
-            <th ng-click="orderData = 'ip'; reverse=!reverse">Suggesters IP</th>
+            <th data-ng-click="orderData = 'id'; reverse=!reverse">ID</th>
+            <th data-ng-click="orderData = 'question'; reverse=!reverse">Question</th>
+            <th data-ng-click="orderData = 'correct_answer'; reverse=!reverse">Answer</th>
+            <th data-ng-click="orderData = 'wrong1'; reverse=!reverse">Wrong 1</th>
+            <th data-ng-click="orderData = 'wrong2'; reverse=!reverse">Wrong 2</th>
+            <th data-ng-click="orderData = 'wrong3'; reverse=!reverse">Wrong 3</th>
+            <th data-ng-click="orderData = 'ip'; reverse=!reverse">Suggesters IP</th>
         </tr>
         <tr data-ng-repeat="suggestion in suggestions | orderBy: orderData || 'id' : reverse" data-ng-click="openEditView(suggestion.id)">
             <td>{{suggestion.id}}</td>

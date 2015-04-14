@@ -31,6 +31,7 @@
         /* Closes modal popupwith the specified id */
         $scope.closeModal = function(id) {
             $('.modal-nr-'+id).remove();
+            $('.break-'+id).remove();
         };
 
         /* Fills personalStats variable for the statistics page */

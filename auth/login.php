@@ -1,5 +1,5 @@
 <?php
-require_once('../api/db_connect.php');
+require_once('../api/dbConnect.php');
 
 session_start();
 

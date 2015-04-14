@@ -11,7 +11,7 @@ function connectToDatabase() {
         /* Set the PDO error mode to exception: http://php.net/manual/en/pdo.error-handling.php */
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $connection;
-        
+
     } catch (PDOException $e) {
         returnError($e->getMessage());
     }
@@ -20,4 +20,14 @@ function connectToDatabase() {
 function returnError($error) {
     http_response_code(400);
     die(json_encode(array('error' => $error)));
+}
+
+function returnSuccess($message) {
+    http_response_code(200);
+    die(json_encode(array('success' => $message)));
+}
+
+function restrictFunctionToAccount($account) {
+    if (session_status() === PHP_SESSION_NONE) session_start();
+    if (!isset($_SESSION['account']) || $_SESSION['account'] != $account) returnError("Not authorized to query this.");
 }
