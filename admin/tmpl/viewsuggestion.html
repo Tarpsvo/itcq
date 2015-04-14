@@ -1,0 +1,41 @@
+<div id="question-content-wrapper">
+    <div class="question-row">
+        <p><span>ID</span> {{s.id}}</p>
+    </div>
+
+    <div class="question-row">
+        <p><span>Question</span> {{s.question}}</p>
+    </div>
+
+    <div class="question-row">
+        <p><span>Answer</span> {{s.correct_answer}}</p>
+    </div>
+
+    <div class="question-row">
+        <p><span>Wrong 1</span> {{s.wrong1}}</p>
+    </div>
+
+    <div class="question-row">
+        <p><span>Wrong 2</span> {{s.wrong2}}</p>
+    </div>
+
+    <div class="question-row">
+        <p><span>Wrong 3</span> {{s.wrong3}}</p>
+    </div>
+
+    <div class="question-row">
+        <p><span>Image URL</span> <a href="{{s.image_url}}">{{s.image_url}}</a></p>
+    </div>
+
+    <div class="question-row">
+        <p><span>Suggesters IP</span> {{s.ip}}</p>
+    </div>
+</div>
+
+<div id="question-button-wrapper">
+    <ul>
+        <li><a href="#/questions/suggest/{{s.id}}" class="button-yes text-shadow" id="save-button" ng-show="isAdmin()">Accept and edit</a></li>
+        <li><a class="button-no text-shadow" id="delete-button" data-ng-click="deleteSuggestion()" ng-show="isAdmin()">Delete</a></li>
+        <li><a href="#/suggestions" class="button-no text-shadow">Cancel</a></li>
+    </ul>
+</div>

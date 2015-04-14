@@ -34,6 +34,17 @@
                     templateUrl: 'tmpl/showaccount.html',
                     controller: 'AccountEditController'
                 })
+                .when('/suggestions', {
+                    templateUrl: 'tmpl/suggestions.html'
+                })
+                .when('/suggestions/:suggestionId', {
+                    templateUrl: 'tmpl/viewsuggestion.html',
+                    controller: 'SuggestionViewController'
+                })
+                .when('/questions/suggest/:suggestionId', {
+                    templateUrl: 'tmpl/newquestion.html',
+                    controller: 'QuestionFormController'
+                })
                 .otherwise({
                     redirectTo: '/questions'
                 });

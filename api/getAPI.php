@@ -4,7 +4,8 @@ class getAPI {
         'questionList'      =>  "SELECT id, category, question, answer, enabled, level FROM questions",
         'categoryList'      =>  "SELECT name FROM categories",
         'question'          =>  "SELECT id, question, answer, wrong1, wrong2, wrong3, has_image FROM questions WHERE enabled = 1",
-        'accountList'       =>  "SELECT id, username, account, lastip FROM users"
+        'accountList'       =>  "SELECT id, username, account, lastip FROM users",
+        'suggestionList'    =>  "SELECT id, question, correct_answer, wrong1, wrong2, wrong3, ip FROM suggestions"
     ];
 
     public function execute($connection, $request, $id) {
@@ -18,13 +19,18 @@ class getAPI {
             break;
 
             case 'questionData':
-                $this->restrictFunctionToAccount("admin");
+                $this->restrictFunctionToAccount("user");
                 $this->getQuestionData($connection, $id);
             break;
 
             case 'accountData':
                 $this->restrictFunctionToAccount("admin");
                 $this->getAccountData($connection, $id);
+            break;
+
+            case 'suggestionData':
+                $this->restrictFunctionToAccount("user");
+                $this->getSuggestionData($connection, $id);
             break;
 
             default:
@@ -71,7 +77,7 @@ class getAPI {
     }
 
     private function returnAll($connection, $request) {
-        if ($request == 'al') $this->restrictFunctionToAccount("admin");
+        if ($request == 'accountList') $this->restrictFunctionToAccount("admin");
 
         $sql = $this->sqlList[$request];
         $queryResult = $connection->query($sql);
@@ -103,7 +109,7 @@ class getAPI {
     private function getAccountData($connection, $id) {
         if (!isset($id)) returnError("ID not defined.");
 
-        $unpreparedSQL = "SELECT username, account, created, modified, lastip FROM users WHERE id = :id";
+        $unpreparedSQL = "SELECT username, account, modified, lastip FROM users WHERE id = :id";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':id', $id);
         $query->execute();
@@ -116,6 +122,22 @@ class getAPI {
         }
     }
 
+    private function getSuggestionData($connection, $id) {
+        if (!isset($id)) returnError("ID not defined.");
+
+        $unpreparedSQL = "SELECT id, question, correct_answer, wrong1, wrong2, wrong3, ip, image_url FROM suggestions WHERE id = :id";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':id', $id);
+        $query->execute();
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($query->rowCount() == 0) {
+            $this->returnError("Suggestion not found!");
+        } else {
+            echo json_encode($data[0]);
+        }
+    }
+
     private function returnError($error) {
         http_response_code(400);
         die(json_encode(array('error' => $error)));
@@ -123,6 +145,12 @@ class getAPI {
 
     private function restrictFunctionToAccount($account) {
         if (session_status() === PHP_SESSION_NONE) session_start();
-        if (!isset($_SESSION['account']) || $_SESSION['account'] != $account) returnError("Not authorized to query this.");
+        if (isset($_SESSION['account'])) {
+            if ($account != $_SESSION['account']) {
+                if (!($_SESSION['account'] == 'admin' && $account == 'user')) returnError("Not authorized to query this.");
+            }
+        } else {
+            returnError("Not authorized to query this (account type not set).");
+        }
     }
 }

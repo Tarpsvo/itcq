@@ -15,6 +15,7 @@
         /* Retrieves question data from API and sets it to scope */
         $scope.fillQuestionData = function(id) {
             console.log('QuestionEditController: fillQuestionData started for id: '+id);
+            $scope.id = id;
 
             dataService.getData('questionData', id).then(function(response) {
                 if (response.data !== null) {
@@ -116,10 +117,10 @@
             .error(function(data) {
                 dataService.validateData(data);
             });
-};
+        };
 
         /* If the user opened the edit link, set editMode to true */
-        if ($routeParams.questionId !== null) {
+        if ($routeParams.questionId !== undefined) {
             $scope.editMode = true;
 
             /* Wait for categories to load before setting data */

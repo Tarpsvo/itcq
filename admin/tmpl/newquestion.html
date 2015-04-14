@@ -2,36 +2,40 @@
 
 <div id="question-content-wrapper" data-ng-init="fillData('categoryList')">
     <form name="question-form" id="question-form" data-ng-submit="submitForm(q)">
+        <div class="question-row" ng-show="editMode">
+            <p><span>ID</span> {{id}}</p>
+        </div>
+
         <div class="question-row">
             <span>Category</span>
-            <select data-ng-model="q.category" data-ng-options="category.name as category.name for category in categoriesList" required>
+            <select data-ng-model="q.category" data-ng-options="category.name as category.name for category in categoriesList" ng-disabled="!isAdmin()" required>
                 <option></option>
             </select>
         </div>
 
         <div class="question-row">
-            <span>Question</span><input class="text-input" type="text" data-ng-model="q.question" required />
+            <span>Question</span><input class="text-input" type="text" data-ng-model="q.question" ng-disabled="!isAdmin()" required />
         </div>
 
         <div class="question-row">
-            <span>Correct answer</span><input class="text-input" type="text" data-ng-model="q.answer" required />
+            <span>Correct answer</span><input class="text-input" type="text" data-ng-model="q.answer" ng-disabled="!isAdmin()" required />
         </div>
 
         <div class="question-row">
-            <span>Wrong answer 1</span><input class="text-input" type="text" data-ng-model="q.wrong1" required />
+            <span>Wrong answer 1</span><input class="text-input" type="text" data-ng-model="q.wrong1" ng-disabled="!isAdmin()" required />
         </div>
 
         <div class="question-row">
-            <span>Wrong answer 2</span><input class="text-input" type="text" data-ng-model="q.wrong2" required />
+            <span>Wrong answer 2</span><input class="text-input" type="text" data-ng-model="q.wrong2" ng-disabled="!isAdmin()" required />
         </div>
 
         <div class="question-row">
-            <span>Wrong answer 3</span><input class="text-input" type="text" data-ng-model="q.wrong3" required />
+            <span>Wrong answer 3</span><input class="text-input" type="text" data-ng-model="q.wrong3" ng-disabled="!isAdmin()" required />
         </div>
 
         <div class="question-row">
             <span>Level</span>
-            <select data-ng-model="q.level" required>
+            <select data-ng-model="q.level" ng-disabled="!isAdmin()" required>
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -45,26 +49,26 @@
             </select>
         </div>
 
-        <div class="question-row" data-ng-show="editMode">
+        <div class="question-row" data-ng-show="editMode && isAdmin()">
             <span>Upload file</span>
             <input type="file" onchange="angular.element(this).scope().uploadFile(this.files)">
         </div>
 
-        <div class="question-row" data-ng-show="editMode && has_image">
+        <div class="question-row" data-ng-show="editMode && has_image && isAdmin()">
             <span>Delete image</span>
             <button type="button" ng-click="deleteImage()">Delete custom image</button>
         </div>
 
         <div class="question-row">
-            <span>Enabled</span><input type="checkbox" data-ng-model="q.enabled" data-ng-change="q.enabled" data-ng-false-value="'0'" data-ng-true-value="'1'" />
+            <span>Enabled</span><input type="checkbox" data-ng-model="q.enabled" data-ng-change="q.enabled" data-ng-false-value="'0'" data-ng-true-value="'1'" ng-disabled="!isAdmin()" />
         </div>
     </form>
 </div>
 
 <div id="question-button-wrapper">
     <ul>
-        <li><input type="submit" class="button-yes text-shadow" form="question-form" value="Save" id="save-button"/></li>
-        <li><a class="button-no text-shadow" id="delete-button" data-ng-show="editMode" data-ng-click="deleteQuestion()">Delete</a></li>
+        <li><input type="submit" class="button-yes text-shadow" form="question-form" value="Save" id="save-button" ng-show="isAdmin()" /></li>
+        <li><a class="button-no text-shadow" id="delete-button" data-ng-show="editMode && isAdmin()" data-ng-click="deleteQuestion()">Delete</a></li>
         <li><a href="#/questions" class="button-no text-shadow" id="cancel-button">Cancel</a></li>
     </ul>
 </div>

@@ -46,6 +46,11 @@ class postAPI {
 
             case 'addQuestionSuggestion':
                 $this->addQuestionSuggestion($connection, $data);
+            break;
+
+            case 'deleteSuggestion':
+                $this->deleteSuggestion($connection, $data);
+            break;
 
             default:
                 $this->returnError("Request not recognized.");
@@ -262,13 +267,14 @@ class postAPI {
     }
 
     private function addQuestionSuggestion($connection, $data) {
+        // TODO: CHECK IF IMAGE IS URL AND HEADER TYPE IS IMG
         $requiredValues = ['question', 'answer', 'wrong1', 'wrong2', 'wrong3'];
 
         $q = $this->checkData($data, $requiredValues);
 
         $imageUrl = (isset($data->imageUrl)) ? $data->imageUrl : '';
 
-        $unpreparedSQL = "INSERT INTO suggestions (question, correct_answer, wrong1, wrong2, wrong3, image_url) VALUES (:question, :answer, :wrong1, :wrong2, :wrong3, :image_url)";
+        $unpreparedSQL = "INSERT INTO suggestions (question, correct_answer, wrong1, wrong2, wrong3, image_url, ip) VALUES (:question, :answer, :wrong1, :wrong2, :wrong3, :image_url, :ip)";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':question', $q['question']);
         $query->bindParam(':answer', $q['answer']);
@@ -276,9 +282,21 @@ class postAPI {
         $query->bindParam(':wrong2', $q['wrong2']);
         $query->bindParam(':wrong3', $q['wrong3']);
         $query->bindParam(':image_url', $imageUrl);
+        $query->bindParam(':ip', $_SERVER['REMOTE_ADDR']);
         $query->execute();
 
         $this->returnSuccess("Question suggestion successfully posted.");
+    }
+
+    private function deleteSuggestion($connection, $data) {
+        if (!isset($data->suggestionId)) $this->returnError("Suggestion ID was not set.");
+
+        $unpreparedSQL = "DELETE FROM suggestions WHERE id = :id LIMIT 1";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':id', $data->suggestionId);
+        $query->execute();
+
+        $this->returnSuccess("Suggestion successfully deleted.");
     }
 
     private function returnError($error) {

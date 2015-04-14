@@ -80,8 +80,8 @@
                 });
         }
 
-        /* Posts data to the API using POST method, returnBack: if window.back() should be run after completion */
-        function postData(type, jsonData, showLoading, returnBack) {
+        /* Posts data to the API using POST method */
+        function postData(type, jsonData, showLoading, returnBack, hidePopup) {
                 if (showLoading) $rootScope.loading = true;
 
                 console.log('dataService: postData started with type: '+type);
@@ -91,8 +91,11 @@
                     .success(function(data) {
                         if (validateData(data)) {
                             if (returnBack) {
-                                window.history.back();
-                                throwSuccess(data.success);
+                                if ($location.path().indexOf('/questions') > -1) window.location = "#/questions";
+                                else if ($location.path().indexOf('/accounts') > -1) window.location = "#/accounts";
+                                else if ($location.path().indexOf('/suggestions') > -1) window.location = "#/suggestions";
+                                else if ($location.path().indexOf('/suggest') > -1) window.location = "#/login";
+                                if (!hidePopup) throwSuccess(data.success);
                             }
                         }
                         $rootScope.loading = false;
