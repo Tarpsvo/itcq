@@ -35,7 +35,7 @@
                     var imageUpdateJson = {'request': 'saveImage', 'questionId': $routeParams.questionId};
                     $http({
                         method: 'POST',
-                        url: '../api/imageUpload.php',
+                        url: '../api/imageAPI.php',
                         data: $.param(imageUpdateJson),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     })
@@ -49,7 +49,7 @@
                     var imageDeleteJson = {'request': 'deleteImage', 'questionId': $routeParams.questionId};
                     $http({
                         method: 'POST',
-                        url: '../api/imageUpload.php',
+                        url: '../api/imageAPI.php',
                         data: $.param(imageDeleteJson),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     })
@@ -104,7 +104,7 @@
             formData.append('request', 'uploadTemp');
             formData.append('questionId', $routeParams.questionId);
 
-            $http.post('../api/imageUpload.php', formData, {
+            $http.post('../api/imageAPI.php', formData, {
                 withCredentials: true,
                 headers: {'Content-Type': undefined},
                 transformRequest: angular.identity

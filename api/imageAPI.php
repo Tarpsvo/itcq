@@ -1,5 +1,5 @@
 <?php
-require_once('db_connect.php');
+require_once('dbConnect.php');
 restrictFunctionToAccount("admin");
 
 switch ($_POST['request']) {

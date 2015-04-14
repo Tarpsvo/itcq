@@ -1,5 +1,5 @@
 <?php
-require_once('db_connect.php');
+require_once('dbConnect.php');
 
 $allowedGet = ['questionList', 'categoryList', 'stats', 'question', 'questionData', 'accountList', 'accountData', 'suggestionList', 'suggestionData'];
 $allowedPost = ['addNewQuestion', 'newCategory', 'editQuestion', 'deleteQuestion', 'newAccount', 'logQuestionAnswer', 'deleteAccount', 'editAccount', 'addQuestionSuggestion', 'deleteSuggestion'];

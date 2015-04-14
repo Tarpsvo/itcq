@@ -24,7 +24,7 @@
     </div>
 
     <div class="question-row">
-        <p><span>Image URL</span> <a href="{{s.image_url}}">{{s.image_url}}</a></p>
+        <p><span>Image URL</span> <a href="{{s.image_url}}" target="_blank">{{s.image_url}}</a></p>
     </div>
 
     <div class="question-row">
@@ -34,8 +34,8 @@
 
 <div id="question-button-wrapper">
     <ul>
-        <li><a href="#/questions/suggest/{{s.id}}" class="button-yes text-shadow" id="save-button" ng-show="isAdmin()">Accept and edit</a></li>
-        <li><a class="button-no text-shadow" id="delete-button" data-ng-click="deleteSuggestion()" ng-show="isAdmin()">Delete</a></li>
+        <li><a href="#/questions/suggest/{{s.id}}" class="button-yes text-shadow" id="save-button" data-ng-show="isAdmin()">Accept and edit</a></li>
+        <li><a class="button-no text-shadow" id="delete-button" data-ng-click="deleteSuggestion()" data-ng-show="isAdmin()">Delete</a></li>
         <li><a href="#/suggestions" class="button-no text-shadow">Cancel</a></li>
     </ul>
 </div>

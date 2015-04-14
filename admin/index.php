@@ -8,7 +8,7 @@ if (!isset($_SESSION['username'])) {
 ?>
 
 <!DOCTYPE html>
-<html data-ng-app="itcqAdmin" data-ng-controller="AdminController" ng-init="initUser('<?php echo $_SESSION['account'], '\',\'', $_SESSION['username']; ?>')">
+<html data-ng-app="itcqAdmin" data-ng-controller="AdminController" data-ng-init="initUser('<?php echo $_SESSION['account'], '\',\'', $_SESSION['username']; ?>')">
     <head>
         <meta charset="UTF-8">
         <title>ITCQ - Admin</title>

@@ -69,30 +69,39 @@ body {
     margin-top: 35px;
     padding: 0px;
     font-family: 'Open Sans', sans-serif;
-
-    background-color: #FFF;
 }
 
 #table-content table {
     width: 100%;
     text-align: center;
+
+    border-radius: 5px 5px 0 0;
 }
 
-#table-content table, th, td {border: 1px solid black;}
+#table-content th:first-child {border-radius: 10px 0px 0 0;}
+#table-content th:last-child {border-radius: 0px 10px 0 0;}
+
+#table-content td {border: 1px solid #999;}
 
 #table-content table th {
-    height: 35px; line-height: 35px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    height: 36px;
+    line-height: 36px;
     font-weight: 600;
+
     background-color: #E0E0E0;
+    border-bottom: 2px solid #03A9F4;
 }
 
 #table-content table td {
     height: 25px; line-height: 25px;
     font-size: 13px;
-    background-color: #FAFAFA;
 }
 
-
+#table-content table tr:nth-child(odd) {background-color: #FAFAFA;}
+#table-content table tr:nth-child(even) {background-color: #EEEEEE;}
+#table-content table tr:hover {background-color: #BDBDBD;}
 
 /* Add question */
 #question-content-wrapper {

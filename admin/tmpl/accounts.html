@@ -1,12 +1,12 @@
 <div id="table-content" data-ng-init="fillData('accountList')">
     <table>
         <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Account type</th>
-            <th>Last connected IP</th>
+            <th data-ng-click="orderData = 'id'; reverse=!reverse">ID</th>
+            <th data-ng-click="orderData = 'username'; reverse=!reverse">Username</th>
+            <th data-ng-click="orderData = 'account'; reverse=!reverse">Account type</th>
+            <th data-ng-click="orderData = 'lastip'; reverse=!reverse">Last connected IP</th>
         </tr>
-        <tr data-ng-repeat="account in accounts" data-ng-click="openEditView(account.id)">
+        <tr data-ng-repeat="account in accounts | orderBy: orderData || 'id' : reverse" data-ng-click="openEditView(account.id)">
             <td>{{account.id}}</td>
             <td>{{account.username}}</td>
             <td>{{account.account}}</td>
