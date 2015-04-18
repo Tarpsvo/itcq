@@ -7,13 +7,14 @@
 
     function QuestionFormController($scope, $location, $http, dataService, $routeParams) {
         $scope.imageId = 'default';
+        var suggestionMode = ($routeParams.suggestionId !== undefined) ? true : false;
 
         /* Prepares question data (json) and posts it to API */
         $scope.submitForm = function(q) {
             if (q) {
                 var jsonData = {'question': q.question, 'category': q.category, 'answer': q.answer, 'wrong1': q.wrong1,'wrong2': q.wrong2,'wrong3': q.wrong3, 'enabled': q.enabled, 'level': q.level};
                 dataService.postData('addNewQuestion', jsonData, true, true).then(function(response) {
-                    if (response.status == 200) {
+                    if (response.status == 200 && suggestionMode) {
                         var jsonData = {'suggestionId': $routeParams.suggestionId};
                         dataService.postData('deleteSuggestion', jsonData, true, true, true);
                     }
@@ -51,7 +52,7 @@
             });
         };
 
-        if ($routeParams.suggestionId !== undefined) {
+        if (suggestionMode) {
             $scope.fillSuggestionData($routeParams.suggestionId);
         }
     }

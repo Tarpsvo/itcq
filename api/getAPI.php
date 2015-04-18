@@ -55,7 +55,7 @@ class getAPI {
         $numAnswersByAnon = "SELECT 1 FROM statistics WHERE user = ''";
         $stats['numAnswersByAnon'] = $connection->query($numAnswersByAnon)->rowCount();
 
-        $stats['correctPercentage'] = round($stats['numCorrectAnswers'] / $stats['numAnswers'] * 100, 1);
+        $stats['correctPercentage'] = ($stats['numAnswers'] > 0) ? round($stats['numCorrectAnswers'] / $stats['numAnswers'] * 100, 1) : 0;
 
         if ($stats) {
             echo json_encode($stats);
@@ -93,7 +93,7 @@ class getAPI {
     private function getQuestionData($connection, $id) {
         if (!isset($id)) returnError("ID not defined.");
 
-        $unpreparedSQL = "SELECT category, question, answer, wrong1, wrong2, wrong3, enabled, level, has_image FROM questions WHERE id = :id";
+        $unpreparedSQL = "SELECT category, question, answer, wrong1, wrong2, wrong3, enabled, level, has_image, modified FROM questions WHERE id = :id";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':id', $id);
         $query->execute();

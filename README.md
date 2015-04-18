@@ -15,10 +15,10 @@ Live version is accessible at [itcq.tramvai.im](http://itcq.tramvai.im/)
 * Two different user types: admin and regular
 * Statistic logging and displaying
 * Questions can have custom images
+* Question suggestion interface
 
 ## Current TODO list ##
-* Rework user permissions
-* Question suggestion interface
+* Question suggestion image system
 
 ## Used resources ##
 * [Background pattern base](http://esindus.itcollege.ee/)

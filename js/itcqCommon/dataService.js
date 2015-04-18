@@ -91,8 +91,8 @@
                     .success(function(data) {
                         if (validateData(data)) {
                             if (returnBack) {
-                                if ($location.path().indexOf('/questions') > -1) window.location = "#/questions";
-                                else if ($location.path().indexOf('/accounts') > -1) window.location = "#/accounts";
+                                if ($location.path().indexOf('/questions') > -1 || $location.path().indexOf('/addquestion') > -1) window.location = "#/questions";
+                                else if ($location.path().indexOf('/accounts') > -1 || $location.path().indexOf('/newaccount') > -1) window.location = "#/accounts";
                                 else if ($location.path().indexOf('/suggestions') > -1) window.location = "#/suggestions";
                                 else if ($location.path().indexOf('/suggest') > -1) window.location = "#/login";
                                 if (!hidePopup) throwSuccess(data.success);
