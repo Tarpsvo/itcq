@@ -2,31 +2,31 @@
 class postAPI {
     public function execute($connection, $request) {
         $data = json_decode(file_get_contents("php://input"));
-        if (!isset($data)) $this->returnError("POST data not received.");
+        if (!isset($data)) returnError("POST data not received.");
 
         switch ($request) {
             case 'addNewQuestion':
-                $this->restrictFunctionToAccount("admin");
+                restrictFunctionToAccount("admin");
                 $this->addNewQuestion($connection, $data);
             break;
 
             case 'newCategory':
-                $this->restrictFunctionToAccount("admin");
+                restrictFunctionToAccount("admin");
                 $this->addNewCategory($connection, $data);
             break;
 
             case 'editQuestion':
-                $this->restrictFunctionToAccount("admin");
+                restrictFunctionToAccount("admin");
                 $this->editQuestion($connection, $data);
             break;
 
             case 'deleteQuestion':
-                $this->restrictFunctionToAccount("admin");
+                restrictFunctionToAccount("admin");
                 $this->deleteQuestion($connection, $data);
             break;
 
             case 'newAccount':
-                $this->restrictFunctionToAccount("admin");
+                restrictFunctionToAccount("admin");
                 $this->createNewAccount($connection, $data);
             break;
 
@@ -35,12 +35,12 @@ class postAPI {
             break;
 
             case 'deleteAccount':
-                $this->restrictFunctionToAccount("admin");
+                restrictFunctionToAccount("admin");
                 $this->deleteAccount($connection, $data);
             break;
 
             case 'editAccount':
-                $this->restrictFunctionToAccount("admin");
+                restrictFunctionToAccount("admin");
                 $this->editAccount($connection, $data);
             break;
 
@@ -53,20 +53,20 @@ class postAPI {
             break;
 
             default:
-                $this->returnError("Request not recognized.");
+                returnError("Request not recognized.");
             break;
         }
     }
 
     private function deleteQuestion($connection, $data) {
-        if (!isset($data->questionId)) $this->returnError("Question ID not set.");
+        if (!isset($data->questionId)) returnError("Question ID not set.");
 
         $unpreparedSQL = "DELETE FROM questions WHERE id = :id LIMIT 1";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':id', $data->questionId);
         $query->execute();
 
-        $this->returnSuccess("Question successfully deleted.");
+        returnSuccess("Question successfully deleted.");
     }
 
     private function addNewQuestion($connection, $data) {
@@ -86,7 +86,7 @@ class postAPI {
         $query->bindParam(':level', $q['level']);
         $query->execute();
 
-        $this->returnSuccess("Question added.");
+        returnSuccess("Question added.");
     }
 
     private function addNewCategory($connection, $data) {
@@ -98,7 +98,7 @@ class postAPI {
         $query->bindParam(':category', $categoryName);
         $query->execute();
 
-        $this->returnSuccess("Category successfully added.");
+        returnSuccess("Category successfully added.");
     }
 
     private function editQuestion($connection, $data) {
@@ -119,7 +119,7 @@ class postAPI {
         $query->bindParam(':level', $q['level']);
         $query->execute();
 
-        $this->returnSuccess("Question successfully edited.");
+        returnSuccess("Question successfully edited.");
     }
 
     private function checkData($data, $required) {
@@ -195,7 +195,7 @@ class postAPI {
         $query->bindParam(':salt', $salt);
         $query->execute();
 
-        $this->returnSuccess("Account successfully created.");
+        returnSuccess("Account successfully created.");
     }
 
     private function logQuestionAnswer($connection, $data) {
@@ -216,18 +216,18 @@ class postAPI {
         $query->bindParam(':user', $user);
         $query->execute();
 
-        $this->returnSuccess("Successfully logged.");
+        returnSuccess("Successfully logged.");
     }
 
     private function deleteAccount($connection, $data) {
-        if (!isset($data->accountId)) $this->returnError("Account ID not set.");
+        if (!isset($data->accountId)) returnError("Account ID not set.");
 
         $unpreparedSQL = "DELETE FROM users WHERE id = :id LIMIT 1";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':id', $data->accountId);
         $query->execute();
 
-        $this->returnSuccess("Account successfully deleted.");
+        returnSuccess("Account successfully deleted.");
     }
 
     private function editAccount($connection, $data) {
@@ -263,7 +263,7 @@ class postAPI {
         $query->bindParam(':account', $data->account);
         $query->execute();
 
-        $this->returnSuccess("Account successfully edited.");
+        returnSuccess("Account successfully edited.");
     }
 
     private function addQuestionSuggestion($connection, $data) {
@@ -292,33 +292,18 @@ class postAPI {
         $query->bindParam(':ip', $_SERVER['REMOTE_ADDR']);
         $query->execute();
 
-        $this->returnSuccess("Question suggestion successfully posted.");
+        returnSuccess("Question suggestion successfully posted.");
     }
 
     private function deleteSuggestion($connection, $data) {
-        if (!isset($data->suggestionId)) $this->returnError("Suggestion ID was not set.");
+        if (!isset($data->suggestionId)) returnError("Suggestion ID was not set.");
 
         $unpreparedSQL = "DELETE FROM suggestions WHERE id = :id LIMIT 1";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':id', $data->suggestionId);
         $query->execute();
 
-        $this->returnSuccess("Suggestion successfully deleted.");
-    }
-
-    private function returnError($error) {
-        http_response_code(400);
-        die(json_encode(array('error' => $error)));
-    }
-
-    private function returnSuccess($message) {
-        http_response_code(200);
-        die(json_encode(array('success' => $message)));
-    }
-
-    private function restrictFunctionToAccount($account) {
-        if (session_status() === PHP_SESSION_NONE) session_start();
-        if (!isset($_SESSION['account']) || $_SESSION['account'] != $account) returnError("Not authorized to query this.");
+        returnSuccess("Suggestion successfully deleted.");
     }
 
     function checkImageLink($link) {

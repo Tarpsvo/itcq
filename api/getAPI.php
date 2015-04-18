@@ -19,17 +19,17 @@ class getAPI {
             break;
 
             case 'questionData':
-                $this->restrictFunctionToAccount("user");
+                restrictFunctionToAccount("user");
                 $this->getQuestionData($connection, $id);
             break;
 
             case 'accountData':
-                $this->restrictFunctionToAccount("admin");
+                restrictFunctionToAccount("admin");
                 $this->getAccountData($connection, $id);
             break;
 
             case 'suggestionData':
-                $this->restrictFunctionToAccount("user");
+                restrictFunctionToAccount("user");
                 $this->getSuggestionData($connection, $id);
             break;
 
@@ -60,7 +60,7 @@ class getAPI {
         if ($stats) {
             echo json_encode($stats);
         } else {
-            $this->returnError("Query didn't return any results.");
+            returnError("Query didn't return any results.");
         }
     }
 
@@ -72,21 +72,7 @@ class getAPI {
             $key = array_rand($question);
             echo(json_encode($question[$key]));
         } else {
-            $this->returnError("Query didn't return any results.");
-        }
-    }
-
-    private function returnAll($connection, $request) {
-        if ($request == 'accountList') $this->restrictFunctionToAccount("admin");
-
-        $sql = $this->sqlList[$request];
-        $queryResult = $connection->query($sql);
-
-        if ($queryResult) {
-            $queryResult = $queryResult->fetchAll(PDO::FETCH_ASSOC);
-            echo json_encode($queryResult);
-        } else {
-            $this->returnError("Query didn't return any results.");
+            returnError("Query didn't return any results.");
         }
     }
 
@@ -100,7 +86,7 @@ class getAPI {
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
 
         if ($query->rowCount() == 0) {
-            $this->returnError("Question not found!");
+            returnError("Question not found!");
         } else {
             echo json_encode($data[0]);
         }
@@ -116,7 +102,7 @@ class getAPI {
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
 
         if ($query->rowCount() == 0) {
-            $this->returnError("Account not found!");
+            returnError("Account not found!");
         } else {
             echo json_encode($data[0]);
         }
@@ -132,25 +118,24 @@ class getAPI {
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
 
         if ($query->rowCount() == 0) {
-            $this->returnError("Suggestion not found!");
+            returnError("Suggestion not found!");
         } else {
             echo json_encode($data[0]);
         }
     }
 
-    private function returnError($error) {
-        http_response_code(400);
-        die(json_encode(array('error' => $error)));
-    }
+    private function returnAll($connection, $request) {
+        if ($request == 'accountList') restrictFunctionToAccount("admin");
+        if ($request == 'questionList') restrictFunctionToAccount("user");
 
-    private function restrictFunctionToAccount($account) {
-        if (session_status() === PHP_SESSION_NONE) session_start();
-        if (isset($_SESSION['account'])) {
-            if ($account != $_SESSION['account']) {
-                if (!($_SESSION['account'] == 'admin' && $account == 'user')) returnError("Not authorized to query this.");
-            }
+        $sql = $this->sqlList[$request];
+        $queryResult = $connection->query($sql);
+
+        if ($queryResult) {
+            $queryResult = $queryResult->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($queryResult);
         } else {
-            returnError("Not authorized to query this (account type not set).");
+            returnError("Query didn't return any results.");
         }
     }
 }

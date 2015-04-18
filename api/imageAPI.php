@@ -67,13 +67,3 @@ function uploadTemp() {
         returnError("Errors found.");
     }
 }
-
-function returnSuccess($message) {
-    http_response_code(200);
-    die(json_encode(array('success' => $message)));
-}
-
-function restrictFunctionToAccount($account) {
-    if (session_status() === PHP_SESSION_NONE) session_start();
-    if (!isset($_SESSION['account']) || $_SESSION['account'] != $account) returnError("Not authorized to query this.");
-}

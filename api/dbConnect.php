@@ -29,5 +29,11 @@ function returnSuccess($message) {
 
 function restrictFunctionToAccount($account) {
     if (session_status() === PHP_SESSION_NONE) session_start();
-    if (!isset($_SESSION['account']) || $_SESSION['account'] != $account) returnError("Not authorized to query this.");
+    if (isset($_SESSION['account'])) {
+        if ($account != $_SESSION['account']) {
+            if (!($_SESSION['account'] == 'admin' && $account == 'user')) returnError("Not authorized to query this.");
+        }
+    } else {
+        returnError("Not authorized to query this.");
+    }
 }
