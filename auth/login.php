@@ -13,7 +13,7 @@ if (isset($_SESSION['username'])) {
 
     $connection = connectToDatabase();
 
-    $saltSQL = "SELECT password, salt, account FROM users WHERE username = :username";
+    $saltSQL = "SELECT password, salt, account FROM treinpal_users WHERE username = :username";
     $query = $connection->prepare($saltSQL);
     $query->bindParam(':username', $data->username);
     $query->execute();
@@ -31,7 +31,7 @@ if (isset($_SESSION['username'])) {
             $_SESSION['username'] = $data->username;
             $_SESSION['account'] = $account;
 
-            $unpreparedIPSQL = "UPDATE users SET lastip=:lastip WHERE username = :username";
+            $unpreparedIPSQL = "UPDATE treinpal_users SET lastip=:lastip WHERE username = :username";
             $query = $connection->prepare($unpreparedIPSQL);
             $query->bindParam(':lastip', $_SERVER['REMOTE_ADDR']);
             $query->bindParam(':username', $data->username);

@@ -1,11 +1,11 @@
 <?php
 class getAPI {
     private $sqlList = [
-        'questionList'      =>  "SELECT id, category, question, answer, enabled, level FROM questions",
-        'categoryList'      =>  "SELECT name FROM categories",
-        'question'          =>  "SELECT id, question, answer, wrong1, wrong2, wrong3, has_image FROM questions WHERE enabled = 1",
-        'accountList'       =>  "SELECT id, username, account, lastip FROM users",
-        'suggestionList'    =>  "SELECT id, question, correct_answer, wrong1, wrong2, wrong3, ip FROM suggestions"
+        'questionList'      =>  "SELECT id, category, question, answer, enabled, level FROM treinpal_questions",
+        'categoryList'      =>  "SELECT name FROM treinpal_categories",
+        'question'          =>  "SELECT id, question, answer, wrong1, wrong2, wrong3, has_image FROM treinpal_questions WHERE enabled = 1",
+        'accountList'       =>  "SELECT id, username, account, lastip FROM treinpal_users",
+        'suggestionList'    =>  "SELECT id, question, correct_answer, wrong1, wrong2, wrong3, ip FROM treinpal_suggestions"
     ];
 
     public function execute($connection, $request, $id) {
@@ -40,19 +40,19 @@ class getAPI {
     }
 
     private function getStatistics($connection) {
-        $numQuestions = "SELECT 1 FROM questions";
+        $numQuestions = "SELECT 1 FROM treinpal_questions";
         $stats['numQuestions'] = $connection->query($numQuestions)->rowCount();
 
-        $numCategories = "SELECT 1 FROM categories";
+        $numCategories = "SELECT 1 FROM treinpal_categories";
         $stats['numCategories'] = $connection->query($numCategories)->rowCount();
 
-        $numAnswers = "SELECT 1 FROM statistics";
+        $numAnswers = "SELECT 1 FROM treinpal_statistics";
         $stats['numAnswers'] = $connection->query($numAnswers)->rowCount();
 
-        $numCorrectAnswers = "SELECT 1 FROM statistics WHERE answer_correct = 1";
+        $numCorrectAnswers = "SELECT 1 FROM treinpal_statistics WHERE answer_correct = 1";
         $stats['numCorrectAnswers'] = $connection->query($numCorrectAnswers)->rowCount();
 
-        $numAnswersByAnon = "SELECT 1 FROM statistics WHERE user = ''";
+        $numAnswersByAnon = "SELECT 1 FROM treinpal_statistics WHERE user = ''";
         $stats['numAnswersByAnon'] = $connection->query($numAnswersByAnon)->rowCount();
 
         $stats['correctPercentage'] = ($stats['numAnswers'] > 0) ? round($stats['numCorrectAnswers'] / $stats['numAnswers'] * 100, 1) : 0;
@@ -79,7 +79,7 @@ class getAPI {
     private function getQuestionData($connection, $id) {
         if (!isset($id)) returnError("ID not defined.");
 
-        $unpreparedSQL = "SELECT category, question, answer, wrong1, wrong2, wrong3, enabled, level, has_image, modified FROM questions WHERE id = :id";
+        $unpreparedSQL = "SELECT category, question, answer, wrong1, wrong2, wrong3, enabled, level, has_image FROM treinpal_questions WHERE id = :id";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':id', $id);
         $query->execute();
@@ -95,7 +95,7 @@ class getAPI {
     private function getAccountData($connection, $id) {
         if (!isset($id)) returnError("ID not defined.");
 
-        $unpreparedSQL = "SELECT username, account, modified, lastip FROM users WHERE id = :id";
+        $unpreparedSQL = "SELECT username, account, modified, lastip FROM treinpal_users WHERE id = :id";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':id', $id);
         $query->execute();
@@ -111,7 +111,7 @@ class getAPI {
     private function getSuggestionData($connection, $id) {
         if (!isset($id)) returnError("ID not defined.");
 
-        $unpreparedSQL = "SELECT id, question, correct_answer, wrong1, wrong2, wrong3, ip, image_url FROM suggestions WHERE id = :id";
+        $unpreparedSQL = "SELECT id, question, correct_answer, wrong1, wrong2, wrong3, ip, image_url FROM treinpal_suggestions WHERE id = :id";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':id', $id);
         $query->execute();

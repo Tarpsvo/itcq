@@ -61,7 +61,7 @@ class postAPI {
     private function deleteQuestion($connection, $data) {
         if (!isset($data->questionId)) returnError("Question ID not set.");
 
-        $unpreparedSQL = "DELETE FROM questions WHERE id = :id LIMIT 1";
+        $unpreparedSQL = "DELETE FROM treinpal_questions WHERE id = :id LIMIT 1";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':id', $data->questionId);
         $query->execute();
@@ -73,7 +73,7 @@ class postAPI {
         $requiredValues = ['category', 'question', 'answer', 'wrong1', 'wrong2', 'wrong3', 'enabled', 'level'];
         $q = $this->checkData($data, $requiredValues);
 
-        $unpreparedSQL = "INSERT INTO questions (category, question, answer, wrong1, wrong2, wrong3, enabled, level) VALUES (:category, :question, :answer, :wrong1, :wrong2, :wrong3, :enabled, :level)";
+        $unpreparedSQL = "INSERT INTO treinpal_questions (category, question, answer, wrong1, wrong2, wrong3, enabled, level) VALUES (:category, :question, :answer, :wrong1, :wrong2, :wrong3, :enabled, :level)";
 
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':category', $q['category']);
@@ -92,7 +92,7 @@ class postAPI {
     private function addNewCategory($connection, $data) {
         $categoryName = (isset($data->category)) ? $data->category : returnError("Category name not defined.");
 
-        $unpreparedSQL = "INSERT INTO categories (name) VALUES (:category)";
+        $unpreparedSQL = "INSERT INTO treinpal_categories (name) VALUES (:category)";
 
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':category', $categoryName);
@@ -106,7 +106,7 @@ class postAPI {
 
         $q = $this->checkData($data, $requiredValues);
 
-        $unpreparedSQL = "UPDATE questions SET category = :category, question = :question, answer = :answer, wrong1 = :wrong1, wrong2 = :wrong2, wrong3 = :wrong3, enabled = :enabled, level = :level WHERE id = :id LIMIT 1";
+        $unpreparedSQL = "UPDATE treinpal_questions SET category = :category, question = :question, answer = :answer, wrong1 = :wrong1, wrong2 = :wrong2, wrong3 = :wrong3, enabled = :enabled, level = :level WHERE id = :id LIMIT 1";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':category', $q['category']);
         $query->bindParam(':question', $q['question']);
@@ -175,7 +175,7 @@ class postAPI {
         if (!isset($data->password)) returnError("Password was not set!");
         if (!isset($data->account)) returnError("Account type was not set!");
 
-        $usernameSQL = "SELECT 1 FROM users WHERE username = :username";
+        $usernameSQL = "SELECT 1 FROM treinpal_users WHERE username = :username";
         $query = $connection->prepare($usernameSQL);
         $query->bindParam(':username', $data->username);
         $query->execute();
@@ -185,7 +185,7 @@ class postAPI {
         $hashedPassword = $data->password.$salt;
         for ($i = 0; $i < 50; $i++) $hashedPassword = hash('sha256', $hashedPassword);
 
-        $unpreparedSQL = "INSERT INTO users (username, password, account, salt) VALUES (:username, :password, :account, :salt)";
+        $unpreparedSQL = "INSERT INTO treinpal_users (username, password, account, salt) VALUES (:username, :password, :account, :salt)";
         $account = strtolower($data->account);
 
         $query = $connection->prepare($unpreparedSQL);
@@ -208,7 +208,7 @@ class postAPI {
         if (session_status() === PHP_SESSION_NONE) session_start();
         $user = (isset($_SESSION['username'])) ? $_SESSION['username'] : '';
 
-        $unpreparedSQL = "INSERT INTO statistics (question_id, answer_correct, answer, user) VALUES (:questionId, :answerCorrect, :answer, :user)";
+        $unpreparedSQL = "INSERT INTO treinpal_statistics (question_id, answer_correct, answer, user) VALUES (:questionId, :answerCorrect, :answer, :user)";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':questionId', $data->questionId);
         $query->bindParam(':answerCorrect', $data->answer_correct);
@@ -222,7 +222,7 @@ class postAPI {
     private function deleteAccount($connection, $data) {
         if (!isset($data->accountId)) returnError("Account ID not set.");
 
-        $unpreparedSQL = "DELETE FROM users WHERE id = :id LIMIT 1";
+        $unpreparedSQL = "DELETE FROM treinpal_users WHERE id = :id LIMIT 1";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':id', $data->accountId);
         $query->execute();
@@ -241,7 +241,7 @@ class postAPI {
         $requiredValues = ['username'];
         $q = $this->checkData($data, $requiredValues);
 
-        $sameUsernameSQL = "SELECT username FROM users WHERE id = :id";
+        $sameUsernameSQL = "SELECT username FROM treinpal_users WHERE id = :id";
         $query = $connection->prepare($sameUsernameSQL);
         $query->bindParam(':id', $data->accountId);
         $query->execute();
@@ -249,14 +249,14 @@ class postAPI {
 
         /* If the id-s username is not the same as the new one, check if it already exists in other rows */
         if ($idUsername != $data->username) {
-            $usernameSQL = "SELECT 1 FROM users WHERE username = :username";
+            $usernameSQL = "SELECT 1 FROM treinpal_users WHERE username = :username";
             $query = $connection->prepare($usernameSQL);
             $query->bindParam(':username', $q['username']);
             $query->execute();
             if ($query->rowCount() > 0) returnError("Username already taken.");
         }
 
-        $unpreparedSQL = "UPDATE users SET username = :username, account = :account WHERE id = :id LIMIT 1";
+        $unpreparedSQL = "UPDATE treinpal_users SET username = :username, account = :account WHERE id = :id LIMIT 1";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':id', $data->accountId);
         $query->bindParam(':username', $q['username']);
@@ -281,7 +281,7 @@ class postAPI {
             $imageUrl = '';
         }
 
-        $unpreparedSQL = "INSERT INTO suggestions (question, correct_answer, wrong1, wrong2, wrong3, image_url, ip) VALUES (:question, :answer, :wrong1, :wrong2, :wrong3, :image_url, :ip)";
+        $unpreparedSQL = "INSERT INTO treinpal_suggestions (question, correct_answer, wrong1, wrong2, wrong3, image_url, ip) VALUES (:question, :answer, :wrong1, :wrong2, :wrong3, :image_url, :ip)";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':question', $q['question']);
         $query->bindParam(':answer', $q['answer']);
@@ -298,7 +298,7 @@ class postAPI {
     private function deleteSuggestion($connection, $data) {
         if (!isset($data->suggestionId)) returnError("Suggestion ID was not set.");
 
-        $unpreparedSQL = "DELETE FROM suggestions WHERE id = :id LIMIT 1";
+        $unpreparedSQL = "DELETE FROM treinpal_suggestions WHERE id = :id LIMIT 1";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':id', $data->suggestionId);
         $query->execute();

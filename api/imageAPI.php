@@ -27,7 +27,7 @@ function saveImage() {
         if (!rename('../img/questions/'.$_POST['questionId'].'_temp.jpg', '../img/questions/'.$_POST['questionId'].'.jpg')) returnError("Renaming temp file failed (or overwriting old file).");
 
         $connection = connectToDatabase();
-        $unpreparedSQL = "UPDATE questions SET has_image = 1 WHERE id = :id";
+        $unpreparedSQL = "UPDATE treinpal_questions SET has_image = 1 WHERE id = :id";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':id', $_POST['questionId']);
         $query->execute();
@@ -39,7 +39,7 @@ function deleteImage() {
         returnError("Question ID was not set.");
     } else {
         $connection = connectToDatabase();
-        $unpreparedSQL = "UPDATE questions SET has_image = 0 WHERE id = :id";
+        $unpreparedSQL = "UPDATE treinpal_questions SET has_image = 0 WHERE id = :id";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':id', $_POST['questionId']);
         $query->execute();
