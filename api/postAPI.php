@@ -44,6 +44,14 @@ class postAPI {
                 $this->editAccount($connection, $data);
             break;
 
+            case 'addQuestionSuggestion':
+                $this->addQuestionSuggestion($connection, $data);
+            break;
+
+            case 'deleteSuggestion':
+                $this->deleteSuggestion($connection, $data);
+            break;
+
             default:
                 $this->returnError("Request not recognized.");
             break;
@@ -258,6 +266,46 @@ class postAPI {
         $this->returnSuccess("Account successfully edited.");
     }
 
+    private function addQuestionSuggestion($connection, $data) {
+        $requiredValues = ['question', 'answer', 'wrong1', 'wrong2', 'wrong3'];
+
+        $q = $this->checkData($data, $requiredValues);
+
+        if (isset($data->imageUrl)) {
+            if ($this->checkImageLink($data->imageUrl)) {
+                $imageUrl = $data->imageUrl;
+            } else {
+                returnError("Image link was not valid.");
+            }
+        } else {
+            $imageUrl = '';
+        }
+
+        $unpreparedSQL = "INSERT INTO suggestions (question, correct_answer, wrong1, wrong2, wrong3, image_url, ip) VALUES (:question, :answer, :wrong1, :wrong2, :wrong3, :image_url, :ip)";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':question', $q['question']);
+        $query->bindParam(':answer', $q['answer']);
+        $query->bindParam(':wrong1', $q['wrong1']);
+        $query->bindParam(':wrong2', $q['wrong2']);
+        $query->bindParam(':wrong3', $q['wrong3']);
+        $query->bindParam(':image_url', $imageUrl);
+        $query->bindParam(':ip', $_SERVER['REMOTE_ADDR']);
+        $query->execute();
+
+        $this->returnSuccess("Question suggestion successfully posted.");
+    }
+
+    private function deleteSuggestion($connection, $data) {
+        if (!isset($data->suggestionId)) $this->returnError("Suggestion ID was not set.");
+
+        $unpreparedSQL = "DELETE FROM suggestions WHERE id = :id LIMIT 1";
+        $query = $connection->prepare($unpreparedSQL);
+        $query->bindParam(':id', $data->suggestionId);
+        $query->execute();
+
+        $this->returnSuccess("Suggestion successfully deleted.");
+    }
+
     private function returnError($error) {
         http_response_code(400);
         die(json_encode(array('error' => $error)));
@@ -271,5 +319,33 @@ class postAPI {
     private function restrictFunctionToAccount($account) {
         if (session_status() === PHP_SESSION_NONE) session_start();
         if (!isset($_SESSION['account']) || $_SESSION['account'] != $account) returnError("Not authorized to query this.");
+    }
+
+    function checkImageLink($link) {
+        if (isset($link)) {
+            if (filter_var($link, FILTER_VALIDATE_URL)){
+                if (strpos(get_headers($link)[0], '200')) {
+                    $imageData = getimagesize($link);
+                    if (isset($imageData)) {
+                        if ($imageData['mime'] == 'image/jpeg') {
+                            return true;
+                        } else {
+                            returnError("Given image was not JPG. Please use only JPG format images.");
+                        }
+                    } else {
+                        returnError("Specified image URL did not contain an image.");
+                        return false;
+                    }
+                } else {
+                    returnError("Specified image link does not work properly, please check it.");
+                }
+            } else {
+                returnError("Specified image URL is not in correct format.");
+                return false;
+            }
+        } else {
+            returnError("Link check error: this should not happen.");
+            return false;
+        }
     }
 }

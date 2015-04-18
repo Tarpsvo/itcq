@@ -1,5 +1,5 @@
 <?php
-require_once('db_connect.php');
+require_once('dbConnect.php');
 restrictFunctionToAccount("admin");
 
 switch ($_POST['request']) {
@@ -22,10 +22,9 @@ switch ($_POST['request']) {
 
 function saveImage() {
     if (!isset($_POST['questionId'])) {
-        returnError("Question ID not set.");
+        returnError("Question ID was not set.");
     } else {
-        //if (!unlink('../img/questions/'.$_POST['questionId'].'.jpg')) returnError("Failed to delete the old file.");
-        if (!rename('../img/questions/'.$_POST['questionId'].'_temp.jpg', '../img/questions/'.$_POST['questionId'].'.jpg')) returnError("Renaming new file failed");
+        if (!rename('../img/questions/'.$_POST['questionId'].'_temp.jpg', '../img/questions/'.$_POST['questionId'].'.jpg')) returnError("Renaming temp file failed (or overwriting old file).");
 
         $connection = connectToDatabase();
         $unpreparedSQL = "UPDATE questions SET has_image = 1 WHERE id = :id";
@@ -37,15 +36,15 @@ function saveImage() {
 
 function deleteImage() {
     if (!isset($_POST['questionId'])) {
-        returnError("Question ID not set.");
+        returnError("Question ID was not set.");
     } else {
-        if (!unlink('../img/questions/'.$_POST['questionId'].'.jpg')) returnError("Failed to delete the file.");
-
         $connection = connectToDatabase();
         $unpreparedSQL = "UPDATE questions SET has_image = 0 WHERE id = :id";
         $query = $connection->prepare($unpreparedSQL);
         $query->bindParam(':id', $_POST['questionId']);
         $query->execute();
+
+        if (!unlink('../img/questions/'.$_POST['questionId'].'.jpg')) returnError("Failed to delete the file, but set has_image to 0.");
     }
 }
 
@@ -53,15 +52,15 @@ function uploadTemp() {
     if (!isset($_FILES['file']['error']) || is_array($_FILES['file']['error'])) {
         returnError("Invalid parameters.");
     } else if ($_FILES['file']['error'] == 0) {
-        if ($_FILES['file']['type'] != 'image/jpeg') returnError("Image type not supported.");
-        else if ($_FILES['file']['size'] > 500000) returnError("Image too big.");
-        else if (!isset($_POST['questionId'])) returnError("Question ID not set.");
-        else if (!is_numeric($_POST['questionId'])) returnError("Question ID not a number.");
+        if ($_FILES['file']['type'] != 'image/jpeg') returnError("Image type not supported: use only jpeg.");
+        else if ($_FILES['file']['size'] > 500000) returnError("Image too large in size.");
+        else if (!isset($_POST['questionId'])) returnError("Question ID was not set.");
+        else if (!is_numeric($_POST['questionId'])) returnError("Question ID was not a number.");
         else {
             if (!move_uploaded_file($_FILES['file']['tmp_name'], '../img/questions/'.$_POST['questionId'].'_temp.jpg')) {
-                returnError("Failed to move file.");
+                returnError("Failed to save it as temp file (moving).");
             } else {
-                returnSuccess("Image uploaded");
+                returnSuccess("Image successfully uploaded");
             }
         }
     } else {

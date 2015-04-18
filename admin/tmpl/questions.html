@@ -1,14 +1,14 @@
 <div id="table-content" data-ng-init="fillData('questionList')">
     <table>
         <tr>
-            <th>ID</th>
-            <th>Category</th>
-            <th>Question</th>
-            <th>Answer</th>
-            <th>Level</th>
-            <th>Enabled</th>
+            <th data-ng-click="orderData = 'id'; reverse=!reverse">ID</th>
+            <th data-ng-click="orderData = 'category'; reverse=!reverse">Category</th>
+            <th data-ng-click="orderData = 'question'; reverse=!reverse">Question</th>
+            <th data-ng-click="orderData = 'answer'; reverse=!reverse">Answer</th>
+            <th data-ng-click="orderData = 'level'; reverse=!reverse">Level</th>
+            <th data-ng-click="orderData = 'enabled'; reverse=!reverse">Enabled</th>
         </tr>
-        <tr data-ng-repeat="question in questionList" data-ng-click="openEditView(question.id)">
+        <tr data-ng-repeat="question in questionList | orderBy: orderData || 'id' : reverse" data-ng-click="openEditView(question.id)">
             <td>{{question.id}}</td>
             <td>{{question.category}}</td>
             <td>{{question.question}}</td>
@@ -20,6 +20,6 @@
 </div>
 
 <ul id="menubar-small">
-    <li><a href="#/addquestion" class="button-yes text-shadow">Add question</a></li>
-    <li><a href="#/addcategory" class="button-yes text-shadow">Create category</a></li>
+    <li><a href="#/addquestion" class="button-yes text-shadow" data-ng-show="isAdmin()">Add question</a></li>
+    <li><a href="#/addcategory" class="button-yes text-shadow" data-ng-show="isAdmin()">Create category</a></li>
 </ul>

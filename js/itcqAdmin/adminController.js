@@ -5,7 +5,7 @@
         .module('itcqAdmin')
         .controller('AdminController', AdminController);
 
-    function AdminController($scope, $location, $http, dataService, $window, $rootScope) {
+    function AdminController($scope, $location, $http, dataService, $rootScope) {
         /* If menu is currently open (path), return true */
         $scope.menuIsActive = function(path) {
             if ($location.path() == path) return true; else return false;
@@ -30,6 +30,9 @@
                         case 'accountList':
                             $scope.accounts = response.data;
                         break;
+                        case 'suggestionList':
+                            $scope.suggestions = response.data;
+                        break;
                     }
                 }
                 $rootScope.dataFilled = true;
@@ -38,14 +41,28 @@
 
         /* Opens question or account edit mode */
         $scope.openEditView = function(id) {
-            console.log($location.path());
-            if ($location.path() == '/questions') $window.location = '#/questions/'+id;
-            if ($location.path() == '/accounts') $window.location = '#/accounts/'+id;
+            if ($location.path() == '/questions') window.location = '#/questions/'+id;
+            if ($location.path() == '/accounts') window.location = '#/accounts/'+id;
+            if ($location.path() == '/suggestions') window.location = '#/suggestions/'+id;
         };
 
         /* Closes modal popup */
         $scope.closeModal = function(id) {
             $('.modal-nr-'+id).remove();
+            $('.break-'+id).remove();
+        };
+
+        /* This takes the user data from PHP and sets it to scope (run on admin init) */
+        $scope.initUser = function(account, username) {
+            if (username && account) {
+                $scope.username = username;
+                $scope.account = account;
+            }
+        };
+
+        /* Returns true if user is admin */
+        $scope.isAdmin = function() {
+            return ($scope.account == 'admin') ? true : false;
         };
     }
 })();

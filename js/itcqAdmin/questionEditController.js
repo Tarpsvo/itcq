@@ -8,16 +8,22 @@
     function QuestionEditController($scope, $location, $http, dataService, $routeParams, $rootScope) {
         $scope.imageId = 'default';
         $scope.random = Math.random();
+        $scope.has_image = false;
         var imageChanged = false;
+        var imageDeleted = false;
 
         /* Retrieves question data from API and sets it to scope */
         $scope.fillQuestionData = function(id) {
             console.log('QuestionEditController: fillQuestionData started for id: '+id);
+            $scope.id = id;
 
             dataService.getData('questionData', id).then(function(response) {
                 if (response.data !== null) {
                     $scope.q = response.data;
-                    if (response.data.has_image == 1) $scope.imageId = $routeParams.questionId;
+                    if (response.data.has_image == 1) {
+                        $scope.has_image = true;
+                        $scope.imageId = $routeParams.questionId;
+                    }
                 }
             });
         };
@@ -29,12 +35,26 @@
                     var imageUpdateJson = {'request': 'saveImage', 'questionId': $routeParams.questionId};
                     $http({
                         method: 'POST',
-                        url: '../api/imageUpload.php',
+                        url: '../api/imageAPI.php',
                         data: $.param(imageUpdateJson),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     })
                     .success(function(data) {
                         console.log("Successfully saved image.");
+                    })
+                    .error(function(data) {
+                        dataService.validateData(data);
+                    });
+                } else if (imageDeleted) {
+                    var imageDeleteJson = {'request': 'deleteImage', 'questionId': $routeParams.questionId};
+                    $http({
+                        method: 'POST',
+                        url: '../api/imageAPI.php',
+                        data: $.param(imageDeleteJson),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    })
+                    .success(function(data) {
+                        console.log("Successfully posted image delete request.");
                     })
                     .error(function(data) {
                         dataService.validateData(data);
@@ -62,6 +82,21 @@
             }
         };
 
+        /* Sends delete image request to image API */
+        $scope.deleteImage = function() {
+            var confirm = window.confirm("Are you sure you want to delete this image? Don't forget to save afterwards.");
+
+            if (confirm) {
+                if ($routeParams.questionId !== null) {
+                    $('#question-image').css('background-image', "url('../img/questions/default.jpg')");
+                    imageDeleted = true;
+                    console.log("Set image CSS to default: didn't actually delete it yet (waiting for save).");
+                } else {
+                    dataService.throwError("Question ID not set!");
+                }
+            }
+        };
+
         /* Passes the file to the API in an attempt to upload it */
         $scope.uploadFile = function(files) {
             var formData = new FormData();
@@ -69,7 +104,7 @@
             formData.append('request', 'uploadTemp');
             formData.append('questionId', $routeParams.questionId);
 
-            $http.post('../api/imageUpload.php', formData, {
+            $http.post('../api/imageAPI.php', formData, {
                 withCredentials: true,
                 headers: {'Content-Type': undefined},
                 transformRequest: angular.identity
@@ -82,10 +117,10 @@
             .error(function(data) {
                 dataService.validateData(data);
             });
-};
+        };
 
         /* If the user opened the edit link, set editMode to true */
-        if ($routeParams.questionId !== null) {
+        if ($routeParams.questionId !== undefined) {
             $scope.editMode = true;
 
             /* Wait for categories to load before setting data */

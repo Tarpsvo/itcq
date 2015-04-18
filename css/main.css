@@ -81,7 +81,7 @@ a:hover {color: #29B6F6;}
 
 
 /* Left-hand menu */
-#menu #title {
+#title {
     font-family: 'Oswald', sans-serif;
     color: #FFF;
     font-weight: 700;
@@ -191,12 +191,13 @@ a:hover {color: #29B6F6;}
     position: relative;
     height: 400px;
     width: 100%;
+    text-align: center;
 }
 
 #login-form-wrapper form {
     width: 250px;
     margin: 0 auto;
-    margin-top: 100px;
+    margin-top: 70px;
 }
 
 #login-form-wrapper input {
@@ -238,20 +239,69 @@ a:hover {color: #29B6F6;}
     margin-bottom: 20px;
 }
 
+#suggest-button {
+    display: block;
+    margin: 0px auto;
+    margin-top: 20px;
+    border: none;
+    padding: 15px 0px 15px 0px;
+    width: 250px;
+}
+
+#suggest-button:hover {cursor: pointer;}
+
+
+
+
+/* Question suggestion view */
+#question-suggest-wrapper form {
+    margin-top: 15px;
+    background-color: #FFF;
+    padding: 10px 0 5px 0;
+    width: 500px;
+}
+
+#question-suggest-wrapper .question-row {
+    height: 38px;
+}
+
+#suggest-post-button {
+    width: 250px;
+    border: none;
+    height: 40px;
+    line-height: 40px;
+    float: left;
+}
+
+#suggest-post-button:hover {cursor: pointer;}
+
+#suggest-cancel-button {
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    width: 250px;
+    float: left;
+
+}
 
 
 
 
 /* Modal popups */
-#alert-messages {height: 600px; pointer-events: none;}
+#alert-messages {
+    height: 600px;
+    pointer-events: none;
+    text-align: center;
+}
 
 .modal-popup {
     height: 50px;
-    width: 400px;
+    min-width: 350px;
+    display: inline-block;
 
-    z-index: 2000;
     position: relative;
-    margin: 20px auto;
+    z-index: 2000;
+    margin: 10px auto;
 
     background-color: #FFFFFF;
     line-height: 50px;
@@ -263,9 +313,9 @@ a:hover {color: #29B6F6;}
     font-size: 13px;
     color: #424242;
 
-    padding-left: 10px;
+    padding: 0 20px 0 20px;
     display: inline-block;
-    margin: 0;
+    margin: 0px auto;
 }
 
 .modal-popup .close-modal {
@@ -278,7 +328,7 @@ a:hover {color: #29B6F6;}
     cursor: pointer;
 }
 
-
+#alert-messages span {display: block;}
 
 
 /* Useful classes */
@@ -296,6 +346,11 @@ a:hover {color: #29B6F6;}
     -webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
     -moz-box-shadow:    0px 1px 1px 0px rgba(0, 0, 0, 0.75);
     box-shadow:         0px 1px 1px 0px rgba(0, 0, 0, 0.75);
+}
+
+.bottom-border {
+    display: inline;
+    border-bottom: 2px solid #03A9F4;
 }
 
 .button-yes {

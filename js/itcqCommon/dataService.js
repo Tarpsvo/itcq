@@ -24,7 +24,7 @@
             var errorDiv =  "<div class='modal-popup box-shadow modal-nr-"+openModals+"'>"+
                                 "<div class='close-modal button-no' data-ng-click='closeModal("+openModals+")'><h1>&#10007;</h1></div>"+
                                 "<h3>"+error+"</h3>"+
-                            "</div>";
+                            "</div><span class='break-"+openModals+"'></span>";
             $compile($('#alert-messages').append(errorDiv))(scope);
             openModals++;
         }
@@ -35,7 +35,7 @@
             var successDiv =    "<div class='modal-popup box-shadow modal-nr-"+openModals+"'>"+
                                     "<div class='close-modal button-yes' data-ng-click='closeModal("+openModals+")'><h1>&#10003;</h1></div>"+
                                     "<h3>"+message+"</h3>"+
-                                "</div>";
+                                "</div><span class='break-"+openModals+"'></span>";
             $compile($('#alert-messages').append(successDiv))(scope);
             openModals++;
         }
@@ -80,22 +80,25 @@
                 });
         }
 
-        /* Posts data to the API using POST method, returnBack: if window.back() should be run after completion */
-        function postData(type, jsonData, showLoading, returnBack) {
+        /* Posts data to the API using POST method */
+        function postData(type, jsonData, showLoading, returnBack, hidePopup) {
                 if (showLoading) $rootScope.loading = true;
 
                 console.log('dataService: postData started with type: '+type);
                 console.log(jsonData);
 
-                $http.post('../api/api.php?request='+type, jsonData)
+                return $http.post('../api/api.php?request='+type, jsonData)
                     .success(function(data) {
                         if (validateData(data)) {
                             if (returnBack) {
-                                window.history.back();
-                                throwSuccess(data.success);
+                                if ($location.path().indexOf('/questions') > -1 || $location.path().indexOf('/addquestion') > -1) window.location = "#/questions";
+                                else if ($location.path().indexOf('/accounts') > -1 || $location.path().indexOf('/newaccount') > -1) window.location = "#/accounts";
+                                else if ($location.path().indexOf('/suggestions') > -1) window.location = "#/suggestions";
+                                else if ($location.path().indexOf('/suggest') > -1) window.location = "#/login";
+                                if (!hidePopup) throwSuccess(data.success);
                             }
-                            $rootScope.loading = false;
                         }
+                        $rootScope.loading = false;
                     })
                     .error(function(data, header) {
                         validateData(data);

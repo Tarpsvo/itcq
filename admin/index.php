@@ -8,7 +8,7 @@ if (!isset($_SESSION['username'])) {
 ?>
 
 <!DOCTYPE html>
-<html data-ng-app="itcqAdmin" data-ng-controller="AdminController">
+<html data-ng-app="itcqAdmin" data-ng-controller="AdminController" data-ng-init="initUser('<?php echo $_SESSION['account'], '\',\'', $_SESSION['username']; ?>')">
     <head>
         <meta charset="UTF-8">
         <title>ITCQ - Admin</title>
@@ -25,8 +25,9 @@ if (!isset($_SESSION['username'])) {
         <div id="admin-content-wrapper">
             <ul id="menubar-big">
                 <li><a href="#/questions" class="admin-menu-button text-shadow" data-ng-class="{'admin-active': menuIsActive('/questions')}">Questions</a></li>
+                <li><a href="#/suggestions" class="admin-menu-button text-shadow" data-ng-class="{'admin-active': menuIsActive('/suggestions')}">Suggestions</a></li>
                 <li><a href="#/statistics" class="admin-menu-button text-shadow" data-ng-class="{'admin-active': menuIsActive('/statistics')}">Statistics</a></li>
-                <?php if ($admin) { ?><li><a href="#/accounts" class="admin-menu-button text-shadow" data-ng-class="{'admin-active': menuIsActive('/accounts')}">Accounts</a></li><?php } ?>
+                <li><a href="#/accounts" class="admin-menu-button text-shadow" data-ng-class="{'admin-active': menuIsActive('/accounts')}" ng-show="isAdmin()">Accounts</a></li>
 
                 <li><a href="/" id="back" class="admin-menu-button text-shadow">Back to ITCQ</a></li>
             </ul>
@@ -46,6 +47,7 @@ if (!isset($_SESSION['username'])) {
         <script src="../js/itcqAdmin/questionEditController.js"></script>
         <script src="../js/itcqAdmin/accountFormController.js"></script>
         <script src="../js/itcqAdmin/accountEditController.js"></script>
+        <script src="../js/itcqAdmin/suggestionViewController.js"></script>
     </body>
 </html>
 <?php } ?>

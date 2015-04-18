@@ -1,0 +1,34 @@
+<div id="question-suggest-wrapper">
+    <h1 class="bottom-border">You're suggesting a question</h1>
+
+    <form name="question-form" id="question-form" data-ng-submit="suggestQuestion(q)">
+        <div class="question-row">
+            <span>Question</span><input class="text-input" type="text" data-ng-model="q.question" required />
+        </div>
+
+        <div class="question-row">
+            <span>Correct answer</span><input class="text-input" type="text" data-ng-model="q.answer" required />
+        </div>
+
+        <div class="question-row">
+            <span>Wrong answer 1</span><input class="text-input" type="text" data-ng-model="q.wrong1" required />
+        </div>
+
+        <div class="question-row">
+            <span>Wrong answer 2</span><input class="text-input" type="text" data-ng-model="q.wrong2" required />
+        </div>
+
+        <div class="question-row">
+            <span>Wrong answer 3</span><input class="text-input" type="text" data-ng-model="q.wrong3" required />
+        </div>
+
+        <div class="question-row">
+            <span>Title image (url)</span><input class="text-input" type="text" data-ng-model="q.imageUrl" />
+        </div>
+    </form>
+</div>
+
+<ul>
+    <li><a href="#/login" class="button-no text-shadow" id="suggest-cancel-button">Cancel</a></li>
+    <li><input type="submit" class="button-yes text-shadow" form="question-form" value="Suggest question" id="suggest-post-button" /></li>
+</ul>
