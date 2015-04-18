@@ -61,7 +61,7 @@
                     });
                 }
 
-                var jsonData = {'question': q.question, 'category': q.category, 'answer': q.answer, 'wrong1': q.wrong1,'wrong2': q.wrong2,'wrong3': q.wrong3, 'enabled': q.enabled, 'id': $routeParams.questionId, 'level': q.level};
+                var jsonData = {'question': q.question, 'category': q.category, 'answer': q.answer, 'wrong1': q.wrong1,'wrong2': q.wrong2,'wrong3': q.wrong3, 'enabled': q.enabled || 0, 'id': $routeParams.questionId, 'level': q.level};
                 dataService.postData('editQuestion', jsonData, true, true);
             } else {
                 dataService.throwError("Question data was empty.");

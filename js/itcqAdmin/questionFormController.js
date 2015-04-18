@@ -12,7 +12,7 @@
         /* Prepares question data (json) and posts it to API */
         $scope.submitForm = function(q) {
             if (q) {
-                var jsonData = {'question': q.question, 'category': q.category, 'answer': q.answer, 'wrong1': q.wrong1,'wrong2': q.wrong2,'wrong3': q.wrong3, 'enabled': q.enabled, 'level': q.level};
+                var jsonData = {'question': q.question, 'category': q.category, 'answer': q.answer, 'wrong1': q.wrong1,'wrong2': q.wrong2,'wrong3': q.wrong3, 'enabled': q.enabled || 0, 'level': q.level};
                 dataService.postData('addNewQuestion', jsonData, true, true).then(function(response) {
                     if (response.status == 200 && suggestionMode) {
                         var jsonData = {'suggestionId': $routeParams.suggestionId};
