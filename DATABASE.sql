@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `treinpal_questions` (
   `wrong2` varchar(255) COLLATE utf8_estonian_ci NOT NULL,
   `wrong3` varchar(255) COLLATE utf8_estonian_ci NOT NULL,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `enabled` tinyint(1) NOT NULL DEFAULT '1',
+  `enabled` tinyint(1) NOT NULL DEFAULT '0',
   `author` varchar(255) COLLATE utf8_estonian_ci NOT NULL,
   `level` int(2) NOT NULL DEFAULT '1',
   `has_image` tinyint(1) DEFAULT '0'

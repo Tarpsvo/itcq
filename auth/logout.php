@@ -1,6 +1,7 @@
 <?php
 session_start();
 unset($_SESSION['username']);
+unset($_SESSION['account']);
 session_destroy();
-die(json_encode(['success' => 'Successfully logged out']));
+returnSuccess("Successfully logged out.");
 ?>

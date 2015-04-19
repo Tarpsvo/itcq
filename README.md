@@ -20,10 +20,16 @@ Live version is accessible at [itcq.tramvai.im](http://itcq.tramvai.im/)
 ## Current TODO list ##
 * Question suggestion image system
 
+## Setup instructions ##
+* Import tables from DATABASE.sql into a database of your choice.
+* Edit '/api/dbConnect.php' with your MySQL server and database information.
+* You're done! Default accounts are:
+    * admin:admin
+    * demo:demo
+
 ## Used resources ##
 * [Background pattern base](http://esindus.itcollege.ee/)
 * [Square icon for 'next' button](https://www.iconfinder.com/icons/243661/arrow_forward_right_square_icon#size=64)
-* [Notepad icon for TODO image](https://www.iconfinder.com/icons/59320/check_list_todo_list_icon#size=32)
 * [Loading GIF](http://loadingapng.com/)
 * [Default question image](http://en.wikipedia.org/wiki/Estonian_Information_Technology_College)
 
