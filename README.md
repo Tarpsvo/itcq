@@ -39,7 +39,7 @@ Live version is accessible at [itcq.tramvai.im](http://itcq.tramvai.im/)
 * [John Papa's AngularJS Style Guide](https://github.com/johnpapa/angular-styleguide)
 
 ## Licensed under the GNU GPL v3.0 license ##
-Copyright (C) 2015 Tarvo Reinpalu
+Copyright (C) 2015 T. Reinpalu
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
