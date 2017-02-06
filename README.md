@@ -1,9 +1,9 @@
 # The IT College Quiz (ITCQ) #
 ## A simplistic quiz regarding the IT college ##
 
-Created as a project for the course Network Applications I.
+## Motivation
 
-Live version is accessible at [itcq.tramvai.im](http://itcq.tramvai.im/)
+Created as a project for the Estonian IT College course "Network Applications I".
 
 ## Current features ##
 * Basic quiz functionality
@@ -38,10 +38,8 @@ Live version is accessible at [itcq.tramvai.im](http://itcq.tramvai.im/)
 * [AngularJS Fundamentals In 60-ish Minutes](https://www.youtube.com/watch?v=i9MHigUZKEM)
 * [John Papa's AngularJS Style Guide](https://github.com/johnpapa/angular-styleguide)
 
-## Licensed under the GNU GPL v3.0 license ##
-Copyright (C) 2015 T. Reinpalu
+## Copyright ##
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+MIT License
+
+Copyright &copy; 2015 Tarvo Reinpalu
